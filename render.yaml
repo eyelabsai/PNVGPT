@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: pnvgpt-faq-assistant
+    runtime: node
+    region: oregon  # Change to your preferred region (oregon, frankfurt, singapore, ohio)
+    plan: free  # Change to 'starter' for paid plan with more resources
+    
+    # Build settings
+    buildCommand: npm install && npm run index
+    startCommand: npm start
+    
+    # Health check
+    healthCheckPath: /health
+    
+    # Environment variables (add these in Render dashboard)
+    envVars:
+      - key: NODE_ENV
+        value: production
+      
+      - key: PORT
+        value: 10000  # Render default port
+      
+      - key: OPENAI_API_KEY
+        sync: false  # Set manually in dashboard (secret)
+      
+      - key: FIREBASE_PROJECT_ID
+        sync: false  # Set manually in dashboard
+      
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false  # Set manually in dashboard
+      
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false  # Set manually in dashboard (secret)
+      
+      - key: CLINIC_NAME
+        value: "Your Refractive Surgery Practice"
+      
+      - key: CLINIC_PHONE
+        value: "XXX-XXX-XXXX"
+      
+      - key: CHROMA_COLLECTION_NAME
+        value: faq_collection
+      
+      - key: CHROMA_PATH
+        value: ./vector-store
+    
+    # Persistent disk for ChromaDB storage (required!)
+    disk:
+      name: chromadb-storage
+      mountPath: /opt/render/project/src/vector-store
+      sizeGB: 1  # 1GB free tier, increase if needed
+    
+    # Auto-deploy settings
+    autoDeploy: true  # Auto-deploy on git push
+    
+    # Scaling (free tier = 1 instance)
+    numInstances: 1

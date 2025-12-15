@@ -1,0 +1,30 @@
+{
+  "name": "pnvgpt-faq-assistant",
+  "version": "1.0.0",
+  "description": "RAG-based FAQ Assistant for Refractive Surgery Practice",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "index": "node scripts/index.js",
+    "dev": "nodemon server/app.js"
+  },
+  "keywords": ["rag", "faq", "medical", "chromadb", "openai"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.1",
+    "chromadb": "^1.7.3",
+    "firebase-admin": "^12.0.0",
+    "markdown-it": "^14.0.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+
+
+
