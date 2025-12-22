@@ -87,8 +87,9 @@ async function retrieveRelevant(query) {
     // Query local vector store for similar chunks
     const results = await querySimilar(queryEmbedding, TOP_K_RESULTS);
 
-    // Parse and format results
+    // Parse and format results with full debug info
     const chunks = [];
+    const allResults = []; // Track ALL results for debugging
     
     if (results.documents && results.documents[0]) {
       for (let i = 0; i < results.documents[0].length; i++) {
@@ -96,7 +97,17 @@ async function retrieveRelevant(query) {
         const distance = results.distances[0][i];
         const similarity = 1 - distance; // Convert distance to similarity
 
-        // Only include chunks above similarity threshold
+        const chunkInfo = {
+          filename: metadata.filename || 'unknown',
+          chunkId: metadata.chunkId || '',
+          similarity: parseFloat(similarity.toFixed(4)),
+          passedThreshold: similarity >= SIMILARITY_THRESHOLD
+        };
+
+        // Track all results for debug display
+        allResults.push(chunkInfo);
+
+        // Only include chunks above similarity threshold for RAG
         if (similarity >= SIMILARITY_THRESHOLD) {
           chunks.push({
             id: results.ids[0][i],
@@ -110,7 +121,16 @@ async function retrieveRelevant(query) {
     }
 
     console.log(`📚 Retrieved ${chunks.length} relevant chunks (threshold: ${SIMILARITY_THRESHOLD})`);
-    return chunks;
+    
+    // Return both chunks and debug info
+    return {
+      chunks: chunks,
+      debugInfo: {
+        allResults: allResults,
+        threshold: SIMILARITY_THRESHOLD,
+        topK: TOP_K_RESULTS
+      }
+    };
   } catch (error) {
     console.error('❌ Error retrieving relevant chunks:', error.message);
     throw error;
