@@ -9,7 +9,7 @@
 
 const { OpenAI } = require('openai');
 const { querySimilar, getCount } = require('./vectorstore');
-const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse } = require('./prompt');
+const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isStatement, getConversationalPrompt } = require('./prompt');
 require('dotenv').config();
 
 // Initialize OpenAI client
@@ -201,6 +201,52 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
 }
 
 /**
+ * Handle conversational mode for statements/context
+ * Uses GPT to understand and guide users without RAG
+ * @param {string} statement - User's statement
+ * @param {Array} conversationHistory - Previous messages
+ * @returns {Promise<string>} Conversational response
+ */
+async function handleConversationalMode(statement, conversationHistory = []) {
+  try {
+    const messages = [
+      {
+        role: 'system',
+        content: getConversationalPrompt(statement, conversationHistory)
+      }
+    ];
+
+    // Add recent conversation history for context
+    if (conversationHistory && conversationHistory.length > 0) {
+      conversationHistory.slice(-5).forEach(msg => {
+        messages.push({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        });
+      });
+    }
+
+    // Add current statement
+    messages.push({
+      role: 'user',
+      content: statement
+    });
+
+    const completion = await openai.chat.completions.create({
+      model: GPT_MODEL,
+      messages: messages,
+      temperature: 0.7, // Higher temperature for natural conversation
+      max_tokens: 150
+    });
+
+    return completion.choices[0].message.content.trim();
+  } catch (error) {
+    console.error('❌ Error in conversational mode:', error.message);
+    return "I'd be happy to help! What questions do you have about refractive surgery procedures, recovery, or costs?";
+  }
+}
+
+/**
  * Main RAG pipeline: embed query → retrieve → generate answer
  * @param {string} question - User's question
  * @param {Array} conversationHistory - Previous messages for context
@@ -227,7 +273,19 @@ async function generateAnswer(question, conversationHistory = []) {
       };
     }
 
-    // Retrieve relevant chunks
+    // Check if it's a statement (not a question) - use conversational mode
+    if (isStatement(question)) {
+      const conversationalResponse = await handleConversationalMode(question, conversationHistory);
+      return {
+        answer: conversationalResponse,
+        chunks: [],
+        usedFallback: false,
+        isConversational: true,
+        responseTime: Date.now() - startTime
+      };
+    }
+
+    // Retrieve relevant chunks for medical questions
     const chunks = await retrieveRelevant(question);
 
     // Generate answer with conversation context
