@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ Chat Widget - Demo</title>
+    <title>Refractive Surgery Assistant</title>
     <style>
         * {
             margin: 0;
@@ -12,300 +12,485 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .demo-container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 16px;
-        }
-
-        .chat-widget {
-            background: #f8f9fa;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .chat-messages {
-            height: 400px;
-            overflow-y: auto;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: #343541;
+            color: #ececf1;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            overflow: hidden;
         }
 
-        .message {
+        /* Header */
+        .header {
+            background: #202123;
+            padding: 12px 20px;
+            border-bottom: 1px solid #565869;
             display: flex;
-            gap: 10px;
-            animation: fadeIn 0.3s ease-in;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .header h1 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ececf1;
         }
 
-        .message.user {
-            flex-direction: row-reverse;
+        .header-subtitle {
+            font-size: 13px;
+            color: #8e8ea0;
+            margin-top: 2px;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            scroll-behavior: smooth;
+        }
+
+        /* Messages */
+        .message-wrapper {
+            width: 100%;
+            border-bottom: 1px solid #565869;
+            padding: 24px 0;
+        }
+
+        .message-wrapper.user {
+            background: #343541;
+        }
+
+        .message-wrapper.assistant {
+            background: #444654;
         }
 
         .message-content {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
         }
 
-        .message.user .message-content {
-            background: #667eea;
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .avatar.user {
+            background: #5436da;
             color: white;
         }
 
-        .message.assistant .message-content {
-            background: white;
-            color: #333;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .avatar.assistant {
+            background: #19c37d;
+            color: white;
         }
 
-        .message.loading .message-content {
-            background: white;
-            color: #666;
+        .message-text {
+            flex: 1;
+            line-height: 1.7;
+            color: #ececf1;
+            font-size: 16px;
+            word-wrap: break-word;
+        }
+
+        .message-text.loading {
+            opacity: 0.7;
             font-style: italic;
         }
 
-        .chat-input-area {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #e0e0e0;
+        .metadata {
+            font-size: 12px;
+            color: #8e8ea0;
+            margin-top: 8px;
         }
 
-        .input-group {
+        /* Input Area */
+        .input-area {
+            background: #343541;
+            padding: 20px;
+            border-top: 1px solid #565869;
+            flex-shrink: 0;
+        }
+
+        .input-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .input-wrapper {
+            background: #40414f;
+            border: 1px solid #565869;
+            border-radius: 12px;
             display: flex;
-            gap: 10px;
+            align-items: flex-end;
+            padding: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #8e8ea0;
         }
 
         #questionInput {
             flex: 1;
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 15px;
+            background: transparent;
+            border: none;
+            color: #ececf1;
+            font-size: 16px;
             outline: none;
-            transition: border-color 0.2s;
+            resize: none;
+            max-height: 200px;
+            line-height: 1.5;
+            font-family: inherit;
         }
 
-        #questionInput:focus {
-            border-color: #667eea;
+        #questionInput::placeholder {
+            color: #8e8ea0;
         }
 
         #askButton {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #19c37d;
             color: white;
             border: none;
-            border-radius: 25px;
-            font-size: 15px;
-            font-weight: 600;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s;
+            margin-left: 8px;
         }
 
         #askButton:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #1a9f6b;
         }
 
         #askButton:disabled {
-            opacity: 0.6;
+            background: #40414f;
             cursor: not-allowed;
+            opacity: 0.5;
         }
 
+        #askButton svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Suggestions */
         .suggestions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            max-width: 800px;
+            margin: 20px auto 0;
+            padding: 0 20px;
         }
 
         .suggestion-chip {
-            padding: 8px 16px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 20px;
-            font-size: 13px;
+            background: #40414f;
+            border: 1px solid #565869;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #ececf1;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: left;
         }
 
         .suggestion-chip:hover {
-            border-color: #667eea;
-            color: #667eea;
+            background: #565869;
+            border-color: #8e8ea0;
         }
 
-        .metadata {
-            font-size: 11px;
-            color: #999;
-            margin-top: 5px;
+        /* Welcome Screen */
+        .welcome {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-icon {
+            width: 64px;
+            height: 64px;
+            background: #19c37d;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #ececf1;
+        }
+
+        .welcome p {
+            font-size: 16px;
+            color: #8e8ea0;
+            margin-bottom: 32px;
+        }
+
+        /* Scrollbar */
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: #343541;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #565869;
+            border-radius: 4px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: #8e8ea0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .header h1 {
+                font-size: 14px;
+            }
+
+            .message-wrapper {
+                padding: 16px 0;
+            }
+
+            .message-content {
+                padding: 0 16px;
+                gap: 12px;
+            }
+
+            .avatar {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+
+            .message-text {
+                font-size: 15px;
+            }
+
+            .input-area {
+                padding: 12px;
+            }
+
+            .suggestions {
+                grid-template-columns: 1fr;
+                padding: 0 16px;
+            }
+
+            .welcome {
+                padding: 20px 16px;
+            }
+
+            .welcome h2 {
+                font-size: 20px;
+            }
+
+            .welcome-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .suggestions {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <h1>🩺 Refractive Surgery FAQ Assistant</h1>
-        <p class="subtitle">Ask questions about LASIK, PRK, recovery, and more</p>
-        
-        <div class="chat-widget">
-            <div class="chat-header">
-                💬 How can we help you today?
-            </div>
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h1>🩺 Refractive Surgery Assistant</h1>
+            <div class="header-subtitle">Ask about LASIK, PRK, recovery, and more</div>
+        </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <!-- Welcome Screen -->
+        <div class="welcome" id="welcomeScreen">
+            <div class="welcome-icon">💬</div>
+            <h2>How can I help you today?</h2>
+            <p>Ask me anything about refractive surgery</p>
             
-            <div class="chat-messages" id="chatMessages">
-                <div class="message assistant">
-                    <div class="message-content">
-                        Hello! I'm here to answer your questions about refractive surgery. Feel free to ask about procedures, recovery, costs, or anything else you'd like to know.
-                    </div>
+            <div class="suggestions">
+                <div class="suggestion-chip" data-question="What is LASIK?">
+                    <strong>What is LASIK?</strong>
                 </div>
-            </div>
-            
-            <div class="chat-input-area">
-                <div class="input-group">
-                    <input 
-                        type="text" 
-                        id="questionInput" 
-                        placeholder="Type your question here..."
-                        autocomplete="off"
-                    />
-                    <button id="askButton">Ask</button>
+                <div class="suggestion-chip" data-question="How long is recovery?">
+                    <strong>Recovery time?</strong>
                 </div>
-                
-                <div class="suggestions">
-                    <div class="suggestion-chip" data-question="What is LASIK?">What is LASIK?</div>
-                    <div class="suggestion-chip" data-question="How long is recovery?">How long is recovery?</div>
-                    <div class="suggestion-chip" data-question="Does insurance cover the procedure?">Insurance coverage?</div>
-                    <div class="suggestion-chip" data-question="What is PRK?">What is PRK?</div>
+                <div class="suggestion-chip" data-question="Does insurance cover the procedure?">
+                    <strong>Insurance coverage?</strong>
+                </div>
+                <div class="suggestion-chip" data-question="What is PRK?">
+                    <strong>What is PRK?</strong>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Input Area -->
+    <div class="input-area">
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="questionInput" 
+                    placeholder="Send a message..."
+                    rows="1"
+                    autocomplete="off"
+                ></textarea>
+                <button id="askButton" disabled>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Configuration - CHANGE THIS to your API URL
+        // Configuration
         const API_URL = 'https://pnvgpt.onrender.com/ask';
 
-        const chatMessages = document.getElementById('chatMessages');
+        const chatContainer = document.getElementById('chatContainer');
+        const welcomeScreen = document.getElementById('welcomeScreen');
         const questionInput = document.getElementById('questionInput');
         const askButton = document.getElementById('askButton');
         const suggestionChips = document.querySelectorAll('.suggestion-chip');
 
-        // Conversation history - like ChatGPT!
+        // Conversation history
         let conversationHistory = [];
+        let hasMessages = false;
+
+        // Auto-resize textarea
+        questionInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+            
+            // Enable/disable send button
+            askButton.disabled = !this.value.trim();
+        });
+
+        /**
+         * Hide welcome screen on first message
+         */
+        function hideWelcome() {
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+        }
 
         /**
          * Add a message to the chat
          */
-        function addMessage(text, type = 'assistant', metadata = null) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
+        function addMessage(text, type = 'assistant', metadata = null, isLoading = false) {
+            hideWelcome();
+            hasMessages = true;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-wrapper ${type}`;
             
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = text;
+            const content = document.createElement('div');
+            content.className = 'message-content';
             
-            if (metadata) {
+            const avatar = document.createElement('div');
+            avatar.className = `avatar ${type}`;
+            avatar.textContent = type === 'user' ? 'U' : '🤖';
+            
+            const messageText = document.createElement('div');
+            messageText.className = `message-text${isLoading ? ' loading' : ''}`;
+            messageText.textContent = text;
+            
+            if (metadata && !isLoading) {
                 const metaDiv = document.createElement('div');
                 metaDiv.className = 'metadata';
-                metaDiv.textContent = `Response time: ${metadata.responseTime}ms`;
-                contentDiv.appendChild(metaDiv);
+                metaDiv.textContent = `${metadata.responseTime}ms`;
+                messageText.appendChild(metaDiv);
             }
             
-            messageDiv.appendChild(contentDiv);
-            chatMessages.appendChild(messageDiv);
+            content.appendChild(avatar);
+            content.appendChild(messageText);
+            wrapper.appendChild(content);
+            chatContainer.appendChild(wrapper);
             
             // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
             
-            return messageDiv;
+            return wrapper;
         }
 
         /**
-         * Show loading indicator
+         * Remove a message
          */
-        function showLoading() {
-            return addMessage('Thinking...', 'loading');
-        }
-
-        /**
-         * Remove loading indicator
-         */
-        function removeLoading(loadingElement) {
-            if (loadingElement && loadingElement.parentNode) {
-                loadingElement.remove();
+        function removeMessage(element) {
+            if (element && element.parentNode) {
+                element.remove();
             }
         }
 
         /**
-         * Ask a question to the FAQ API with conversation history
+         * Ask a question
          */
         async function askFAQ(question) {
             if (!question || question.trim().length === 0) {
                 return;
             }
 
-            // Disable input while processing
+            // Disable input
             questionInput.disabled = true;
             askButton.disabled = true;
 
-            // Add user message to UI
+            // Add user message
             addMessage(question, 'user');
 
-            // Add user message to conversation history
+            // Add to conversation history
             conversationHistory.push({
                 role: 'user',
                 content: question
             });
 
             // Show loading
-            const loadingElement = showLoading();
+            const loadingElement = addMessage('Thinking...', 'assistant', null, true);
 
             try {
-                // Send conversation history like ChatGPT!
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -322,28 +507,29 @@
 
                 const data = await response.json();
                 
-                // Remove loading and show answer
-                removeLoading(loadingElement);
+                // Remove loading
+                removeMessage(loadingElement);
+                
+                // Show answer
                 addMessage(data.answer, 'assistant', data.metadata);
 
-                // Add assistant response to conversation history
+                // Add to conversation history
                 conversationHistory.push({
                     role: 'assistant',
                     content: data.answer
                 });
 
-                // Keep only last 10 messages (5 exchanges) to save tokens
+                // Keep last 10 messages
                 if (conversationHistory.length > 10) {
                     conversationHistory = conversationHistory.slice(-10);
                 }
 
             } catch (error) {
                 console.error('Error:', error);
-                removeLoading(loadingElement);
+                removeMessage(loadingElement);
                 const errorMsg = "I'm sorry, I'm having trouble connecting right now. Please try again or call our office directly.";
                 addMessage(errorMsg, 'assistant');
                 
-                // Add error to history too
                 conversationHistory.push({
                     role: 'assistant',
                     content: errorMsg
@@ -351,8 +537,9 @@
             } finally {
                 // Re-enable input
                 questionInput.disabled = false;
-                askButton.disabled = false;
+                askButton.disabled = !questionInput.value.trim();
                 questionInput.value = '';
+                questionInput.style.height = 'auto';
                 questionInput.focus();
             }
         }
@@ -362,9 +549,12 @@
             askFAQ(questionInput.value);
         });
 
-        questionInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                askFAQ(questionInput.value);
+        questionInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (questionInput.value.trim()) {
+                    askFAQ(questionInput.value);
+                }
             }
         });
 
@@ -372,6 +562,7 @@
             chip.addEventListener('click', () => {
                 const question = chip.getAttribute('data-question');
                 questionInput.value = question;
+                askButton.disabled = false;
                 askFAQ(question);
             });
         });
@@ -381,7 +572,3 @@
     </script>
 </body>
 </html>
-
-
-
-
