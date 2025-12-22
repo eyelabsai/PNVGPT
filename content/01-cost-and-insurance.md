@@ -1,13 +1,5 @@
 # Cost and Insurance Questions
 
-## Does insurance cover LASIK or refractive surgery?
-
-No, insurance typically does not cover elective refractive surgery procedures like LASIK, PRK, SMILE, or EVO ICL. These procedures are considered "elective" or "cosmetic" by insurance companies because they are not medically necessary - glasses and contact lenses can correct your vision. However, many patients find that the long-term cost savings from not needing glasses or contacts make the investment worthwhile. We offer financing options to help make the procedure more affordable.
-
-## Will my insurance pay for this procedure?
-
-Most vision correction procedures like LASIK, PRK, and ICL are not covered by insurance because they are considered elective. However, you may be able to use your HSA (Health Savings Account) or FSA (Flexible Spending Account) to pay for the procedure with pre-tax dollars. Contact your insurance provider to confirm your specific coverage and benefits.
-
 ## Why is this so much?
 
 Insurance covers the cost to remove the cataract and place a new lens (called an intraocular lens, or IOL) that doesn't have any special technology. Special technology includes things that would help you have some freedom from glasses such as astigmatism correction (called toric IOLs) or multifocal or EDOF IOLs that provide clear vision at multiple distances. Insurance doesn't cover the cost of the laser since the laser is used to help correct astigmatism.
