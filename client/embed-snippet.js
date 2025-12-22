@@ -14,7 +14,7 @@
 
     // Configuration - UPDATE THESE VALUES
     const CONFIG = {
-        apiUrl: 'http://localhost:3000/ask',  // Your API endpoint
+        apiUrl: 'https://pnvgpt.onrender.com/ask',  // Your API endpoint
         position: 'bottom-right',              // bottom-right, bottom-left, top-right, top-left
         primaryColor: '#667eea',               // Widget color theme
         buttonText: '💬 Ask a Question'        // Button text
@@ -247,6 +247,7 @@
     // Export for external use
     window.FAQAPI = { askFAQ };
 })();
+
 
 
 

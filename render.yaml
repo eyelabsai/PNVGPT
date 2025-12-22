@@ -6,8 +6,8 @@ services:
     plan: free  # Change to 'starter' for paid plan with more resources
     
     # Build settings
-    buildCommand: npm install && npm run index
-    startCommand: npm start
+    buildCommand: npm install
+    startCommand: bash start.sh
     
     # Health check
     healthCheckPath: /health
@@ -55,3 +55,4 @@ services:
     
     # Scaling (free tier = 1 instance)
     numInstances: 1
+
