@@ -59,23 +59,44 @@ app.post('/ask', async (req, res) => {
   const startTime = Date.now();
   
   try {
-    // Validate request
-    const { query } = req.body;
+    // Validate request - support both old (query) and new (messages) format
+    const { query, messages } = req.body;
     
-    if (!query || typeof query !== 'string' || query.trim().length === 0) {
+    let sanitizedQuery;
+    let conversationHistory = [];
+    
+    if (messages && Array.isArray(messages) && messages.length > 0) {
+      // New format: messages array like ChatGPT
+      // Get the last user message as the query
+      const lastMessage = messages[messages.length - 1];
+      if (!lastMessage.content || typeof lastMessage.content !== 'string') {
+        return res.status(400).json({
+          error: 'Invalid request',
+          message: 'Last message must have content'
+        });
+      }
+      sanitizedQuery = lastMessage.content.trim().substring(0, 500);
+      conversationHistory = messages.slice(0, -1).slice(-10); // Keep last 10 messages for context (excluding current)
+    } else if (query) {
+      // Old format: single query string (backwards compatible)
+      if (typeof query !== 'string' || query.trim().length === 0) {
+        return res.status(400).json({
+          error: 'Invalid request',
+          message: 'Query parameter is required and must be a non-empty string'
+        });
+      }
+      sanitizedQuery = query.trim().substring(0, 500);
+    } else {
       return res.status(400).json({
         error: 'Invalid request',
-        message: 'Query parameter is required and must be a non-empty string'
+        message: 'Either query or messages parameter is required'
       });
     }
-
-    // Sanitize and truncate query if too long
-    const sanitizedQuery = query.trim().substring(0, 500);
     
-    console.log(`💬 Question: "${sanitizedQuery}"`);
+    console.log(`💬 Question: "${sanitizedQuery}"${conversationHistory.length > 0 ? ` (with ${conversationHistory.length} messages of context)` : ''}`);
 
-    // Generate answer using RAG pipeline
-    const result = await generateAnswer(sanitizedQuery);
+    // Generate answer using RAG pipeline with conversation context
+    const result = await generateAnswer(sanitizedQuery, conversationHistory);
 
     // Log to Firebase (async, don't wait)
     logQuery({

@@ -121,9 +121,10 @@ async function retrieveRelevant(query) {
  * Generate answer using GPT-4o-mini with retrieved context
  * @param {string} question - User's question
  * @param {Array} chunks - Retrieved relevant chunks
+ * @param {Array} conversationHistory - Previous messages for context
  * @returns {Promise<Object>} Generated answer and metadata
  */
-async function generateAnswerFromChunks(question, chunks) {
+async function generateAnswerFromChunks(question, chunks, conversationHistory = []) {
   try {
     // If no relevant chunks found, return fallback
     if (!chunks || chunks.length === 0) {
@@ -151,19 +152,34 @@ async function generateAnswerFromChunks(question, chunks) {
     // Generate prompt with safety rules
     const fullPrompt = generatePrompt(question, retrievedText);
 
+    // Build messages array like ChatGPT
+    const messages = [
+      {
+        role: 'system',
+        content: 'You are a helpful FAQ assistant for a refractive surgery practice. Only answer based on the provided information from our FAQ database. Use conversation history to understand context and pronouns like "this", "it", "that", etc.'
+      }
+    ];
+
+    // Add conversation history (last 5 messages for context)
+    if (conversationHistory && conversationHistory.length > 0) {
+      conversationHistory.slice(-5).forEach(msg => {
+        messages.push({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        });
+      });
+    }
+
+    // Add current question with retrieved context
+    messages.push({
+      role: 'user',
+      content: fullPrompt
+    });
+
     // Call GPT-4o-mini
     const completion = await openai.chat.completions.create({
       model: GPT_MODEL,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a helpful FAQ assistant that only answers based on provided information.'
-        },
-        {
-          role: 'user',
-          content: fullPrompt
-        }
-      ],
+      messages: messages,
       temperature: 0.3, // Lower temperature for more consistent, factual responses
       max_tokens: 300,
       top_p: 0.9
@@ -187,9 +203,10 @@ async function generateAnswerFromChunks(question, chunks) {
 /**
  * Main RAG pipeline: embed query → retrieve → generate answer
  * @param {string} question - User's question
+ * @param {Array} conversationHistory - Previous messages for context
  * @returns {Promise<Object>} Complete response with answer and metadata
  */
-async function generateAnswer(question) {
+async function generateAnswer(question, conversationHistory = []) {
   const startTime = Date.now();
 
   try {
@@ -201,8 +218,8 @@ async function generateAnswer(question) {
     // Retrieve relevant chunks
     const chunks = await retrieveRelevant(question);
 
-    // Generate answer
-    const result = await generateAnswerFromChunks(question, chunks);
+    // Generate answer with conversation context
+    const result = await generateAnswerFromChunks(question, chunks, conversationHistory);
 
     // Calculate response time
     const responseTime = Date.now() - startTime;

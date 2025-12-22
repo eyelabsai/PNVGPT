@@ -234,6 +234,9 @@
         const askButton = document.getElementById('askButton');
         const suggestionChips = document.querySelectorAll('.suggestion-chip');
 
+        // Conversation history - like ChatGPT!
+        let conversationHistory = [];
+
         /**
          * Add a message to the chat
          */
@@ -278,7 +281,7 @@
         }
 
         /**
-         * Ask a question to the FAQ API
+         * Ask a question to the FAQ API with conversation history
          */
         async function askFAQ(question) {
             if (!question || question.trim().length === 0) {
@@ -289,19 +292,28 @@
             questionInput.disabled = true;
             askButton.disabled = true;
 
-            // Add user message
+            // Add user message to UI
             addMessage(question, 'user');
+
+            // Add user message to conversation history
+            conversationHistory.push({
+                role: 'user',
+                content: question
+            });
 
             // Show loading
             const loadingElement = showLoading();
 
             try {
+                // Send conversation history like ChatGPT!
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ query: question })
+                    body: JSON.stringify({ 
+                        messages: conversationHistory 
+                    })
                 });
 
                 if (!response.ok) {
@@ -314,13 +326,28 @@
                 removeLoading(loadingElement);
                 addMessage(data.answer, 'assistant', data.metadata);
 
+                // Add assistant response to conversation history
+                conversationHistory.push({
+                    role: 'assistant',
+                    content: data.answer
+                });
+
+                // Keep only last 10 messages (5 exchanges) to save tokens
+                if (conversationHistory.length > 10) {
+                    conversationHistory = conversationHistory.slice(-10);
+                }
+
             } catch (error) {
                 console.error('Error:', error);
                 removeLoading(loadingElement);
-                addMessage(
-                    "I'm sorry, I'm having trouble connecting right now. Please try again or call our office directly.",
-                    'assistant'
-                );
+                const errorMsg = "I'm sorry, I'm having trouble connecting right now. Please try again or call our office directly.";
+                addMessage(errorMsg, 'assistant');
+                
+                // Add error to history too
+                conversationHistory.push({
+                    role: 'assistant',
+                    content: errorMsg
+                });
             } finally {
                 // Re-enable input
                 questionInput.disabled = false;
