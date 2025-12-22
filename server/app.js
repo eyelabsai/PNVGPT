@@ -123,7 +123,8 @@ app.post('/ask', async (req, res) => {
         responseTime: responseTime,
         retrievedChunks: result.chunks ? result.chunks.length : 0,
         usedFallback: result.usedFallback || false,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        debugInfo: result.debugInfo || null // Include similarity scores and chunk details
       }
     });
 

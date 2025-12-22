@@ -443,6 +443,40 @@
                 const metaDiv = document.createElement('div');
                 metaDiv.className = 'metadata';
                 metaDiv.textContent = `${metadata.responseTime}ms`;
+                
+                // Add debug info if available
+                if (metadata.debugInfo && metadata.debugInfo.allResults && metadata.debugInfo.allResults.length > 0) {
+                    const debugDiv = document.createElement('details');
+                    debugDiv.style.marginTop = '8px';
+                    debugDiv.style.fontSize = '11px';
+                    debugDiv.style.opacity = '0.7';
+                    
+                    const summary = document.createElement('summary');
+                    summary.textContent = `🔍 Debug: ${metadata.debugInfo.allResults.length} chunks searched (threshold: ${metadata.debugInfo.threshold})`;
+                    summary.style.cursor = 'pointer';
+                    debugDiv.appendChild(summary);
+                    
+                    const debugContent = document.createElement('div');
+                    debugContent.style.marginTop = '8px';
+                    debugContent.style.padding = '8px';
+                    debugContent.style.background = 'rgba(0,0,0,0.2)';
+                    debugContent.style.borderRadius = '4px';
+                    
+                    metadata.debugInfo.allResults.forEach((chunk, idx) => {
+                        const chunkLine = document.createElement('div');
+                        chunkLine.style.marginBottom = '4px';
+                        chunkLine.innerHTML = `
+                            ${idx + 1}. <strong>${chunk.filename}</strong> 
+                            (similarity: ${chunk.similarity.toFixed(3)}) 
+                            ${chunk.passedThreshold ? '✅ Used' : '❌ Below threshold'}
+                        `;
+                        debugContent.appendChild(chunkLine);
+                    });
+                    
+                    debugDiv.appendChild(debugContent);
+                    metaDiv.appendChild(debugDiv);
+                }
+                
                 messageText.appendChild(metaDiv);
             }
             

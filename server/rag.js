@@ -286,7 +286,9 @@ async function generateAnswer(question, conversationHistory = []) {
     }
 
     // Retrieve relevant chunks for medical questions
-    const chunks = await retrieveRelevant(question);
+    const retrievalResult = await retrieveRelevant(question);
+    const chunks = retrievalResult.chunks;
+    const debugInfo = retrievalResult.debugInfo;
 
     // Generate answer with conversation context
     const result = await generateAnswerFromChunks(question, chunks, conversationHistory);
@@ -296,7 +298,8 @@ async function generateAnswer(question, conversationHistory = []) {
 
     return {
       ...result,
-      responseTime: responseTime
+      responseTime: responseTime,
+      debugInfo: debugInfo // Include similarity scores and chunk details
     };
   } catch (error) {
     console.error('❌ RAG pipeline error:', error.message);
