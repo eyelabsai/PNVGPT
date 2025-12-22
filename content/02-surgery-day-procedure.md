@@ -14,7 +14,7 @@ For cataract surgery, our anesthesiologist uses a combination of medications lik
 
 ## How long does the surgery take?
 
-For cataract surgery, the procedure itself typically takes about 10-15 minutes per eye. For LASIK or PRK, the laser treatment takes less than a minute per eye, though you'll be in the procedure room for about 15-20 minutes total. The actual laser reshaping of your cornea only takes seconds!
+[ANSWER NEEDED]
 
 ## How long will I be here on surgery day?
 
