@@ -77,11 +77,50 @@ function getFallbackResponse() {
   return `I'm not sure about that — please call our office at ${CLINIC_PHONE} for specific guidance.`;
 }
 
+/**
+ * Detects if a query is a greeting or small talk
+ * @param {string} query - User's query
+ * @returns {boolean} True if it's a greeting
+ */
+function isGreeting(query) {
+  const lowerQuery = query.toLowerCase().trim();
+  const greetings = [
+    'hi', 'hello', 'hey', 'howdy', 'greetings',
+    'good morning', 'good afternoon', 'good evening',
+    'how are you', 'what\'s up', 'whats up',
+    'thanks', 'thank you', 'bye', 'goodbye'
+  ];
+  
+  return greetings.some(greeting => lowerQuery === greeting || lowerQuery.startsWith(greeting + ' ') || lowerQuery.startsWith(greeting + '!'));
+}
+
+/**
+ * Generates a natural greeting response
+ * @param {string} query - User's greeting
+ * @returns {string} Natural greeting response
+ */
+function getGreetingResponse(query) {
+  const lowerQuery = query.toLowerCase().trim();
+  
+  if (lowerQuery.includes('thank')) {
+    return "You're welcome! Is there anything else I can help you with?";
+  }
+  
+  if (lowerQuery.includes('bye') || lowerQuery.includes('goodbye')) {
+    return "Have a great day! Feel free to come back anytime if you have more questions.";
+  }
+  
+  // Default friendly greeting
+  return "Hello! I'm here to answer your questions about refractive surgery procedures like LASIK, PRK, recovery, costs, and more. What would you like to know?";
+}
+
 module.exports = {
   generatePrompt,
   getSystemMessage,
   hasRelevantInformation,
   getFallbackResponse,
+  isGreeting,
+  getGreetingResponse,
   CLINIC_PHONE,
   CLINIC_NAME
 };

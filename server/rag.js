@@ -9,7 +9,7 @@
 
 const { OpenAI } = require('openai');
 const { querySimilar, getCount } = require('./vectorstore');
-const { generatePrompt, getFallbackResponse, hasRelevantInformation } = require('./prompt');
+const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse } = require('./prompt');
 require('dotenv').config();
 
 // Initialize OpenAI client
@@ -213,6 +213,18 @@ async function generateAnswer(question, conversationHistory = []) {
     // Validate input
     if (!question || question.trim().length === 0) {
       throw new Error('Question cannot be empty');
+    }
+
+    // Check if it's a greeting or small talk - respond naturally without searching
+    if (isGreeting(question)) {
+      const greetingResponse = getGreetingResponse(question);
+      return {
+        answer: greetingResponse,
+        chunks: [],
+        usedFallback: false,
+        isGreeting: true,
+        responseTime: Date.now() - startTime
+      };
     }
 
     // Retrieve relevant chunks
