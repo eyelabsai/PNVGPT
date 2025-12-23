@@ -70,57 +70,245 @@ async function embedText(text) {
 }
 
 /**
+ * Detect if a query is asking for comparison between procedures
+ * @param {string} query - User's question
+ * @returns {Array|null} Array of [procedure1, procedure2] or null if not a comparison
+ */
+function detectComparisonQuery(query) {
+  const lowerQuery = query.toLowerCase();
+  
+  // Comparison keywords
+  const comparisonKeywords = [
+    'better', 'worse', 'compare', 'comparison', 'versus', 'vs', 'vs.', 
+    'difference', 'different', 'or', 'between'
+  ];
+  
+  const hasComparisonKeyword = comparisonKeywords.some(keyword => 
+    lowerQuery.includes(keyword)
+  );
+  
+  if (!hasComparisonKeyword) {
+    return null;
+  }
+  
+  // Procedure names to detect
+  const procedures = [
+    { names: ['lasik'], canonical: 'LASIK' },
+    { names: ['prk'], canonical: 'PRK' },
+    { names: ['smile', 'lalex'], canonical: 'SMILE' },
+    { names: ['icl', 'evo'], canonical: 'ICL' },
+    { names: ['cataract'], canonical: 'cataract surgery' }
+  ];
+  
+  // Find which procedures are mentioned
+  const mentionedProcedures = [];
+  for (const proc of procedures) {
+    if (proc.names.some(name => lowerQuery.includes(name))) {
+      mentionedProcedures.push(proc.canonical);
+    }
+  }
+  
+  // Return if we found exactly 2 procedures to compare
+  if (mentionedProcedures.length === 2) {
+    return mentionedProcedures;
+  }
+  
+  return null;
+}
+
+/**
+ * Enhance vague queries using conversation history
+ * @param {string} query - User's question
+ * @param {Array} conversationHistory - Previous messages
+ * @returns {Promise<string>} Enhanced query with context
+ */
+async function enhanceQueryWithContext(query, conversationHistory = []) {
+  // Skip enhancement if query is already detailed (>8 words) or no history
+  const wordCount = query.trim().split(/\s+/).length;
+  if (wordCount > 8 || !conversationHistory || conversationHistory.length === 0) {
+    return query;
+  }
+
+  // Check for vague follow-up patterns
+  const vaguePatterns = [
+    /^(what|how) about/i,
+    /compared to/i,
+    /versus/i,
+    /vs\.?/i,
+    /difference/i,
+    /\b(it|this|that|those|these)\b/i
+  ];
+
+  const isVague = vaguePatterns.some(pattern => pattern.test(query));
+  if (!isVague) {
+    return query;
+  }
+
+  try {
+    // Get recent conversation context (last 3 exchanges)
+    const recentHistory = conversationHistory.slice(-6).map(msg => 
+      `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`
+    ).join('\n');
+
+    const prompt = `The user is having a conversation and just asked: "${query}"
+
+Recent conversation:
+${recentHistory}
+
+Rewrite their question to be more specific and self-contained for search, incorporating BOTH the topic/aspect AND the entities from the conversation context. Preserve what aspect is being discussed (cost, safety, recovery, etc.).
+
+Examples:
+- After discussing LASIK cost, "what about EVO" → "How much does EVO ICL cost compared to LASIK?"
+- After discussing LASIK safety, "what about SMILE" → "Is SMILE safe compared to LASIK?"
+- "is it safe?" → "Is LASIK safe?"
+- "how much does this cost" → "How much does LASIK cost?"
+- After discussing recovery, "what about PRK" → "What is PRK recovery like compared to LASIK?"
+
+Output ONLY the rewritten question, nothing else.`;
+
+    const completion = await openai.chat.completions.create({
+      model: GPT_MODEL,
+      messages: [
+        {
+          role: 'system',
+          content: 'You rewrite vague follow-up questions into clear, self-contained search queries. You preserve BOTH the topic/aspect (cost, safety, recovery) AND entities (procedures) from conversation context.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.3,
+      max_tokens: 60
+    });
+
+    const enhancedQuery = completion.choices[0].message.content.trim();
+    console.log(`🔍 Enhanced query: "${query}" → "${enhancedQuery}"`);
+    return enhancedQuery;
+  } catch (error) {
+    console.error('❌ Error enhancing query:', error.message);
+    return query; // Fall back to original query on error
+  }
+}
+
+/**
+ * Retrieve chunks for a single query
+ * @param {string} searchQuery - Search query string
+ * @returns {Promise<Array>} Array of chunks with similarity scores
+ */
+async function searchChunks(searchQuery) {
+  const queryEmbedding = await embedText(searchQuery);
+  const results = await querySimilar(queryEmbedding, TOP_K_RESULTS);
+  
+  const chunks = [];
+  if (results.documents && results.documents[0]) {
+    for (let i = 0; i < results.documents[0].length; i++) {
+      const metadata = results.metadatas[0][i];
+      const distance = results.distances[0][i];
+      const similarity = 1 - distance;
+
+      if (similarity >= SIMILARITY_THRESHOLD) {
+        chunks.push({
+          id: results.ids[0][i],
+          text: results.documents[0][i],
+          filename: metadata.filename || 'unknown',
+          chunkId: metadata.chunkId || '',
+          similarity: similarity.toFixed(4)
+        });
+      }
+    }
+  }
+  
+  return chunks;
+}
+
+/**
  * Retrieve most relevant chunks from vector database
  * @param {string} query - User's question
+ * @param {Array} conversationHistory - Previous messages for context enhancement
  * @returns {Promise<Array>} Array of relevant chunks with metadata
  */
-async function retrieveRelevant(query) {
+async function retrieveRelevant(query, conversationHistory = []) {
   try {
     // Ensure vector store is initialized
     if (!initialized) {
       await initializeCollection();
     }
 
-    // Generate embedding for the query
-    const queryEmbedding = await embedText(query);
-
-    // Query local vector store for similar chunks
-    const results = await querySimilar(queryEmbedding, TOP_K_RESULTS);
-
-    // Parse and format results with full debug info
-    const chunks = [];
-    const allResults = []; // Track ALL results for debugging
+    // Enhance query with conversation context if needed
+    const enhancedQuery = await enhanceQueryWithContext(query, conversationHistory);
     
-    if (results.documents && results.documents[0]) {
-      for (let i = 0; i < results.documents[0].length; i++) {
-        const metadata = results.metadatas[0][i];
-        const distance = results.distances[0][i];
-        const similarity = 1 - distance; // Convert distance to similarity
+    // Check if this is a comparison query
+    const comparisonProcedures = detectComparisonQuery(enhancedQuery);
+    
+    let chunks = [];
+    let allResults = [];
+    
+    if (comparisonProcedures) {
+      // For comparison queries, search for each procedure separately and combine results
+      console.log(`🔄 Detected comparison: ${comparisonProcedures.join(' vs ')}`);
+      
+      const [proc1, proc2] = comparisonProcedures;
+      const chunks1 = await searchChunks(`${proc1} procedure benefits features characteristics`);
+      const chunks2 = await searchChunks(`${proc2} procedure benefits features characteristics`);
+      
+      // Combine and deduplicate chunks
+      const seenIds = new Set();
+      const combinedChunks = [...chunks1, ...chunks2].filter(chunk => {
+        if (seenIds.has(chunk.id)) {
+          return false;
+        }
+        seenIds.add(chunk.id);
+        return true;
+      });
+      
+      // Sort by similarity and take top results
+      chunks = combinedChunks
+        .sort((a, b) => parseFloat(b.similarity) - parseFloat(a.similarity))
+        .slice(0, TOP_K_RESULTS);
+      
+      allResults = chunks.map(c => ({
+        filename: c.filename,
+        chunkId: c.chunkId,
+        similarity: parseFloat(c.similarity),
+        passedThreshold: true
+      }));
+      
+      console.log(`📚 Retrieved ${chunks.length} chunks for comparison (${chunks1.length} + ${chunks2.length})`);
+    } else {
+      // Normal single query search
+      const queryEmbedding = await embedText(enhancedQuery);
+      const results = await querySimilar(queryEmbedding, TOP_K_RESULTS);
 
-        const chunkInfo = {
-          filename: metadata.filename || 'unknown',
-          chunkId: metadata.chunkId || '',
-          similarity: parseFloat(similarity.toFixed(4)),
-          passedThreshold: similarity >= SIMILARITY_THRESHOLD
-        };
+      if (results.documents && results.documents[0]) {
+        for (let i = 0; i < results.documents[0].length; i++) {
+          const metadata = results.metadatas[0][i];
+          const distance = results.distances[0][i];
+          const similarity = 1 - distance;
 
-        // Track all results for debug display
-        allResults.push(chunkInfo);
-
-        // Only include chunks above similarity threshold for RAG
-        if (similarity >= SIMILARITY_THRESHOLD) {
-          chunks.push({
-            id: results.ids[0][i],
-            text: results.documents[0][i],
+          const chunkInfo = {
             filename: metadata.filename || 'unknown',
             chunkId: metadata.chunkId || '',
-            similarity: similarity.toFixed(4)
-          });
+            similarity: parseFloat(similarity.toFixed(4)),
+            passedThreshold: similarity >= SIMILARITY_THRESHOLD
+          };
+
+          allResults.push(chunkInfo);
+
+          if (similarity >= SIMILARITY_THRESHOLD) {
+            chunks.push({
+              id: results.ids[0][i],
+              text: results.documents[0][i],
+              filename: metadata.filename || 'unknown',
+              chunkId: metadata.chunkId || '',
+              similarity: similarity.toFixed(4)
+            });
+          }
         }
       }
-    }
 
-    console.log(`📚 Retrieved ${chunks.length} relevant chunks (threshold: ${SIMILARITY_THRESHOLD})`);
+      console.log(`📚 Retrieved ${chunks.length} relevant chunks (threshold: ${SIMILARITY_THRESHOLD})`);
+    }
     
     // Return both chunks and debug info
     return {
@@ -128,7 +316,9 @@ async function retrieveRelevant(query) {
       debugInfo: {
         allResults: allResults,
         threshold: SIMILARITY_THRESHOLD,
-        topK: TOP_K_RESULTS
+        topK: TOP_K_RESULTS,
+        enhancedQuery: enhancedQuery !== query ? enhancedQuery : null,
+        isComparison: !!comparisonProcedures
       }
     };
   } catch (error) {
@@ -397,8 +587,8 @@ async function generateAnswer(question, conversationHistory = []) {
       };
     }
 
-    // Retrieve relevant chunks for medical questions
-    const retrievalResult = await retrieveRelevant(question);
+    // Retrieve relevant chunks for medical questions (with conversation context)
+    const retrievalResult = await retrieveRelevant(question, conversationHistory);
     const chunks = retrievalResult.chunks;
     const debugInfo = retrievalResult.debugInfo;
 

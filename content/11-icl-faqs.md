@@ -79,3 +79,4 @@ We take all the measurements we need for any vision correction procedure at your
 ## What is ICL surgery like?
 
 We take great care to make sure there is no discomfort at any point of the procedure. We make two very small openings in the cornea (the clear part at the front of the eye), fold the ICL, and insert it behind the iris and in front of your natural lens. Both eyes are completed on the same day and the procedure itself usually takes about 10 minutes.
+
