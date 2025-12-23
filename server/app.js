@@ -37,7 +37,7 @@ app.use((req, res, next) => {
  */
 app.get('/', (req, res) => {
   res.json({
-    name: 'PNVGPT FAQ Assistant API',
+    name: 'Parkhurst NuVision GPT API',
     version: '1.0.0',
     clinic: CLINIC_NAME,
     endpoints: {

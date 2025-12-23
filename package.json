@@ -1,7 +1,7 @@
 {
-  "name": "pnvgpt-faq-assistant",
+  "name": "parkhurst-nuvision-gpt",
   "version": "1.0.0",
-  "description": "RAG-based FAQ Assistant for Refractive Surgery Practice",
+  "description": "Parkhurst NuVision GPT - AI Assistant for Vision Correction",
   "main": "server/app.js",
   "scripts": {
     "start": "node server/app.js",
