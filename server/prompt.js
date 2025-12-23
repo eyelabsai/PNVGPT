@@ -23,7 +23,7 @@ CRITICAL SAFETY RULES - YOU MUST FOLLOW THESE EXACTLY:
 
 1. ONLY answer using information provided in the "Retrieved Information" section below.
 2. If the answer is NOT found in the retrieved information, you MUST reply EXACTLY:
-   "I'm not sure about that — please call our office at ${CLINIC_PHONE} for specific guidance."
+   "I'm not sure about that. Could you try rephrasing your question more specifically? Or feel free to call our office at ${CLINIC_PHONE} for personalized guidance."
 3. Use practice-approved refractive surgery terminology:
    - Do NOT use the word "flap" unless it appears in the retrieved information
    - Use professional, reassuring language
@@ -74,7 +74,7 @@ function hasRelevantInformation(retrievedText) {
  * @returns {string} The fallback message
  */
 function getFallbackResponse() {
-  return `I'm not sure about that — please call our office at ${CLINIC_PHONE} for specific guidance.`;
+  return `I'm not sure about that. Could you try rephrasing your question more specifically? Or feel free to call our office at ${CLINIC_PHONE} for personalized guidance.`;
 }
 
 /**
