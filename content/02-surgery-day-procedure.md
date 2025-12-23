@@ -1,5 +1,11 @@
 # Surgery Day and Procedure Questions
 
+## How do I get started / What's the first step?
+
+The first step is an in-person consultation with our surgeon specialists. During this consultation, we will run some simple tests and eye scans to give you a complete assessment of what's possible in your individual case. After we complete these tests, we will go over which procedure(s) you may qualify for and answer any questions you may have.
+
+We charge a $50 deposit to hold your appointment with the surgeon specialists, which gets applied to the cost of your procedure if you qualify and decide to move forward.
+
 ## Does it hurt?
 
 You should be very comfortable during the procedure. Through our careful combination of eye drops, oral medication, and IV medication, you should be extremely comfortable. If you are feeling any sensation of pressure or stinging, you will be awake enough to let us know you are uncomfortable and we will give you more anesthesia.
@@ -14,7 +20,7 @@ For cataract surgery, our anesthesiologist uses a combination of medications lik
 
 ## How long does the surgery take?
 
-[ANSWER NEEDED]
+The actual procedure takes only minutes to complete for most refractive surgeries like EVO ICL. For LASIK, the procedure typically takes about 10-15 minutes per eye. Your surgeon will provide specific timing during your consultation based on your individual case.
 
 ## How long will I be here on surgery day?
 
