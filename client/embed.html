@@ -421,7 +421,7 @@
         /**
          * Add a message to the chat
          */
-        function addMessage(text, type = 'assistant', metadata = null, isLoading = false) {
+        function addMessage(text, type = 'assistant', metadata = null, isLoading = false, suggestions = null) {
             hideWelcome();
             hasMessages = true;
 
@@ -438,6 +438,28 @@
             const messageText = document.createElement('div');
             messageText.className = `message-text${isLoading ? ' loading' : ''}`;
             messageText.textContent = text;
+            
+            // Add suggestions if provided (for fallback responses)
+            if (suggestions && suggestions.length > 0 && !isLoading) {
+                const suggestionsDiv = document.createElement('div');
+                suggestionsDiv.className = 'suggestions';
+                suggestionsDiv.style.marginTop = '16px';
+                
+                suggestions.forEach(suggestion => {
+                    const chip = document.createElement('div');
+                    chip.className = 'suggestion-chip';
+                    chip.style.cursor = 'pointer';
+                    chip.innerHTML = `<strong>${suggestion}</strong>`;
+                    chip.addEventListener('click', () => {
+                        questionInput.value = suggestion;
+                        askButton.disabled = false;
+                        askFAQ(suggestion);
+                    });
+                    suggestionsDiv.appendChild(chip);
+                });
+                
+                messageText.appendChild(suggestionsDiv);
+            }
             
             if (metadata && !isLoading) {
                 const metaDiv = document.createElement('div');
@@ -544,8 +566,9 @@
                 // Remove loading
                 removeMessage(loadingElement);
                 
-                // Show answer
-                addMessage(data.answer, 'assistant', data.metadata);
+                // Show answer with suggestions if available
+                const suggestions = data.suggestions || null;
+                addMessage(data.answer, 'assistant', data.metadata, false, suggestions);
 
                 // Add to conversation history
                 conversationHistory.push({

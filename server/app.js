@@ -119,6 +119,7 @@ app.post('/ask', async (req, res) => {
     
     res.json({
       answer: result.answer,
+      suggestions: result.suggestions || null, // Include smart suggestions for fallback responses
       metadata: {
         responseTime: responseTime,
         retrievedChunks: result.chunks ? result.chunks.length : 0,

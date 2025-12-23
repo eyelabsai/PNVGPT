@@ -138,6 +138,84 @@ async function retrieveRelevant(query) {
 }
 
 /**
+ * Generate smart question suggestions based on retrieved chunks
+ * @param {string} vaguQuestion - The vague question user asked
+ * @param {Array} chunks - Retrieved chunks that have context
+ * @returns {Promise<Array<string>>} Array of 3 suggested questions
+ */
+async function generateSuggestions(vagueQuestion, chunks) {
+  try {
+    // If no chunks, return generic suggestions
+    if (!chunks || chunks.length === 0) {
+      return [
+        "Could you be more specific about what you'd like to know?",
+        "What procedure are you interested in learning about?",
+        "Do you have questions about costs, recovery, or candidacy?"
+      ];
+    }
+
+    // Combine chunk texts for context
+    const contextText = chunks
+      .slice(0, 3) // Use top 3 chunks
+      .map(chunk => chunk.text)
+      .join('\n\n---\n\n');
+
+    const prompt = `A user asked a vague question: "${vagueQuestion}"
+
+Based on the following relevant content from our FAQ database, generate exactly 3 specific questions the user might be trying to ask. Make them natural, clear, and directly answerable from the content.
+
+Content:
+${contextText}
+
+Generate 3 questions in this exact format (one per line, no numbering, no extra text):
+Question 1
+Question 2
+Question 3`;
+
+    const completion = await openai.chat.completions.create({
+      model: GPT_MODEL,
+      messages: [
+        {
+          role: 'system',
+          content: 'You generate clear, specific questions based on FAQ content. Output exactly 3 questions, one per line, no numbering or extra text.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 150
+    });
+
+    const response = completion.choices[0].message.content.trim();
+    const suggestions = response
+      .split('\n')
+      .map(q => q.trim())
+      .filter(q => q.length > 0 && q.endsWith('?'))
+      .slice(0, 3); // Ensure exactly 3
+
+    // Fallback if parsing failed
+    if (suggestions.length < 3) {
+      return [
+        "What would you like to know about this procedure?",
+        "Are you asking about costs, recovery, or candidacy?",
+        "Could you rephrase your question more specifically?"
+      ];
+    }
+
+    return suggestions;
+  } catch (error) {
+    console.error('❌ Error generating suggestions:', error.message);
+    return [
+      "Could you try rephrasing your question?",
+      "What specific information are you looking for?",
+      "Would you like to know about a specific procedure?"
+    ];
+  }
+}
+
+/**
  * Generate answer using GPT-4o-mini with retrieved context
  * @param {string} question - User's question
  * @param {Array} chunks - Retrieved relevant chunks
@@ -146,12 +224,14 @@ async function retrieveRelevant(query) {
  */
 async function generateAnswerFromChunks(question, chunks, conversationHistory = []) {
   try {
-    // If no relevant chunks found, return fallback
+    // If no relevant chunks found, return fallback with suggestions
     if (!chunks || chunks.length === 0) {
+      const suggestions = await generateSuggestions(question, []);
       return {
         answer: getFallbackResponse(),
         chunks: [],
-        usedFallback: true
+        usedFallback: true,
+        suggestions: suggestions
       };
     }
 
@@ -162,10 +242,12 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
 
     // Check if we have relevant information
     if (!hasRelevantInformation(retrievedText)) {
+      const suggestions = await generateSuggestions(question, chunks);
       return {
         answer: getFallbackResponse(),
         chunks: chunks,
-        usedFallback: true
+        usedFallback: true,
+        suggestions: suggestions
       };
     }
 
@@ -207,10 +289,20 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
 
     const answer = completion.choices[0].message.content.trim();
 
+    // Check if GPT returned a fallback response (didn't have enough info to answer)
+    const isFallback = answer.includes("I'm not sure about that") || answer.includes("please call our office");
+    
+    // If it's a fallback, generate suggestions
+    let suggestions = null;
+    if (isFallback) {
+      suggestions = await generateSuggestions(question, chunks);
+    }
+
     return {
       answer: answer,
       chunks: chunks,
-      usedFallback: false,
+      usedFallback: isFallback,
+      suggestions: suggestions,
       model: GPT_MODEL,
       tokensUsed: completion.usage.total_tokens
     };
