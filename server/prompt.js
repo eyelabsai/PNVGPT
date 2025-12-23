@@ -106,20 +106,31 @@ function isGreeting(query) {
  */
 function isStatement(query) {
   const trimmed = query.trim();
+  const lowerQuery = trimmed.toLowerCase();
   
-  // Check if it ends with question mark or has question words
+  // Check if it ends with question mark or has question words ANYWHERE
   const hasQuestionMark = trimmed.endsWith('?');
-  const questionWords = ['what', 'when', 'where', 'who', 'why', 'how', 'is', 'are', 'can', 'could', 'would', 'should', 'do', 'does', 'will'];
-  const startsWithQuestion = questionWords.some(word => 
-    trimmed.toLowerCase().startsWith(word + ' ')
+  const questionWords = ['what', 'when', 'where', 'who', 'why', 'how'];
+  const hasQuestionWord = questionWords.some(word => 
+    lowerQuery.includes(' ' + word + ' ') || 
+    lowerQuery.startsWith(word + ' ') ||
+    lowerQuery.endsWith(' ' + word)
   );
   
-  // If it has question indicators, it's not a statement
-  if (hasQuestionMark || startsWithQuestion) {
+  // Check for question structure patterns (e.g., "is it", "can I", "will I")
+  const questionPatterns = [
+    /\b(is|are|am|was|were)\s+(it|this|that|there|lasik|prk|smile|icl|evo)/i,
+    /\b(can|could|should|would|will|do|does)\s+(i|you|we|it|this|that)/i,
+    /\bhow\s+(much|long|soon|many)/i
+  ];
+  const hasQuestionPattern = questionPatterns.some(pattern => pattern.test(lowerQuery));
+  
+  // If it has question indicators, it's NOT a statement - it's a question
+  if (hasQuestionMark || hasQuestionWord || hasQuestionPattern) {
     return false;
   }
   
-  // Check for statement patterns
+  // Check for pure statement patterns (without questions embedded)
   const statementPatterns = [
     /^i (am|was|have|had|need|want|got|getting|scheduled|told)/i,
     /^my (doctor|surgeon|eye|vision)/i,
