@@ -448,7 +448,7 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
     const messages = [
       {
         role: 'system',
-        content: 'You are a helpful FAQ assistant for a refractive surgery practice. Only answer based on the provided information from our FAQ database. Use conversation history to understand context and pronouns like "this", "it", "that", etc.'
+        content: 'You are a helpful FAQ assistant for a refractive surgery practice. Only answer based on the provided information from our FAQ database. Use conversation history to understand context and pronouns like "this", "it", "that", etc. IMPORTANT: Users may ask about different procedures (LASIK, PRK, SMILE, ICL, etc.) in the same conversation. Always prioritize the CURRENT question and the retrieved information provided, even if it differs from previous topics discussed.'
       }
     ];
 
