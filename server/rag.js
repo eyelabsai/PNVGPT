@@ -22,7 +22,7 @@ const EMBEDDING_MODEL = 'text-embedding-3-small';
 const GPT_MODEL = 'gpt-4o-mini';
 const COLLECTION_NAME = process.env.CHROMA_COLLECTION_NAME || 'faq_collection';
 const TOP_K_RESULTS = 5; // Increased from 3 to better find relevant content
-const SIMILARITY_THRESHOLD = 0.3; // Minimum similarity score to consider relevant
+const SIMILARITY_THRESHOLD = 0.25; // Lowered from 0.3 to catch more relevant matches
 
 let initialized = false;
 
