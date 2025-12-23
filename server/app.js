@@ -22,7 +22,19 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet()); // Security headers
-app.use(cors()); // Enable CORS for frontend integration
+
+// Configure CORS to allow requests from Vercel frontend
+const corsOptions = {
+  origin: [
+    'https://refractivegpt.vercel.app',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions)); // Enable CORS for frontend integration
+
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
