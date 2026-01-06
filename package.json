@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/app.js",
     "index": "node scripts/index.js",
+    "check": "node scripts/check-duplicates.js",
     "dev": "nodemon server/app.js"
   },
   "keywords": ["rag", "faq", "medical", "chromadb", "openai"],
@@ -19,7 +20,8 @@
     "firebase-admin": "^12.0.0",
     "markdown-it": "^14.0.0",
     "cors": "^2.8.5",
-    "helmet": "^7.1.0"
+    "helmet": "^7.1.0",
+    "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

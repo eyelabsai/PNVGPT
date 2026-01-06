@@ -43,6 +43,13 @@ services:
       
       - key: CHROMA_PATH
         value: ./vector-store
+      
+      # Supabase Configuration (Recommended for production)
+      - key: SUPABASE_URL
+        sync: false  # Set manually in dashboard
+      
+      - key: SUPABASE_SERVICE_KEY
+        sync: false  # Set manually in dashboard (secret)
     
     # Persistent disk for ChromaDB storage (required!)
     disk:

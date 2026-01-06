@@ -14,7 +14,10 @@ const fs = require('fs').promises;
 const path = require('path');
 const { OpenAI } = require('openai');
 const MarkdownIt = require('markdown-it');
-const { addDocuments, deleteCollection } = require('../server/vectorstore');
+const { isSupabaseConfigured } = require('../server/supabase');
+// Use Supabase vector store if configured, otherwise fall back to local
+const vectorStore = require('../server/vectorstore-supabase');
+const { addDocuments, deleteCollection } = vectorStore;
 require('dotenv').config();
 
 // Initialize clients
@@ -267,8 +270,9 @@ async function main() {
     console.log('\n🧠 Step 3: Generating embeddings...');
     const embeddings = await generateEmbeddings(allChunks);
     
-    // Step 4: Initialize local vector store
-    console.log('\n💾 Step 4: Initializing local vector store...');
+    // Step 4: Initialize vector store (Supabase or local)
+    const storeType = isSupabaseConfigured() ? 'Supabase pgvector' : 'local JSON';
+    console.log(`\n💾 Step 4: Initializing ${storeType} vector store...`);
     await initializeCollection();
     
     // Step 5: Add chunks to vector store

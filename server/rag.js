@@ -8,7 +8,8 @@
  */
 
 const { OpenAI } = require('openai');
-const { querySimilar, getCount } = require('./vectorstore');
+// Use Supabase vector store if configured, otherwise fall back to local
+const { querySimilar, getCount, healthCheck: vectorHealthCheck } = require('./vectorstore-supabase');
 const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isStatement, getConversationalPrompt } = require('./prompt');
 require('dotenv').config();
 
@@ -624,7 +625,7 @@ async function generateAnswer(question, conversationHistory = []) {
 async function healthCheck() {
   const status = {
     openai: false,
-    chromadb: false,
+    vectorStore: false,
     collection: false
   };
 
@@ -637,14 +638,18 @@ async function healthCheck() {
   }
 
   try {
-    // Check local vector store
-    const count = await getCount();
-    status.chromadb = true;
-    status.collection = count > 0;
-    status.documentCount = count;
+    // Check vector store (Supabase or local)
+    const vectorStatus = await vectorHealthCheck();
+    status.vectorStore = vectorStatus.connected;
+    status.vectorProvider = vectorStatus.provider;
+    status.collection = vectorStatus.documentCount > 0;
+    status.documentCount = vectorStatus.documentCount;
   } catch (error) {
     console.error('Vector store health check failed:', error.message);
   }
+
+  // Legacy field for backwards compatibility
+  status.chromadb = status.vectorStore;
 
   return status;
 }

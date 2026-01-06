@@ -169,11 +169,17 @@ app.get('/health', async (req, res) => {
   try {
     const status = await healthCheck();
     
-    const isHealthy = status.openai && status.chromadb && status.collection;
+    const isHealthy = status.openai && status.vectorStore && status.collection;
     
     res.status(isHealthy ? 200 : 503).json({
       status: isHealthy ? 'healthy' : 'unhealthy',
-      components: status,
+      components: {
+        openai: status.openai,
+        vectorStore: status.vectorStore,
+        vectorProvider: status.vectorProvider || 'local',
+        collection: status.collection,
+        documentCount: status.documentCount || 0
+      },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
