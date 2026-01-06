@@ -12,7 +12,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
 
-const { generateAnswer, healthCheck } = require('./rag');
+const { generateAnswer, generateAnswerStream, healthCheck } = require('./rag');
 const { initializeFirebase, logQuery, logEvent } = require('./firebase');
 const { CLINIC_NAME } = require('./prompt');
 
@@ -159,6 +159,67 @@ app.post('/ask', async (req, res) => {
       error: 'Internal server error',
       message: 'Failed to process your question. Please try again or call our office.'
     });
+  }
+});
+
+/**
+ * POST /ask/stream - Streaming FAQ endpoint (typing effect)
+ * 
+ * Body: { messages: [...] } or { query: "user question" }
+ * Response: Server-Sent Events stream
+ */
+app.post('/ask/stream', async (req, res) => {
+  try {
+    // Set up Server-Sent Events
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Parse request
+    const { query, messages } = req.body;
+    
+    let sanitizedQuery;
+    let conversationHistory = [];
+    
+    if (messages && Array.isArray(messages) && messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (!lastMessage.content || typeof lastMessage.content !== 'string') {
+        res.write(`data: ${JSON.stringify({ type: 'error', content: 'Invalid message format' })}\n\n`);
+        res.end();
+        return;
+      }
+      sanitizedQuery = lastMessage.content.trim().substring(0, 500);
+      conversationHistory = messages.slice(0, -1).slice(-10);
+    } else if (query) {
+      if (typeof query !== 'string' || query.trim().length === 0) {
+        res.write(`data: ${JSON.stringify({ type: 'error', content: 'Query required' })}\n\n`);
+        res.end();
+        return;
+      }
+      sanitizedQuery = query.trim().substring(0, 500);
+    } else {
+      res.write(`data: ${JSON.stringify({ type: 'error', content: 'Query or messages required' })}\n\n`);
+      res.end();
+      return;
+    }
+
+    console.log(`💬 [Stream] Question: "${sanitizedQuery}"`);
+
+    // Stream the response
+    const generator = generateAnswerStream(sanitizedQuery, conversationHistory);
+    
+    for await (const chunk of generator) {
+      res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+    }
+
+    res.end();
+    console.log(`✅ [Stream] Response completed`);
+
+  } catch (error) {
+    console.error('❌ Stream error:', error);
+    res.write(`data: ${JSON.stringify({ type: 'error', content: 'An error occurred' })}\n\n`);
+    res.end();
   }
 });
 

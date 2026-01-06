@@ -654,11 +654,121 @@ async function healthCheck() {
   return status;
 }
 
+/**
+ * Generate streaming answer using GPT-4o-mini
+ * Yields chunks of text as they're generated
+ * @param {string} question - User's question
+ * @param {Array} conversationHistory - Previous messages for context
+ * @returns {AsyncGenerator} Yields text chunks
+ */
+async function* generateAnswerStream(question, conversationHistory = []) {
+  const startTime = Date.now();
+
+  try {
+    // Validate input
+    if (!question || question.trim().length === 0) {
+      yield { type: 'error', content: 'Question cannot be empty' };
+      return;
+    }
+
+    // Check if it's a greeting - respond immediately (no streaming needed)
+    if (isGreeting(question)) {
+      const greetingResponse = getGreetingResponse(question);
+      yield { type: 'content', content: greetingResponse };
+      yield { type: 'done', responseTime: Date.now() - startTime };
+      return;
+    }
+
+    // Check if it's a statement - use conversational mode
+    if (isStatement(question)) {
+      const conversationalResponse = await handleConversationalMode(question, conversationHistory);
+      yield { type: 'content', content: conversationalResponse };
+      yield { type: 'done', responseTime: Date.now() - startTime };
+      return;
+    }
+
+    // Retrieve relevant chunks
+    const retrievalResult = await retrieveRelevant(question, conversationHistory);
+    const chunks = retrievalResult.chunks;
+
+    // If no relevant chunks, return fallback
+    if (!chunks || chunks.length === 0) {
+      yield { type: 'content', content: getFallbackResponse() };
+      yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime };
+      return;
+    }
+
+    // Combine chunk texts
+    const retrievedText = chunks
+      .map((chunk, idx) => `[Source ${idx + 1}: ${chunk.filename}]\n${chunk.text}`)
+      .join('\n\n---\n\n');
+
+    // Check if we have relevant information
+    if (!hasRelevantInformation(retrievedText)) {
+      yield { type: 'content', content: getFallbackResponse() };
+      yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime };
+      return;
+    }
+
+    // Generate prompt with safety rules
+    const fullPrompt = generatePrompt(question, retrievedText);
+
+    // Build messages array
+    const messages = [
+      {
+        role: 'system',
+        content: 'You are a helpful FAQ assistant for a refractive surgery practice. Only answer based on the provided information from our FAQ database. Use conversation history to understand context.'
+      }
+    ];
+
+    // Add conversation history
+    if (conversationHistory && conversationHistory.length > 0) {
+      conversationHistory.slice(-5).forEach(msg => {
+        messages.push({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        });
+      });
+    }
+
+    messages.push({ role: 'user', content: fullPrompt });
+
+    // Call OpenAI with streaming
+    const stream = await openai.chat.completions.create({
+      model: GPT_MODEL,
+      messages: messages,
+      temperature: 0.3,
+      max_tokens: 300,
+      stream: true // Enable streaming!
+    });
+
+    // Yield each chunk as it arrives
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content;
+      if (content) {
+        yield { type: 'content', content: content };
+      }
+    }
+
+    // Signal completion
+    yield { 
+      type: 'done', 
+      chunks: chunks.length,
+      responseTime: Date.now() - startTime 
+    };
+
+  } catch (error) {
+    console.error('❌ Streaming error:', error.message);
+    yield { type: 'error', content: getFallbackResponse() };
+  }
+}
+
 module.exports = {
   embedText,
   retrieveRelevant,
   generateAnswer,
   generateAnswerFromChunks,
+  generateAnswerStream,
   initializeCollection,
   healthCheck
 };

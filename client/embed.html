@@ -117,6 +117,18 @@
             margin-top: 8px;
         }
 
+        /* Typing cursor animation */
+        .message-text.streaming::after {
+            content: '▋';
+            animation: blink 1s infinite;
+            color: #19c37d;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
         /* Input Area */
         .input-area {
             background: #343541;
@@ -389,6 +401,8 @@
     <script>
         // Configuration
         const API_URL = 'https://pnvgpt.onrender.com/ask';
+        const STREAM_URL = 'https://pnvgpt.onrender.com/ask/stream';
+        const USE_STREAMING = true; // Set to false to disable typing effect
 
         const chatContainer = document.getElementById('chatContainer');
         const welcomeScreen = document.getElementById('welcomeScreen');
@@ -523,60 +537,139 @@
         }
 
         /**
-         * Ask a question
+         * Add a streaming message (returns the text element for updates)
          */
-        async function askFAQ(question) {
-            if (!question || question.trim().length === 0) {
-                return;
-            }
+        function addStreamingMessage() {
+            hideWelcome();
+            hasMessages = true;
 
-            // Disable input
+            const wrapper = document.createElement('div');
+            wrapper.className = 'message-wrapper assistant';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar assistant';
+            avatar.textContent = '🤖';
+            
+            const messageText = document.createElement('div');
+            messageText.className = 'message-text streaming'; // Add streaming class for cursor
+            messageText.textContent = '';
+            
+            content.appendChild(avatar);
+            content.appendChild(messageText);
+            wrapper.appendChild(content);
+            chatContainer.appendChild(wrapper);
+            
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            return { wrapper, messageText };
+        }
+
+        /**
+         * Ask a question with streaming (typing effect)
+         */
+        async function askFAQStream(question) {
             questionInput.disabled = true;
             askButton.disabled = true;
 
-            // Add user message
             addMessage(question, 'user');
+            conversationHistory.push({ role: 'user', content: question });
 
-            // Add to conversation history
-            conversationHistory.push({
-                role: 'user',
-                content: question
-            });
+            const { wrapper, messageText } = addStreamingMessage();
+            let fullResponse = '';
 
-            // Show loading
+            try {
+                const response = await fetch(STREAM_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: conversationHistory })
+                });
+
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    const text = decoder.decode(value);
+                    const lines = text.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                
+                                if (data.type === 'content') {
+                                    fullResponse += data.content;
+                                    messageText.textContent = fullResponse;
+                                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                                } else if (data.type === 'error') {
+                                    messageText.textContent = data.content;
+                                    fullResponse = data.content;
+                                }
+                            } catch (e) {
+                                // Ignore parse errors for incomplete chunks
+                            }
+                        }
+                    }
+                }
+
+                // Remove streaming cursor
+                messageText.classList.remove('streaming');
+                
+                conversationHistory.push({ role: 'assistant', content: fullResponse });
+                if (conversationHistory.length > 10) {
+                    conversationHistory = conversationHistory.slice(-10);
+                }
+
+            } catch (error) {
+                console.error('Stream error:', error);
+                messageText.classList.remove('streaming');
+                const errorMsg = "I'm sorry, I'm having trouble connecting. Please try again.";
+                messageText.textContent = errorMsg;
+                conversationHistory.push({ role: 'assistant', content: errorMsg });
+            } finally {
+                questionInput.disabled = false;
+                askButton.disabled = !questionInput.value.trim();
+                questionInput.value = '';
+                questionInput.style.height = 'auto';
+                questionInput.focus();
+            }
+        }
+
+        /**
+         * Ask a question (non-streaming fallback)
+         */
+        async function askFAQNonStream(question) {
+            questionInput.disabled = true;
+            askButton.disabled = true;
+
+            addMessage(question, 'user');
+            conversationHistory.push({ role: 'user', content: question });
+
             const loadingElement = addMessage('Thinking...', 'assistant', null, true);
 
             try {
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        messages: conversationHistory 
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: conversationHistory })
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
                 const data = await response.json();
-                
-                // Remove loading
                 removeMessage(loadingElement);
                 
-                // Show answer with suggestions if available
                 const suggestions = data.suggestions || null;
                 addMessage(data.answer, 'assistant', data.metadata, false, suggestions);
+                conversationHistory.push({ role: 'assistant', content: data.answer });
 
-                // Add to conversation history
-                conversationHistory.push({
-                    role: 'assistant',
-                    content: data.answer
-                });
-
-                // Keep last 10 messages
                 if (conversationHistory.length > 10) {
                     conversationHistory = conversationHistory.slice(-10);
                 }
@@ -584,20 +677,28 @@
             } catch (error) {
                 console.error('Error:', error);
                 removeMessage(loadingElement);
-                const errorMsg = "I'm sorry, I'm having trouble connecting right now. Please try again or call our office directly.";
+                const errorMsg = "I'm sorry, I'm having trouble connecting. Please try again.";
                 addMessage(errorMsg, 'assistant');
-                
-                conversationHistory.push({
-                    role: 'assistant',
-                    content: errorMsg
-                });
+                conversationHistory.push({ role: 'assistant', content: errorMsg });
             } finally {
-                // Re-enable input
                 questionInput.disabled = false;
                 askButton.disabled = !questionInput.value.trim();
                 questionInput.value = '';
                 questionInput.style.height = 'auto';
                 questionInput.focus();
+            }
+        }
+
+        /**
+         * Ask a question (uses streaming if enabled)
+         */
+        async function askFAQ(question) {
+            if (!question || question.trim().length === 0) return;
+            
+            if (USE_STREAMING) {
+                await askFAQStream(question);
+            } else {
+                await askFAQNonStream(question);
             }
         }
 
