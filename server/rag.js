@@ -449,7 +449,7 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
     const messages = [
       {
         role: 'system',
-        content: 'You are a helpful FAQ assistant for a refractive surgery practice. Only answer based on the provided information from our FAQ database. Use conversation history to understand context and pronouns like "this", "it", "that", etc. IMPORTANT: Users may ask about different procedures (LASIK, PRK, SMILE, ICL, etc.) in the same conversation. Always prioritize the CURRENT question and the retrieved information provided, even if it differs from previous topics discussed.'
+        content: 'You are a warm, friendly, and knowledgeable assistant for a refractive surgery practice. Your goal is to make patients feel comfortable and informed. Answer questions conversationally and naturally, like you\'re chatting with a friend who needs guidance. Use the provided FAQ information from the database, but present it in an engaging, human way. Use conversation history to understand context and pronouns. Be reassuring and encouraging while staying accurate to the provided information.'
       }
     ];
 
@@ -473,8 +473,8 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
     const completion = await openai.chat.completions.create({
       model: GPT_MODEL,
       messages: messages,
-      temperature: 0.3, // Lower temperature for more consistent, factual responses
-      max_tokens: 300,
+      temperature: 0.6, // Slightly higher for more natural, conversational responses
+      max_tokens: 400, // Allow longer, more complete responses
       top_p: 0.9
     });
 
@@ -717,7 +717,7 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     const messages = [
       {
         role: 'system',
-        content: 'You are a helpful FAQ assistant for a refractive surgery practice. Only answer based on the provided information from our FAQ database. Use conversation history to understand context.'
+        content: 'You are a warm, friendly, and knowledgeable assistant for a refractive surgery practice. Your goal is to make patients feel comfortable and informed. Answer questions conversationally and naturally, like you\'re chatting with a friend who needs guidance. Use the provided FAQ information from the database, but present it in an engaging, human way. Use conversation history to understand context and pronouns. Be reassuring and encouraging while staying accurate to the provided information.'
       }
     ];
 
@@ -737,8 +737,8 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     const stream = await openai.chat.completions.create({
       model: GPT_MODEL,
       messages: messages,
-      temperature: 0.3,
-      max_tokens: 300,
+      temperature: 0.6, // More natural, conversational responses
+      max_tokens: 400, // Allow longer, more complete responses
       stream: true // Enable streaming!
     });
 

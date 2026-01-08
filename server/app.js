@@ -21,7 +21,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(helmet()); // Security headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for the chat widget
+      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
+      connectSrc: ["'self'", "http://localhost:3000", "https://pnvgpt.onrender.com"]
+    }
+  }
+})); // Security headers
 
 // Configure CORS to allow requests from Vercel frontend
 const corsOptions = {
@@ -39,6 +48,9 @@ app.use(cors(corsOptions)); // Enable CORS for frontend integration
 
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+
+// Serve static files from client directory
+app.use(express.static('client'));
 
 // Request logging middleware
 app.use((req, res, next) => {
