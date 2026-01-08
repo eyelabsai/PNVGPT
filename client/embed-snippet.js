@@ -21,6 +21,32 @@
     };
 
     /**
+     * Typewriter effect - displays text character by character
+     */
+    function typewriterEffect(element, text, speed = 12) {
+        return new Promise((resolve) => {
+            let index = 0;
+            element.textContent = '';
+            
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    // Scroll parent container to keep text visible
+                    const messagesContainer = element.closest('.faq-messages');
+                    if (messagesContainer) {
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                    setTimeout(type, speed);
+                } else {
+                    resolve();
+                }
+            }
+            type();
+        });
+    }
+
+    /**
      * Call the FAQ API
      */
     async function askFAQ(question) {
@@ -219,14 +245,13 @@
             // Remove loading
             loadingMsg.remove();
 
-            // Add assistant message
+            // Add assistant message with typewriter effect
             const assistantMsg = document.createElement('div');
             assistantMsg.className = 'faq-message assistant';
-            assistantMsg.textContent = answer;
             messages.appendChild(assistantMsg);
 
-            // Scroll to bottom
-            messages.scrollTop = messages.scrollHeight;
+            // Apply typewriter effect
+            await typewriterEffect(assistantMsg, answer, 12);
         }
 
         sendBtn.addEventListener('click', sendMessage);
