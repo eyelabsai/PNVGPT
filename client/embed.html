@@ -44,6 +44,32 @@
             margin-top: 2px;
         }
 
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-btn {
+            background: #40414f;
+            border: 1px solid #565869;
+            color: #ececf1;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .header-btn:hover {
+            background: #565869;
+            border-color: #8e8ea0;
+        }
+
+        .header-btn:active {
+            transform: scale(0.98);
+        }
+
         /* Chat Container */
         .chat-container {
             flex: 1;
@@ -294,6 +320,19 @@
                 font-size: 14px;
             }
 
+            .header-subtitle {
+                font-size: 11px;
+            }
+
+            .header-btn {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+
+            .header-actions {
+                gap: 6px;
+            }
+
             .message-wrapper {
                 padding: 16px 0;
             }
@@ -351,6 +390,14 @@
         <div>
             <h1>👁️ Parkhurst NuVision GPT</h1>
             <div class="header-subtitle">Your AI assistant for vision correction questions</div>
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" id="clearChatBtn" title="Clear chat history">
+                🗑️ Clear Chat
+            </button>
+            <button class="header-btn" id="newChatBtn" title="Start a new conversation">
+                ➕ New Chat
+            </button>
         </div>
     </div>
 
@@ -723,6 +770,51 @@
                 askButton.disabled = false;
                 askFAQ(question);
             });
+        });
+
+        // Clear Chat button
+        const clearChatBtn = document.getElementById('clearChatBtn');
+        const newChatBtn = document.getElementById('newChatBtn');
+
+        function clearChat() {
+            // Remove all messages
+            const messages = chatContainer.querySelectorAll('.message-wrapper');
+            messages.forEach(msg => msg.remove());
+
+            // Reset conversation history
+            conversationHistory = [];
+            hasMessages = false;
+
+            // Show welcome screen
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'flex';
+            }
+
+            // Clear and focus input
+            questionInput.value = '';
+            questionInput.style.height = 'auto';
+            askButton.disabled = true;
+            questionInput.focus();
+        }
+
+        clearChatBtn.addEventListener('click', () => {
+            if (hasMessages) {
+                if (confirm('Are you sure you want to clear the chat history?')) {
+                    clearChat();
+                }
+            } else {
+                clearChat();
+            }
+        });
+
+        newChatBtn.addEventListener('click', () => {
+            if (hasMessages) {
+                if (confirm('Start a new conversation? This will clear your current chat.')) {
+                    clearChat();
+                }
+            } else {
+                clearChat();
+            }
         });
 
         // Focus input on load
