@@ -32,15 +32,29 @@ app.use(helmet({
   }
 })); // Security headers
 
-// Configure CORS to allow requests from Vercel frontend
+// Configure CORS to allow requests from Vercel frontend and localhost
 const corsOptions = {
-  origin: [
-    'https://refractivegpt.vercel.app',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:8080',
-    'http://127.0.0.1:8080'
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost for development
+    if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
+      return callback(null, true);
+    }
+    
+    // Allow all Vercel domains (production and preview deployments)
+    if (origin.includes('.vercel.app') || origin.includes('vercel.app')) {
+      return callback(null, true);
+    }
+    
+    // Allow the specific production domain
+    if (origin === 'https://refractivegpt.vercel.app') {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
