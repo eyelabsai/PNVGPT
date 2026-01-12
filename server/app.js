@@ -82,20 +82,10 @@ app.use((req, res, next) => {
 });
 
 /**
- * Root endpoint - API information
+ * Root endpoint - Serve chat interface
  */
 app.get('/', (req, res) => {
-  res.json({
-    name: 'Parkhurst NuVision GPT API',
-    version: '1.0.0',
-    clinic: CLINIC_NAME,
-    endpoints: {
-      '/ask': 'POST - Ask a question',
-      '/health': 'GET - System health check',
-      '/status': 'GET - API status'
-    },
-    documentation: 'See README.md for usage instructions'
-  });
+  res.sendFile('embed.html', { root: 'client' });
 });
 
 /**
