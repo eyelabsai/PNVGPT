@@ -1,5 +1,6 @@
 {
-  "buildCommand": "cp -r client/* .",
+  "buildCommand": "mkdir -p public && cp -r client/* public/",
+  "outputDirectory": "public",
   "rewrites": [
     {
       "source": "/",
