@@ -388,7 +388,7 @@
     <!-- Header -->
     <div class="header">
         <div>
-            <h1>👁️ Parkhurst NuVision GPT</h1>
+            <h1>👁️ Parkhurst NuVision San Antonio GPT</h1>
             <div class="header-subtitle">Your AI assistant for vision correction questions</div>
         </div>
         <div class="header-actions">
@@ -406,21 +406,21 @@
         <!-- Welcome Screen -->
         <div class="welcome" id="welcomeScreen">
             <div class="welcome-icon">👁️</div>
-            <h2>Welcome to Parkhurst NuVision</h2>
+            <h2>Welcome to Parkhurst NuVision San Antonio</h2>
             <p>Ask me anything about LASIK, cataracts, and vision correction</p>
             
             <div class="suggestions">
                 <div class="suggestion-chip" data-question="What is LASIK?">
                     <strong>What is LASIK?</strong>
                 </div>
-                <div class="suggestion-chip" data-question="How long is recovery?">
-                    <strong>Recovery time?</strong>
+                <div class="suggestion-chip" data-question="What are my other vision correction options?">
+                    <strong>What are other options?</strong>
                 </div>
-                <div class="suggestion-chip" data-question="Does insurance cover the procedure?">
-                    <strong>Insurance coverage?</strong>
+                <div class="suggestion-chip" data-question="How do I book an appointment?">
+                    <strong>How do I book an appointment?</strong>
                 </div>
-                <div class="suggestion-chip" data-question="What is PRK?">
-                    <strong>What is PRK?</strong>
+                <div class="suggestion-chip" data-question="Where are you located?">
+                    <strong>Where are you located?</strong>
                 </div>
             </div>
         </div>
@@ -446,9 +446,11 @@
     </div>
 
     <script>
-        // Configuration
-        const API_URL = 'https://pnvgpt.onrender.com/ask';
-        const STREAM_URL = 'https://pnvgpt.onrender.com/ask/stream';
+        // Configuration - Auto-detect environment
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseURL = isLocalhost ? 'http://localhost:3000' : 'https://pnvgpt.onrender.com';
+        const API_URL = baseURL + '/ask';
+        const STREAM_URL = baseURL + '/ask/stream';
         const USE_STREAMING = true; // Set to false to disable typing effect
 
         const chatContainer = document.getElementById('chatContainer');
