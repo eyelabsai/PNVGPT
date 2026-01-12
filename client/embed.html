@@ -636,7 +636,11 @@
                     body: JSON.stringify({ messages: conversationHistory })
                 });
 
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    const error = new Error(`HTTP error! status: ${response.status}`);
+                    error.status = response.status;
+                    throw error;
+                }
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
@@ -679,6 +683,25 @@
             } catch (error) {
                 console.error('Stream error:', error);
                 messageText.classList.remove('streaming');
+                
+                // If streaming fails (500 or other server errors), fall back to non-streaming endpoint
+                if (error.status >= 500 || (error.message && (error.message.includes('500') || error.message.includes('HTTP error')))) {
+                    console.log('Streaming failed, falling back to non-streaming endpoint...');
+                    // Remove the streaming message and user message from UI
+                    removeMessage(wrapper);
+                    const userMessages = chatContainer.querySelectorAll('.message-wrapper.user');
+                    if (userMessages.length > 0) {
+                        removeMessage(userMessages[userMessages.length - 1]);
+                    }
+                    // Remove last user message from history (askFAQNonStream will add it back)
+                    if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === 'user') {
+                        conversationHistory.pop();
+                    }
+                    // Retry with non-streaming
+                    await askFAQNonStream(question);
+                    return;
+                }
+                
                 const errorMsg = "I'm sorry, I'm having trouble connecting. Please try again.";
                 messageText.textContent = errorMsg;
                 conversationHistory.push({ role: 'assistant', content: errorMsg });

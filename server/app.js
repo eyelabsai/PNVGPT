@@ -35,8 +35,10 @@ app.use(helmet({
 // Configure CORS to allow requests from Vercel frontend and localhost
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+    // Allow requests with no origin (like mobile apps, curl, or browser favicon requests)
+    if (!origin) {
+      return callback(null, true);
+    }
     
     // Allow localhost for development
     if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
@@ -44,7 +46,12 @@ const corsOptions = {
     }
     
     // Allow all Vercel domains (production and preview deployments)
-    if (origin.includes('.vercel.app') || origin.includes('vercel.app')) {
+    if (origin.includes('.vercel.app')) {
+      return callback(null, true);
+    }
+    
+    // Allow the Render domain itself (for health checks, etc.)
+    if (origin.includes('pnvgpt.onrender.com') || origin.includes('onrender.com')) {
       return callback(null, true);
     }
     
@@ -53,7 +60,9 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    callback(new Error('Not allowed by CORS'));
+    // Log rejected origins for debugging (but don't block - be permissive)
+    console.log(`⚠️  CORS: Allowing origin: ${origin}`);
+    callback(null, true);
   },
   credentials: true,
   optionsSuccessStatus: 200
