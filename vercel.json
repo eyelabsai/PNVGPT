@@ -1,12 +1,13 @@
 {
+  "buildCommand": "cp -r client/* .",
   "rewrites": [
     {
       "source": "/",
-      "destination": "/client/embed.html"
+      "destination": "/embed.html"
     },
     {
       "source": "/(.*)",
-      "destination": "/client/embed.html"
+      "destination": "/embed.html"
     }
   ]
 }
