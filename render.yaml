@@ -33,10 +33,10 @@ services:
         sync: false  # Set manually in dashboard (secret)
       
       - key: CLINIC_NAME
-        value: "Your Refractive Surgery Practice"
-      
+        value: "Parkhurst NuVision San Antonio"
+
       - key: CLINIC_PHONE
-        value: "XXX-XXX-XXXX"
+        value: "(210) 585-2020"
       
       - key: CHROMA_COLLECTION_NAME
         value: faq_collection
