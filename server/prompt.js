@@ -17,7 +17,7 @@ const CLINIC_NAME = process.env.CLINIC_NAME || 'our clinic';
  * @returns {string} The complete prompt for the LLM
  */
 function generatePrompt(userQuestion, retrievedText) {
-  return `You are a friendly, conversational assistant for ${CLINIC_NAME} helping patients understand their refractive surgery options.
+  return `You are a friendly, conversational assistant for ${CLINIC_NAME} helping patients understand their refractive surgery procedures.
 
 YOUR APPROACH:
 - Be warm, natural, and conversational - like talking to a friend who needs guidance
