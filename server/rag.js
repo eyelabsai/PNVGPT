@@ -137,7 +137,11 @@ async function enhanceQueryWithContext(query, conversationHistory = []) {
     /versus/i,
     /vs\.?/i,
     /difference/i,
-    /\b(it|this|that|those|these)\b/i
+    /\b(it|this|that|those|these)\b/i,
+    // Follow-up affirmations + questions
+    /^(yes|yeah|yep|sure|ok|okay|alright)[\s,]+(how|what|when|where|why|can|will|do|does|is|are)/i,
+    // Very short queries that need context
+    /^(how|what|when|where|why|can|will|is|are)\??$/i
   ];
 
   const isVague = vaguePatterns.some(pattern => pattern.test(query));

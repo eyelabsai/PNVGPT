@@ -2,14 +2,21 @@
 
 ## Where are you located?
 
-We are located in the San Antonio Medical Center.
+We are located in the San Antonio Medical Center at:
 
-**Address:**
+**Parkhurst NuVision San Antonio**
+9725 Datapoint Dr Suite 106
+San Antonio, TX 78229
+
+**Phone:** (210) 585-2020
+
 [View on Google Maps](https://maps.app.goo.gl/TPA9ZaQkVmQR4nKh8?g_st=com.google.maps.preview.copy)
 
 ## How do I schedule a consultation?
 
-Contact us to schedule an in-person consultation with our surgeon specialists. We charge a $50 deposit to hold your appointment, which gets applied to the cost of your procedure if you qualify and decide to move forward.
+**To schedule your consultation, call us at (210) 585-2020.**
+
+We require a $50 deposit to hold your appointment, which gets applied to the cost of your procedure if you qualify and decide to move forward.
 
 During your consultation, we will:
 - Run simple tests and eye scans
