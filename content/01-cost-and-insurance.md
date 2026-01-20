@@ -14,17 +14,17 @@ Insurance companies unfortunately consider elective procedures like refractive l
 
 ## Is this the typical price of this surgery?
 
-Basic manual cataract surgery is usually covered by insurance but unfortunately insurance considers any additional technology to be more like a "cosmetic procedure". Prices for these additional options that provide lifestyle improvements can vary between clinics and depend on several factors including how much the lasers and lenses with advanced technology cost.
+Yes, this is the typical price for us. It's hard to say what the "typical price" of these procedures are. Our pricing reflects both the raw costs of materials (the lenses, the price of firing the laser) and the expertise of our surgeons who have dedicated extra time in training to perform thousands of these procedures in order to master them.
 
-We charge a $50 deposit to hold your appointment with the surgeon specialists, which gets applied to the cost of your procedure if you qualify and decide to move forward. Procedures range from a few thousand per eye and we offer financing to those who qualify.
+Basic manual cataract surgery is usually covered by insurance but unfortunately insurance considers any additional technology to be more like a "cosmetic procedure". Prices for these additional options that provide lifestyle improvements can vary between clinics and depend on several factors including how much the lasers and lenses with advanced technology cost and sometimes how much correction you need.
 
 ## Why is the price higher than competitors?
 
-[ANSWER NEEDED]
+We are committed to such a high level of excellence, for example offering programs like lifetime pledge. We also use the most up-to-date technology and lasers available and our surgeons are specialty trained with some of the most experience in the country performing these procedures. To our knowledge, nobody in this area performs any of these procedures using our techniques.
 
 ## Is there a discount if I pay in full?
 
-[ANSWER NEEDED]
+We expect everyone to pay in full, but we do provide a discount if you pay in cash.
 
 ## Do you have any referral discounts?
 
@@ -32,21 +32,21 @@ We charge a $50 deposit to hold your appointment with the surgeon specialists, w
 
 ## Can you price match?
 
-[ANSWER NEEDED]
+We don't offer price matching because we are committed to such a high level of excellence, for example offering programs like lifetime pledge. We also use the most up-to-date technology and lasers available and our surgeons are specialty trained with some of the most experience in the country performing these procedures. To our knowledge, no one in our area performs these procedures the same way that we do so there is no way to even price match them.
 
 ## Will I have the same outcome as my friend, they didn't pay anything?
 
-[ANSWER NEEDED]
+Every eye is unique! We will do everything in our power to deliver the best outcome possible, but sometimes the best outcome to match your personal goals requires using advanced technology not covered by insurance. As an example, if your friend doesn't have astigmatism and only wanted to see at one distance, it's possible basic manual cataract surgery would deliver the outcome they desire. On the other hand, if you have astigmatism that needs to be corrected or desire independence from glasses then this may require using advanced technology not covered by insurance. We will work closely with you to understand your unique eyes, your goals, and what's financially realistic while still maximizing your outcome with whatever technology we choose together.
 
-## How much does the laser cost?
+## How much does laser cataract surgery cost?
 
-[ANSWER NEEDED]
+Laser cataract surgery costs a few thousand dollars depending on your insurance benefits and what type of lens you choose.
 
 ## Can I do laser without astigmatism correction?
 
-[ANSWER NEEDED]
+Almost everyone has even small amounts of astigmatism that the laser can correct. It's been shown in the scientific literature that correcting even these small amounts of astigmatism improve your outcome so correcting your astigmatism is a very important part of using the laser.
 
 ## Is there any government assistance to help with the cost?
 
-Yes, we gladly accept Medicare. For advanced technology options like reading vision lenses, there are also charges on top of what Medicare pays. Costs vary by needs, so we encourage you to come in for a consultation with our surgeons, at which time we can let you know if you qualify and what all costs would be.
+Unfortunately, government programs still consider the use of advanced technology like lenses for cataract surgery that correct astigmatism or provide independence from glasses OR any vision correction procedure to be elective and do not cover them. You can however use your HSA or FSA funds and we offer many convenient financing solutions.
 

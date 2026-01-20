@@ -42,6 +42,10 @@ Monofocal lenses – sharp focus at one distance.
 
 We will help select the right lens based on your eyes and lifestyle goals!
 
+## Do you have lenses that work for bifocal needs?
+
+Yes, we have lenses that work for the bifocal need. Multifocal and extended depth-of-focus (EDOF) lenses are designed to provide clear vision at multiple distances, eliminating or significantly reducing the need for bifocals. These advanced lens options allow you to see clearly at distance, intermediate, and near ranges, similar to what bifocal glasses provide but without needing glasses at all!
+
 ## Will I still need glasses after cataract surgery?
 
 Many patients enjoy clear vision without glasses, especially with premium IOLs after Laser Cataract Surgery. However, you may still need reading glasses or mild correction depending on the type of lens that we will choose together. For example, multifocal lenses an provide independence from glasses under most circumstances but monofocal lenses might require you to still use readers. Cataract surgery is a great time to customize your vision to your lifestyle so we will make these decisions together.
@@ -64,7 +68,7 @@ Yes! With the right lens choice and use of the laser we can significantly reduce
 
 ## Can cataracts come back after surgery?
 
-No! Once your natural cloudy lens is removed, the cataract can never return. However, months or years later, the thin membrane that holds the new lens (the capsule) may become cloudy. This is very common and happens around 50% of the time. The timing can range from days to decades after surgery. This is called a posterior capsule opacity (PCO), and it's easily treated with a quick, painless one-time and 30-second YAG laser procedure to restore clear vision!
+No! A cataract happens when the lens behind the iris (color part of the eye) becomes cloudy. This most commonly happens normally with age. Cataract surgery involves replacing this cloudy lens with a brand new clear lens in the same capsule (or bag) that the old lens was in. Because the old, cloudy lens is gone, the cataract can NEVER come back! About 50% of the time, the capsule (or bag) that the lens is placed in can become cloudy. While the symptoms may be similar to those of a cataract, that is not what's happening, and this condition called PCO, posterior capsular opacification can be corrected in 20 seconds using a painless laser in the office.
 
 ## Can I have cataract surgery if I've had LASIK, PRK, or ICL?
 
