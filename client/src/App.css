@@ -1,0 +1,92 @@
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f8;
+  --bg-tertiary: #ffffff;
+  --text-primary: #353740;
+  --text-secondary: #6e6e80;
+  --border-color: #e5e5e6;
+  --sidebar-bg: #202123;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+}
+
+.dark {
+  --bg-primary: #343541;
+  --bg-secondary: #444654;
+  --bg-tertiary: #343541;
+  --text-primary: #ececf1;
+  --text-secondary: #8e8ea0;
+  --border-color: #565869;
+  --sidebar-bg: #202123;
+  --input-bg: #40414f;
+  --input-border: #565869;
+}
+
+.app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  padding: 0.5rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background: var(--bg-secondary);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s;
+  min-width: 0; /* Allow flexbox to shrink properly */
+}
+
+/* Desktop: when sidebar is closed, main content takes full width */
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+  
+  /* Sidebar is part of flex layout, so no margin needed when open */
+}
+
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-primary);
+}
+
+.theme-toggle {
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-secondary);
+}
+

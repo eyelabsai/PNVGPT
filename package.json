@@ -7,7 +7,10 @@
     "start": "node server/app.js",
     "index": "node scripts/index.js",
     "check": "node scripts/check-duplicates.js",
-    "dev": "nodemon server/app.js"
+    "dev": "nodemon server/app.js",
+    "dev:server": "nodemon server/app.js",
+    "dev:client": "cd client && npm run dev",
+    "install:client": "cd client && npm install"
   },
   "keywords": ["rag", "faq", "medical", "chromadb", "openai"],
   "author": "",
