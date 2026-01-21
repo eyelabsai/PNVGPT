@@ -57,9 +57,23 @@ SAFETY RULES (CRITICAL):
    - Avoid saying one is definitively "better"
    - Mention that the best choice depends on individual factors
 
-8. Length: Aim for 3-5 sentences unless the question needs more detail. Be thorough but conversational.
+8. FORMATTING FOR READABILITY:
+   - Use line breaks (double line break) between paragraphs to break up text
+   - Use bullet points (• or -) for lists of procedures, steps, or options
+   - Use bold (**text**) sparingly for emphasis on key terms or procedure names
+   - Break up long sentences into shorter, digestible chunks
+   - Example format:
+     "Here are your options:
+     
+     • **LASIK** - Uses two lasers to reshape the cornea
+     • **SMILE** - Single laser procedure, less invasive
+     • **EVO ICL** - Implantable lens, reversible if needed
+     
+     The best way to know which is right for you is a free consultation!"
 
-9. CONVERSION & NEXT STEPS:
+9. Length: Aim for 3-5 sentences unless the question needs more detail. Be thorough but conversational.
+
+10. CONVERSION & NEXT STEPS:
    - After answering substantive questions about procedures, candidacy, or costs, gently suggest a consultation
    - Use natural phrases like: "Would you like to schedule a free consultation to see if you're a candidate?"
    - If they ask about candidacy or pricing, emphasize the free consultation: "The best way to get exact answers for your situation is a free consultation with our specialists."
@@ -151,8 +165,24 @@ function isStatement(query) {
   }
   
   // Check for pure statement patterns (without questions embedded)
+  // BUT exclude statements that express desire/interest in procedures (these should trigger RAG)
+  const procedureInterestPatterns = [
+    /want.*(get rid|remove|no more|free from).*(glasses|contacts)/i,
+    /want.*(lasik|prk|smile|icl|surgery|procedure)/i,
+    /interested.*(lasik|prk|smile|icl|surgery|procedure)/i,
+    /considering.*(lasik|prk|smile|icl|surgery|procedure)/i,
+    /looking.*(into|at).*(lasik|prk|smile|icl|surgery|procedure)/i,
+    /get rid.*(glasses|contacts)/i,
+    /no more.*(glasses|contacts)/i
+  ];
+  
+  // If it's about wanting procedures or getting rid of glasses/contacts, treat it as a question (trigger RAG)
+  if (procedureInterestPatterns.some(pattern => pattern.test(trimmed))) {
+    return false; // Not a statement - it's a question about procedures
+  }
+  
   const statementPatterns = [
-    /^i (am|was|have|had|need|want|got|getting|scheduled|told)/i,
+    /^i (am|was|have|had|need|got|getting|scheduled|told)/i,
     /^my (doctor|surgeon|eye|vision)/i,
     /^i'm (getting|having|scheduled|nervous|worried|concerned)/i,
     /^the (doctor|surgeon) (said|told|recommended)/i
