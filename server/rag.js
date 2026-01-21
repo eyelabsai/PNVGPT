@@ -24,6 +24,7 @@ const GPT_MODEL = 'gpt-4o-mini';
 const COLLECTION_NAME = process.env.CHROMA_COLLECTION_NAME || 'faq_collection';
 const TOP_K_RESULTS = 5; // Increased from 3 to better find relevant content
 const SIMILARITY_THRESHOLD = 0.25; // Lowered from 0.3 to catch more relevant matches
+const COUNSELING_THRESHOLD = 0.20; // Lower threshold for counseling/emotional concerns
 
 let initialized = false;
 
@@ -286,21 +287,39 @@ async function retrieveRelevant(query, conversationHistory = []) {
       const results = await querySimilar(queryEmbedding, TOP_K_RESULTS);
 
       if (results.documents && results.documents[0]) {
+        // Check if this is an emotional/financial concern query (check both original and enhanced query)
+        const lowerQuery = query.toLowerCase();
+        const isEmotionalQuery = lowerQuery.includes('nervous') || lowerQuery.includes('worried') || 
+                                 lowerQuery.includes('scared') || lowerQuery.includes('afraid') || 
+                                 lowerQuery.includes('anxious') || lowerQuery.includes('fear') ||
+                                 lowerQuery.includes('responding to fear'); // Check for enhanced query keywords
+        const isFinancialQuery = lowerQuery.includes('expensive') || lowerQuery.includes('too much') || 
+                                 lowerQuery.includes('afford') || lowerQuery.includes('cost too much') ||
+                                 lowerQuery.includes('responding to financial'); // Check for enhanced query keywords
+        const isCounselingQuery = isEmotionalQuery || isFinancialQuery;
+        
+        console.log(`🔍 Query analysis: emotional=${isEmotionalQuery}, financial=${isFinancialQuery}, counseling=${isCounselingQuery}`);
+        
         for (let i = 0; i < results.documents[0].length; i++) {
           const metadata = results.metadatas[0][i];
           const distance = results.distances[0][i];
           const similarity = 1 - distance;
+          
+          // Use lower threshold for counseling strategies content or counseling-related queries
+          const isCounselingContent = metadata.filename && metadata.filename.includes('counseling');
+          const effectiveThreshold = (isCounselingContent || isCounselingQuery) ? COUNSELING_THRESHOLD : SIMILARITY_THRESHOLD;
 
           const chunkInfo = {
             filename: metadata.filename || 'unknown',
             chunkId: metadata.chunkId || '',
             similarity: parseFloat(similarity.toFixed(4)),
-            passedThreshold: similarity >= SIMILARITY_THRESHOLD
+            passedThreshold: similarity >= effectiveThreshold,
+            effectiveThreshold: effectiveThreshold
           };
 
           allResults.push(chunkInfo);
 
-          if (similarity >= SIMILARITY_THRESHOLD) {
+          if (similarity >= effectiveThreshold) {
             chunks.push({
               id: results.ids[0][i],
               text: results.documents[0][i],
@@ -580,8 +599,16 @@ async function generateAnswer(question, conversationHistory = []) {
       };
     }
 
-    // Check if it's a statement (not a question) - use conversational mode
-    if (isStatement(question)) {
+    // Check if it's a statement (not a question) - but first try RAG for emotional/financial concerns
+    const lowerQuestion = question.toLowerCase();
+    const isEmotionalConcern = lowerQuestion.includes('nervous') || lowerQuestion.includes('worried') || 
+                               lowerQuestion.includes('scared') || lowerQuestion.includes('afraid') || 
+                               lowerQuestion.includes('anxious') || lowerQuestion.includes('fear');
+    const isFinancialConcern = lowerQuestion.includes('expensive') || lowerQuestion.includes('too much') || 
+                               lowerQuestion.includes('afford') || lowerQuestion.includes('cost too much');
+    
+    // For emotional or financial concerns, try RAG first to get counseling strategies
+    if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern) {
       const conversationalResponse = await handleConversationalMode(question, conversationHistory);
       return {
         answer: conversationalResponse,
@@ -591,9 +618,17 @@ async function generateAnswer(question, conversationHistory = []) {
         responseTime: Date.now() - startTime
       };
     }
+    
+    // For emotional/financial concerns, enhance the query to find counseling strategies
+    let searchQuery = question;
+    if (isEmotionalConcern) {
+      searchQuery = question + ' responding to fear nervousness concerns reassurance';
+    } else if (isFinancialConcern) {
+      searchQuery = question + ' responding to financial concerns expensive cost affordability';
+    }
 
-    // Retrieve relevant chunks for medical questions (with conversation context)
-    const retrievalResult = await retrieveRelevant(question, conversationHistory);
+    // Retrieve relevant chunks (use enhanced query for emotional/financial concerns)
+    const retrievalResult = await retrieveRelevant(searchQuery || question, conversationHistory);
     const chunks = retrievalResult.chunks;
     const debugInfo = retrievalResult.debugInfo;
 

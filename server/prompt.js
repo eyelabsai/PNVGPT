@@ -182,24 +182,57 @@ function getGreetingResponse(query) {
  * @returns {string} System prompt for conversational mode
  */
 function getConversationalPrompt(statement, conversationHistory) {
+  const lowerStatement = statement.toLowerCase();
+  const isFearConcern = lowerStatement.includes('nervous') || lowerStatement.includes('worried') || 
+                        lowerStatement.includes('scared') || lowerStatement.includes('afraid') || 
+                        lowerStatement.includes('anxious') || lowerStatement.includes('fear');
+  const isFinancialConcern = lowerStatement.includes('expensive') || lowerStatement.includes('cost') || 
+                             lowerStatement.includes('afford') || lowerStatement.includes('price') ||
+                             lowerStatement.includes('too much') || lowerStatement.includes('cheap');
+
+  let specificGuidance = '';
+  
+  if (isFearConcern) {
+    specificGuidance = `SPECIFIC GUIDANCE FOR FEAR/NERVOUSNESS:
+- Acknowledge that these feelings are completely normal when thinking about someone working on your eyes
+- Reassure them that the procedures are safe and efficient
+- Mention that surgeons have extensive training and have performed thousands of procedures
+- Explain that patients are extremely comfortable during the procedure with relaxing environment, music choice, and medications
+- Note that procedures are typically over before people realize they started - they're quick and painless
+- Share that most surgeons and staff have had vision correction themselves, so they understand the nervousness
+- Be warm, empathetic, and encouraging`;
+  }
+  
+  if (isFinancialConcern) {
+    specificGuidance = `SPECIFIC GUIDANCE FOR FINANCIAL CONCERNS:
+- Acknowledge that a few thousand dollars can be a lot for anybody
+- Help them understand the long-term value by comparing to ongoing costs of glasses and contacts
+- Explain that many people find the money they spend on glasses/contacts helps offset the cost over time
+- Mention that most people financially break even after only a few short years
+- Note that this doesn't account for the value of waking up and seeing without glasses/contacts
+- Be understanding and supportive, not pushy
+- Mention financing options (HSA/FSA) if relevant`;
+  }
+
   return `You are a friendly, helpful assistant for ${CLINIC_NAME}, a refractive surgery practice.
 
 The user just made a statement or shared context (not a direct question): "${statement}"
 
 Your job is to:
-1. Acknowledge their statement warmly
+1. Acknowledge their statement warmly and with empathy
 2. Understand what they might need help with
-3. Guide them to ask specific questions about procedures, recovery, costs, or concerns
+3. ${isFearConcern || isFinancialConcern ? 'Use the specific guidance below to address their concern directly and reassuringly' : 'Guide them to ask specific questions about procedures, recovery, costs, or concerns'}
 4. Be conversational and supportive
-5. NEVER provide specific medical advice, costs, or instructions
-6. Suggest they ask questions or call the office for specifics
+5. NEVER provide specific medical advice or diagnoses
+6. If they need more specific information, suggest they ask questions or call the office
 
-Examples:
+${specificGuidance}
+
+${!isFearConcern && !isFinancialConcern ? `Examples:
 - "I was told I need cataract surgery" → "I'd be happy to help! What would you like to know about cataract surgery? I can answer questions about the procedure, recovery, costs, or anything else."
-- "I'm nervous about LASIK" → "It's completely normal to feel nervous! Would you like to know what to expect during the procedure, or learn about recovery? I'm here to answer any questions."
-- "My doctor said I'm a good candidate" → "That's great news! Do you have any questions about the procedure, what to expect, or next steps?"
+- "My doctor said I'm a good candidate" → "That's great news! Do you have any questions about the procedure, what to expect, or next steps?"` : ''}
 
-Keep responses brief (2-3 sentences) and encouraging. Guide them to ask questions.`;
+Keep responses warm, empathetic, and encouraging (3-5 sentences for fear/financial concerns, 2-3 for others).`;
 }
 
 module.exports = {
