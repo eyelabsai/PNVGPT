@@ -25,10 +25,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"], // Allow jspdf from Cloudflare
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdnjs.cloudflare.com"], // Allow jspdf and inline scripts
+      scriptSrcAttr: ["'unsafe-inline'"], // Allow inline event handlers (onclick, etc.)
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow fonts
       fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow fonts
-      connectSrc: ["'self'", "http://localhost:3000", "https://pnvgpt.onrender.com", "https://refractivegpt.vercel.app"]
+      connectSrc: ["'self'", "http://localhost:3000", "https://pnvgpt.onrender.com", "https://refractivegpt.vercel.app", "https://cdnjs.cloudflare.com"]
     }
   }
 })); // Security headers
