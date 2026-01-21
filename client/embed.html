@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parkhurst NuVision GPT</title>
+    <!-- PDF Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -777,6 +779,9 @@
             <div class="header-subtitle">Your AI assistant for vision correction questions</div>
         </div>
         <div class="header-actions">
+            <button class="header-btn" id="exportPdfBtn" title="Export chat to PDF">
+                📄 Export PDF
+            </button>
             <button class="header-btn" id="clearChatBtn" title="Clear chat history">
                 🗑️ Clear Chat
             </button>
@@ -1627,6 +1632,75 @@
                 askFAQ(question);
             });
         });
+
+        // PDF Export
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        
+        /**
+         * Export current chat to PDF
+         */
+        async function exportChatToPdf() {
+            if (!hasMessages || conversationHistory.length === 0) {
+                alert('No messages to export.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const margin = 20;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const contentWidth = pageWidth - (margin * 2);
+            let y = margin;
+
+            // Header
+            doc.setFontSize(18);
+            doc.setTextColor(25, 195, 125); // Clinic Green
+            doc.text('Parkhurst NuVision AI Assistant', margin, y);
+            y += 10;
+
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Exported on ${new Date().toLocaleString()}`, margin, y);
+            y += 15;
+
+            // Conversation
+            conversationHistory.forEach(msg => {
+                // Check if we need a new page
+                if (y > 270) {
+                    doc.addPage();
+                    y = margin;
+                }
+
+                // Role Label
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.setTextColor(msg.role === 'user' ? 0 : 25, 195, 125);
+                const roleLabel = msg.role === 'user' ? 'YOU:' : 'ASSISTANT:';
+                doc.text(roleLabel, margin, y);
+                y += 5;
+
+                // Message Content
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(0, 0, 0);
+                
+                // Strip markdown for PDF simplicity or keep it?
+                // For now, let's keep it clean
+                const lines = doc.splitTextToSize(msg.content, contentWidth);
+                doc.text(lines, margin, y);
+                
+                y += (lines.length * 5) + 10;
+            });
+
+            // Footer
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.text('Parkhurst NuVision - (210) 585-2020 - www.parkhurstnuvision.com', margin, 285);
+
+            doc.save(`PNV-Chat-Export-${new Date().getTime()}.pdf`);
+            trackEvent('export_pdf');
+        }
+
+        exportPdfBtn.addEventListener('click', exportChatToPdf);
 
         // Clear Chat button
         const clearChatBtn = document.getElementById('clearChatBtn');
