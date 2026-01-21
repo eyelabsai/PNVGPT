@@ -137,6 +137,44 @@
             font-style: italic;
         }
 
+        /* Markdown rendered content */
+        .message-text p {
+            margin: 0 0 12px 0;
+        }
+
+        .message-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-text strong {
+            color: #19c37d;
+            font-weight: 600;
+        }
+
+        .message-text em {
+            font-style: italic;
+        }
+
+        .message-text ul {
+            margin: 12px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .message-text li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 8px;
+        }
+
+        .message-text li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: #19c37d;
+            font-weight: bold;
+        }
+
         .metadata {
             font-size: 12px;
             color: #8e8ea0;
@@ -382,6 +420,243 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* Floating CTA Button */
+        .floating-cta {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, #19c37d 0%, #0fa968 100%);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(25, 195, 125, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(25, 195, 125, 0.5);
+        }
+
+        .cta-secondary {
+            background: #40414f;
+            color: #ececf1;
+            border: 1px solid #565869;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .cta-secondary:hover {
+            background: #565869;
+            border-color: #8e8ea0;
+        }
+
+        /* Quick Action Buttons after messages */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .quick-action-btn {
+            background: rgba(25, 195, 125, 0.1);
+            border: 1px solid rgba(25, 195, 125, 0.3);
+            color: #19c37d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(25, 195, 125, 0.2);
+            border-color: #19c37d;
+        }
+
+        .quick-action-btn.primary {
+            background: #19c37d;
+            color: white;
+            border-color: #19c37d;
+        }
+
+        .quick-action-btn.primary:hover {
+            background: #1a9f6b;
+        }
+
+        /* Lead Capture Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #40414f;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ececf1;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #8e8ea0;
+            margin-bottom: 24px;
+        }
+
+        .modal-form input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #343541;
+            border: 1px solid #565869;
+            border-radius: 8px;
+            color: #ececf1;
+            font-size: 15px;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+
+        .modal-form input:focus {
+            outline: none;
+            border-color: #19c37d;
+        }
+
+        .modal-form input::placeholder {
+            color: #8e8ea0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .modal-btn.cancel {
+            background: transparent;
+            border: 1px solid #565869;
+            color: #8e8ea0;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #343541;
+        }
+
+        .modal-btn.submit {
+            background: #19c37d;
+            border: none;
+            color: white;
+        }
+
+        .modal-btn.submit:hover {
+            background: #1a9f6b;
+        }
+
+        .modal-btn.submit:disabled {
+            background: #40414f;
+            cursor: not-allowed;
+        }
+
+        /* High Intent CTA highlight */
+        .high-intent-cta {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(25, 195, 125, 0.4); }
+            50% { box-shadow: 0 4px 30px rgba(25, 195, 125, 0.7); }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .floating-cta {
+                bottom: 90px;
+                right: 12px;
+            }
+
+            .cta-primary {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .cta-secondary {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+
+            .quick-actions {
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -410,11 +685,8 @@
             <p>Ask me anything about LASIK, cataracts, and vision correction</p>
             
             <div class="suggestions">
-                <div class="suggestion-chip" data-question="What is LASIK?">
-                    <strong>What is LASIK?</strong>
-                </div>
-                <div class="suggestion-chip" data-question="What are my other vision correction options?">
-                    <strong>What are other options?</strong>
+                <div class="suggestion-chip" data-question="What is LASIK?&#10;What are other options?">
+                    <strong>What is LASIK?<br>What are other options?</strong>
                 </div>
                 <div class="suggestion-chip" data-question="How do I book an appointment?">
                     <strong>How do I book an appointment?</strong>
@@ -445,6 +717,49 @@
         </div>
     </div>
 
+    <!-- Floating CTA Buttons -->
+    <div class="floating-cta" id="floatingCTA">
+        <button class="cta-primary" id="scheduleCTA" onclick="openScheduleModal()">
+            📅 Schedule Free Consultation
+        </button>
+        <a href="tel:+12105852020" class="cta-secondary" onclick="trackEvent('cta_call')">
+            📞 Call (210) 585-2020
+        </a>
+    </div>
+
+    <!-- Lead Capture Modal -->
+    <div class="modal-overlay" id="scheduleModal">
+        <div class="modal-content">
+            <h3 class="modal-title">📅 Schedule Your Free Consultation</h3>
+            <p class="modal-subtitle">We'll reach out within 24 hours to find a time that works for you.</p>
+            
+            <form class="modal-form" id="leadForm" onsubmit="submitLead(event)">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+                <input type="email" name="email" placeholder="Email (optional)">
+                <select name="procedure" style="width:100%;padding:12px 16px;background:#343541;border:1px solid #565869;border-radius:8px;color:#ececf1;font-size:15px;margin-bottom:12px;">
+                    <option value="">What procedure interests you?</option>
+                    <option value="lasik">LASIK</option>
+                    <option value="prk">PRK</option>
+                    <option value="smile">SMILE</option>
+                    <option value="icl">EVO ICL</option>
+                    <option value="cataract">Cataract Surgery</option>
+                    <option value="rle">Lens Replacement / RLE</option>
+                    <option value="unsure">Not Sure Yet</option>
+                </select>
+                
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn cancel" onclick="closeScheduleModal()">Cancel</button>
+                    <button type="submit" class="modal-btn submit" id="submitLeadBtn">Request Callback</button>
+                </div>
+            </form>
+            
+            <p style="font-size:12px;color:#8e8ea0;text-align:center;margin-top:16px;">
+                Or call us directly: <a href="tel:+12105852020" style="color:#19c37d;">(210) 585-2020</a>
+            </p>
+        </div>
+    </div>
+
     <script>
         // Configuration - Auto-detect environment
         const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -462,6 +777,230 @@
         // Conversation history
         let conversationHistory = [];
         let hasMessages = false;
+        let messageCount = 0;
+        let lastBuyingIntent = null;
+
+        // ============================================
+        // MARKDOWN RENDERING
+        // ============================================
+        
+        /**
+         * Simple markdown to HTML converter
+         * Handles: **bold**, *italic*, bullet points, line breaks
+         */
+        function renderMarkdown(text) {
+            if (!text) return '';
+            
+            // Escape HTML first to prevent XSS
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            
+            // Convert markdown
+            // Bold: **text** or __text__
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+            
+            // Italic: *text* or _text_ (but not inside bold)
+            html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+            html = html.replace(/(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/g, '<em>$1</em>');
+            
+            // Bullet points: • or - at start of line
+            html = html.replace(/^[•\-]\s+(.+)$/gm, '<li>$1</li>');
+            
+            // Wrap consecutive <li> in <ul>
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+            
+            // Line breaks: double newline = paragraph, single = <br>
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = html.replace(/\n/g, '<br>');
+            
+            // Wrap in paragraph if not already
+            if (!html.startsWith('<')) {
+                html = '<p>' + html + '</p>';
+            }
+            
+            return html;
+        }
+
+        // ============================================
+        // ANALYTICS & TRACKING
+        // ============================================
+        
+        /**
+         * Track analytics event
+         */
+        async function trackEvent(eventName, data = {}) {
+            try {
+                await fetch(baseURL + '/analytics/event', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        event: eventName, 
+                        data: {
+                            ...data,
+                            messageCount,
+                            url: window.location.href
+                        }
+                    })
+                });
+            } catch (e) {
+                console.log('Analytics event:', eventName, data);
+            }
+        }
+
+        // Track page load
+        trackEvent('page_view');
+
+        // ============================================
+        // LEAD CAPTURE MODAL
+        // ============================================
+        
+        const scheduleModal = document.getElementById('scheduleModal');
+        const leadForm = document.getElementById('leadForm');
+        const scheduleCTA = document.getElementById('scheduleCTA');
+
+        function openScheduleModal() {
+            scheduleModal.classList.add('active');
+            trackEvent('modal_open', { modal: 'schedule' });
+        }
+
+        function closeScheduleModal() {
+            scheduleModal.classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        scheduleModal.addEventListener('click', function(e) {
+            if (e.target === scheduleModal) {
+                closeScheduleModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeScheduleModal();
+            }
+        });
+
+        /**
+         * Submit lead form
+         */
+        async function submitLead(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(leadForm);
+            const submitBtn = document.getElementById('submitLeadBtn');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                // Get conversation summary
+                const conversationSummary = conversationHistory
+                    .slice(-6)
+                    .map(m => `${m.role}: ${m.content.substring(0, 100)}...`)
+                    .join('\n');
+                
+                const response = await fetch(baseURL + '/lead', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: formData.get('name'),
+                        phone: formData.get('phone'),
+                        email: formData.get('email'),
+                        procedure: formData.get('procedure'),
+                        conversationSummary,
+                        source: 'chatbot'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    trackEvent('lead_submitted', { procedure: formData.get('procedure') });
+                    
+                    // Show success message
+                    leadForm.innerHTML = `
+                        <div style="text-align:center;padding:20px;">
+                            <div style="font-size:48px;margin-bottom:16px;">✅</div>
+                            <h3 style="color:#19c37d;margin-bottom:8px;">Thank You!</h3>
+                            <p style="color:#8e8ea0;">We'll reach out within 24 hours to schedule your free consultation.</p>
+                        </div>
+                    `;
+                    
+                    // Close modal after 3 seconds
+                    setTimeout(() => {
+                        closeScheduleModal();
+                        // Reset form for next time
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    }, 3000);
+                } else {
+                    throw new Error(result.message || 'Submission failed');
+                }
+            } catch (error) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Request Callback';
+                alert('Oops! Something went wrong. Please try again or call us at (210) 585-2020');
+            }
+        }
+
+        // ============================================
+        // QUICK ACTION BUTTONS
+        // ============================================
+        
+        /**
+         * Create quick action buttons based on buying intent
+         */
+        function createQuickActions(buyingIntent) {
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'quick-actions';
+            
+            // Always show schedule button if they've asked 2+ questions or show buying intent
+            if (messageCount >= 2 || (buyingIntent && buyingIntent.hasBuyingIntent)) {
+                const scheduleBtn = document.createElement('button');
+                scheduleBtn.className = 'quick-action-btn primary';
+                scheduleBtn.textContent = '📅 Schedule Free Consultation';
+                scheduleBtn.onclick = () => {
+                    trackEvent('quick_action_schedule');
+                    openScheduleModal();
+                };
+                actionsDiv.appendChild(scheduleBtn);
+            }
+            
+            // Show call button
+            const callBtn = document.createElement('button');
+            callBtn.className = 'quick-action-btn';
+            callBtn.textContent = '📞 Call Us';
+            callBtn.onclick = () => {
+                trackEvent('quick_action_call');
+                window.location.href = 'tel:+12105852020';
+            };
+            actionsDiv.appendChild(callBtn);
+            
+            // Show ask another question button
+            const askBtn = document.createElement('button');
+            askBtn.className = 'quick-action-btn';
+            askBtn.textContent = '💬 Ask Another Question';
+            askBtn.onclick = () => {
+                questionInput.focus();
+            };
+            actionsDiv.appendChild(askBtn);
+            
+            return actionsDiv;
+        }
+
+        /**
+         * Highlight CTA for high intent users
+         */
+        function highlightCTA(buyingIntent) {
+            if (buyingIntent && buyingIntent.isHighIntent) {
+                scheduleCTA.classList.add('high-intent-cta');
+            }
+        }
 
         // Auto-resize textarea
         questionInput.addEventListener('input', function() {
@@ -500,7 +1039,13 @@
             
             const messageText = document.createElement('div');
             messageText.className = `message-text${isLoading ? ' loading' : ''}`;
-            messageText.textContent = text;
+            
+            // Render markdown for assistant messages, plain text for user messages
+            if (type === 'assistant' && !isLoading) {
+                messageText.innerHTML = renderMarkdown(text);
+            } else {
+                messageText.textContent = text;
+            }
             
             // Add suggestions if provided (for fallback responses)
             if (suggestions && suggestions.length > 0 && !isLoading) {
@@ -568,6 +1113,24 @@
             content.appendChild(avatar);
             content.appendChild(messageText);
             wrapper.appendChild(content);
+            
+            // Add quick action buttons for assistant messages (not loading)
+            if (type === 'assistant' && !isLoading && metadata) {
+                const buyingIntent = metadata.buyingIntent || lastBuyingIntent;
+                const quickActions = createQuickActions(buyingIntent);
+                
+                // Create a container for quick actions at the message level
+                const actionsWrapper = document.createElement('div');
+                actionsWrapper.style.maxWidth = '800px';
+                actionsWrapper.style.margin = '0 auto';
+                actionsWrapper.style.padding = '0 20px 0 74px'; // Align with message text (after avatar)
+                actionsWrapper.appendChild(quickActions);
+                wrapper.appendChild(actionsWrapper);
+                
+                // Update CTA highlight
+                highlightCTA(buyingIntent);
+            }
+            
             chatContainer.appendChild(wrapper);
             
             // Scroll to bottom
@@ -622,6 +1185,7 @@
         async function askFAQStream(question) {
             questionInput.disabled = true;
             askButton.disabled = true;
+            messageCount++;
 
             addMessage(question, 'user');
             conversationHistory.push({ role: 'user', content: question });
@@ -636,7 +1200,11 @@
                     body: JSON.stringify({ messages: conversationHistory })
                 });
 
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    const error = new Error(`HTTP error! status: ${response.status}`);
+                    error.status = response.status;
+                    throw error;
+                }
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
@@ -668,8 +1236,18 @@
                     }
                 }
 
-                // Remove streaming cursor
+                // Remove streaming cursor and render markdown
                 messageText.classList.remove('streaming');
+                messageText.innerHTML = renderMarkdown(fullResponse);
+                
+                // Add quick actions after streaming completes
+                const quickActions = createQuickActions(lastBuyingIntent);
+                const actionsWrapper = document.createElement('div');
+                actionsWrapper.style.maxWidth = '800px';
+                actionsWrapper.style.margin = '0 auto';
+                actionsWrapper.style.padding = '0 20px 0 74px';
+                actionsWrapper.appendChild(quickActions);
+                wrapper.appendChild(actionsWrapper);
                 
                 conversationHistory.push({ role: 'assistant', content: fullResponse });
                 if (conversationHistory.length > 10) {
@@ -679,6 +1257,25 @@
             } catch (error) {
                 console.error('Stream error:', error);
                 messageText.classList.remove('streaming');
+                
+                // If streaming fails (500 or other server errors), fall back to non-streaming endpoint
+                if (error.status >= 500 || (error.message && (error.message.includes('500') || error.message.includes('HTTP error')))) {
+                    console.log('Streaming failed, falling back to non-streaming endpoint...');
+                    // Remove the streaming message and user message from UI
+                    removeMessage(wrapper);
+                    const userMessages = chatContainer.querySelectorAll('.message-wrapper.user');
+                    if (userMessages.length > 0) {
+                        removeMessage(userMessages[userMessages.length - 1]);
+                    }
+                    // Remove last user message from history (askFAQNonStream will add it back)
+                    if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === 'user') {
+                        conversationHistory.pop();
+                    }
+                    // Retry with non-streaming
+                    await askFAQNonStream(question);
+                    return;
+                }
+                
                 const errorMsg = "I'm sorry, I'm having trouble connecting. Please try again.";
                 messageText.textContent = errorMsg;
                 conversationHistory.push({ role: 'assistant', content: errorMsg });
@@ -697,6 +1294,7 @@
         async function askFAQNonStream(question) {
             questionInput.disabled = true;
             askButton.disabled = true;
+            messageCount++;
 
             addMessage(question, 'user');
             conversationHistory.push({ role: 'user', content: question });
@@ -714,6 +1312,12 @@
 
                 const data = await response.json();
                 removeMessage(loadingElement);
+                
+                // Store buying intent for quick actions
+                if (data.metadata && data.metadata.buyingIntent) {
+                    lastBuyingIntent = data.metadata.buyingIntent;
+                    trackEvent('buying_intent', data.metadata.buyingIntent);
+                }
                 
                 const suggestions = data.suggestions || null;
                 addMessage(data.answer, 'assistant', data.metadata, false, suggestions);
@@ -824,4 +1428,3 @@
     </script>
 </body>
 </html>
-<!-- Force rebuild Mon Jan 12 14:04:33 CST 2026 -->
