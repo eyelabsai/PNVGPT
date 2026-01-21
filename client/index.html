@@ -440,6 +440,85 @@
             }
         }
 
+        /* Savings Calculator */
+        .savings-calculator {
+            background: rgba(25, 195, 125, 0.1);
+            border: 1px solid rgba(25, 195, 125, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+            max-width: 400px;
+        }
+
+        .savings-calculator h4 {
+            color: #19c37d;
+            margin-bottom: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calculator-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .calculator-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .calculator-row label {
+            font-size: 12px;
+            color: #8e8ea0;
+        }
+
+        .calculator-row input {
+            background: #343541;
+            border: 1px solid #565869;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #ececf1;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .calculator-row input:focus {
+            border-color: #19c37d;
+        }
+
+        .calculate-btn {
+            background: #19c37d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .calculate-btn:hover {
+            background: #1a9f6b;
+        }
+
+        .savings-result {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+
+        .savings-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #19c37d;
+            margin: 8px 0;
+        }
+
         /* Floating CTA Button */
         .floating-cta {
             position: fixed;
@@ -1036,6 +1115,66 @@
         // ============================================
         
         /**
+         * Create savings calculator component
+         */
+        function createSavingsCalculator() {
+            const container = document.createElement('div');
+            container.className = 'savings-calculator';
+            container.innerHTML = `
+                <h4>💰 See Your Potential Savings</h4>
+                <div class="calculator-form">
+                    <div class="calculator-row">
+                        <label>Your Age</label>
+                        <input type="number" id="calc-age" placeholder="e.g. 25" min="18" max="100">
+                    </div>
+                    <div class="calculator-row">
+                        <label>Annual Cost of Glasses/Contacts ($)</label>
+                        <input type="number" id="calc-cost" placeholder="e.g. 860" min="0">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateSavings(this)">Calculate My Savings</button>
+                </div>
+                <div class="savings-result" id="calc-result">
+                    <p>By age 65, your estimated spending on eyewear would be:</p>
+                    <div class="savings-number" id="total-savings">$0</div>
+                    <p style="font-size: 13px; color: #8e8ea0;">That's enough to pay for vision correction several times over!</p>
+                    <button class="quick-action-btn primary" style="margin-top: 12px; width: 100%;" onclick="openScheduleModal()">
+                        📅 Schedule Consultation to Save
+                    </button>
+                </div>
+            `;
+            return container;
+        }
+
+        /**
+         * Calculate savings logic
+         */
+        window.calculateSavings = function(btn) {
+            const ageInput = document.getElementById('calc-age');
+            const costInput = document.getElementById('calc-cost');
+            const resultDiv = document.getElementById('calc-result');
+            const savingsText = document.getElementById('total-savings');
+            
+            const age = parseInt(ageInput.value);
+            const annualCost = parseInt(costInput.value);
+            
+            if (isNaN(age) || isNaN(annualCost)) {
+                alert('Please enter valid numbers for age and cost.');
+                return;
+            }
+            
+            // Logic: Years until 65 * annual cost
+            const yearsUntil65 = Math.max(0, 65 - age);
+            const total = yearsUntil65 * annualCost;
+            
+            savingsText.textContent = '$' + total.toLocaleString();
+            resultDiv.style.display = 'block';
+            btn.style.display = 'none';
+            
+            trackEvent('calculate_savings', { age, annualCost, total });
+            scrollToBottom(100);
+        };
+
+        /**
          * Create quick action buttons based on buying intent
          */
         function createQuickActions(buyingIntent) {
@@ -1198,6 +1337,12 @@
                 actionsWrapper.style.maxWidth = '800px';
                 actionsWrapper.style.margin = '0 auto';
                 actionsWrapper.style.padding = '0 20px 0 74px'; // Align with message text (after avatar)
+                
+                // Show savings calculator if context detected
+                if (metadata.showSavingsCalculator) {
+                    actionsWrapper.appendChild(createSavingsCalculator());
+                }
+                
                 actionsWrapper.appendChild(quickActions);
                 wrapper.appendChild(actionsWrapper);
                 
@@ -1303,6 +1448,36 @@
                                 } else if (data.type === 'error') {
                                     messageText.textContent = data.content;
                                     fullResponse = data.content;
+                                } else if (data.type === 'done') {
+                                    // Handle metadata from done message
+                                    if (data.buyingIntent) {
+                                        lastBuyingIntent = data.buyingIntent;
+                                        trackEvent('buying_intent', data.buyingIntent);
+                                    }
+                                    
+                                    // Remove streaming cursor and render markdown
+                                    messageText.classList.remove('streaming');
+                                    messageText.innerHTML = renderMarkdown(fullResponse);
+                                    
+                                    // Add specific components like quick actions or calculator
+                                    const actionsWrapper = document.createElement('div');
+                                    actionsWrapper.style.maxWidth = '800px';
+                                    actionsWrapper.style.margin = '0 auto';
+                                    actionsWrapper.style.padding = '0 20px 0 74px';
+                                    
+                                    if (data.showSavingsCalculator) {
+                                        actionsWrapper.appendChild(createSavingsCalculator());
+                                    }
+                                    
+                                    const quickActions = createQuickActions(lastBuyingIntent);
+                                    actionsWrapper.appendChild(quickActions);
+                                    wrapper.appendChild(actionsWrapper);
+                                    
+                                    // Scroll to bottom after rendering everything
+                                    scrollToBottom(150);
+                                    
+                                    // Update CTA highlight
+                                    highlightCTA(lastBuyingIntent);
                                 }
                             } catch (e) {
                                 // Ignore parse errors for incomplete chunks
@@ -1311,22 +1486,6 @@
                     }
                 }
 
-                // Remove streaming cursor and render markdown
-                messageText.classList.remove('streaming');
-                messageText.innerHTML = renderMarkdown(fullResponse);
-                
-                // Add quick actions after streaming completes
-                const quickActions = createQuickActions(lastBuyingIntent);
-                const actionsWrapper = document.createElement('div');
-                actionsWrapper.style.maxWidth = '800px';
-                actionsWrapper.style.margin = '0 auto';
-                actionsWrapper.style.padding = '0 20px 0 74px';
-                actionsWrapper.appendChild(quickActions);
-                wrapper.appendChild(actionsWrapper);
-                
-                // Scroll to bottom after markdown and quick actions are rendered
-                scrollToBottom(150);
-                
                 conversationHistory.push({ role: 'assistant', content: fullResponse });
                 if (conversationHistory.length > 10) {
                     conversationHistory = conversationHistory.slice(-10);

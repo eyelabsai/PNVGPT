@@ -167,7 +167,8 @@ app.post('/ask', async (req, res) => {
         usedFallback: result.usedFallback || false,
         timestamp: Date.now(),
         debugInfo: result.debugInfo || null, // Include similarity scores and chunk details
-        buyingIntent: result.buyingIntent || null // Include buying intent for frontend CTAs
+        buyingIntent: result.buyingIntent || null, // Include buying intent for frontend CTAs
+        showSavingsCalculator: result.showSavingsCalculator || false // Include flag for savings calculator UI
       }
     });
 

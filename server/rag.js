@@ -32,10 +32,30 @@ const BUYING_SIGNALS = [
   'ready', 'schedule', 'book', 'appointment', 'consultation',
   'how do i get started', 'next step', 'sign up', 'qualify',
   'interested', 'want to do this', 'how soon', 'available',
-  'cost', 'price', 'financing', 'payment', 'afford',
+  'cost', 'price', 'financing', 'payment', 'afford', 'expensive',
   'candidate', 'good candidate', 'am i eligible',
-  'where are you', 'location', 'address', 'directions'
+  'where are you', 'location', 'address', 'directions',
+  'savings', 'save money', 'how much save'
 ];
+
+/**
+ * Detect if we should show the savings calculator nudge
+ */
+function detectSavingsContext(query, answer) {
+  const lowerQuery = query.toLowerCase();
+  const lowerAnswer = answer.toLowerCase();
+  
+  // Keywords that indicate cost concerns or hesitation
+  const costKeywords = ['cost', 'price', 'expensive', 'afford', 'financing', 'pay', 'money', 'investment'];
+  const hesitationKeywords = ['hesitant', 'unsure', 'nervous', 'worried', 'not sure', 'think about it', 'maybe later'];
+  
+  const hasCostQuery = costKeywords.some(kw => lowerQuery.includes(kw));
+  const hasHesitationQuery = hesitationKeywords.some(kw => lowerQuery.includes(kw));
+  const isLasikQuery = lowerQuery.includes('lasik') || lowerQuery.includes('vision correction') || lowerQuery.includes('surgery');
+  
+  // Only trigger if it's about LASIK/surgery AND they mention cost or hesitation
+  return isLasikQuery && (hasCostQuery || hasHesitationQuery);
+}
 
 const PROCEDURE_KEYWORDS = {
   lasik: ['lasik', 'laser eye surgery', 'laser vision'],
@@ -749,6 +769,9 @@ async function generateAnswer(question, conversationHistory = []) {
     // Generate answer with conversation context
     const result = await generateAnswerFromChunks(question, chunks, conversationHistory);
 
+    // Detect if we should show the savings calculator nudge
+    const showSavingsCalculator = detectSavingsContext(question, result.answer);
+
     // Calculate response time
     const responseTime = Date.now() - startTime;
 
@@ -756,7 +779,8 @@ async function generateAnswer(question, conversationHistory = []) {
       ...result,
       responseTime: responseTime,
       debugInfo: debugInfo, // Include similarity scores and chunk details
-      buyingIntent: buyingIntent // Include buying intent for frontend CTAs
+      buyingIntent: buyingIntent, // Include buying intent for frontend CTAs
+      showSavingsCalculator: showSavingsCalculator
     };
   } catch (error) {
     console.error('❌ RAG pipeline error:', error.message);
@@ -934,9 +958,11 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     });
 
     // Yield each chunk as it arrives
+    let fullAnswer = '';
     for await (const chunk of stream) {
       const content = chunk.choices[0]?.delta?.content;
       if (content) {
+        fullAnswer += content;
         yield { type: 'content', content: content };
       }
     }
@@ -945,7 +971,9 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     yield { 
       type: 'done', 
       chunks: chunks.length,
-      responseTime: Date.now() - startTime 
+      responseTime: Date.now() - startTime,
+      buyingIntent: detectBuyingIntent(question),
+      showSavingsCalculator: detectSavingsContext(question, fullAnswer)
     };
 
   } catch (error) {
