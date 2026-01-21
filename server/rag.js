@@ -815,8 +815,31 @@ async function* generateAnswerStream(question, conversationHistory = []) {
       return;
     }
 
+    // Check if it's an affirmative response (yes, sure, ok) - give scheduling next steps
+    if (isAffirmative(question)) {
+      const schedulingResponse = getSchedulingResponse();
+      yield { type: 'content', content: schedulingResponse };
+      yield { type: 'done', responseTime: Date.now() - startTime, isAffirmative: true };
+      return;
+    }
+
+    // Check if it's an objection (no, not sure, scared, too expensive) - address concerns
+    if (isObjection(question)) {
+      const objectionResponse = getObjectionResponse(question);
+      yield { type: 'content', content: objectionResponse };
+      yield { type: 'done', responseTime: Date.now() - startTime, isObjection: true };
+      return;
+    }
+
     // Check if it's a statement - use conversational mode
-    if (isStatement(question)) {
+    // But first check for emotional/financial concerns that should use RAG
+    const lowerQuestion = question.toLowerCase();
+    const isEmotionalConcern = lowerQuestion.includes('nervous') || lowerQuestion.includes('worried') || 
+                               lowerQuestion.includes('scared') || lowerQuestion.includes('afraid');
+    const isFinancialConcern = lowerQuestion.includes('expensive') || lowerQuestion.includes('too much') || 
+                               lowerQuestion.includes('afford');
+    
+    if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern) {
       const conversationalResponse = await handleConversationalMode(question, conversationHistory);
       yield { type: 'content', content: conversationalResponse };
       yield { type: 'done', responseTime: Date.now() - startTime };
