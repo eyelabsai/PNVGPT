@@ -175,6 +175,25 @@
             font-weight: bold;
         }
 
+        /* Consultation link styling */
+        .message-text .consultation-link {
+            color: #19c37d;
+            text-decoration: underline;
+            text-decoration-color: rgba(25, 195, 125, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .message-text .consultation-link:hover {
+            color: #1a9f6b;
+            text-decoration-color: #1a9f6b;
+            text-decoration-thickness: 2px;
+        }
+
+        .message-text .consultation-link strong {
+            color: inherit;
+        }
+
         .metadata {
             font-size: 12px;
             color: #8e8ea0;
@@ -867,6 +886,13 @@
             
             // Join and clean up
             html = result.join(' ');
+            
+            // Make "free consultation" clickable (case insensitive)
+            // Handle both plain text and text inside <strong> tags
+            // First handle cases where it's already bold: <strong>free consultation</strong>
+            html = html.replace(/<strong>(free consultation)<\/strong>/gi, '<a href="#" class="consultation-link" onclick="event.preventDefault(); openScheduleModal(); trackEvent(\'consultation_link_click\'); return false;"><strong>$1</strong></a>');
+            // Then handle plain text cases (avoid double-wrapping)
+            html = html.replace(/(?<!<a[^>]*>)(?<!<strong>)(free consultation)(?!<\/strong>)(?![^<]*<\/a>)/gi, '<a href="#" class="consultation-link" onclick="event.preventDefault(); openScheduleModal(); trackEvent(\'consultation_link_click\'); return false;">$1</a>');
             
             // Clean up empty paragraphs and extra spaces
             html = html.replace(/<p>\s*<\/p>/g, '');
