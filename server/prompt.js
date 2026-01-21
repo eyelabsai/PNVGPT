@@ -7,7 +7,7 @@
 
 require('dotenv').config();
 
-const CLINIC_PHONE = process.env.CLINIC_PHONE || 'XXX-XXX-XXXX';
+const CLINIC_PHONE = process.env.CLINIC_PHONE || '(210) 585-2020';
 const CLINIC_NAME = process.env.CLINIC_NAME || 'our clinic';
 
 /**
