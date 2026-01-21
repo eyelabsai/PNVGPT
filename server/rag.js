@@ -10,7 +10,7 @@
 const { OpenAI } = require('openai');
 // Use Supabase vector store if configured, otherwise fall back to local
 const { querySimilar, getCount, healthCheck: vectorHealthCheck } = require('./vectorstore-supabase');
-const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isAffirmative, getSchedulingResponse, isStatement, getConversationalPrompt } = require('./prompt');
+const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isAffirmative, getSchedulingResponse, isObjection, getObjectionResponse, isStatement, getConversationalPrompt } = require('./prompt');
 require('dotenv').config();
 
 // Initialize OpenAI client
@@ -667,6 +667,26 @@ async function generateAnswer(question, conversationHistory = []) {
           signals: ['affirmative_response'],
           proceduresMentioned: [],
           intentScore: 5 // Highest intent!
+        }
+      };
+    }
+
+    // Check if it's an objection (no, not sure, scared, too expensive)
+    // This is where we employ counseling strategies to address concerns
+    if (isObjection(question)) {
+      const objectionResponse = getObjectionResponse(question);
+      return {
+        answer: objectionResponse,
+        chunks: [],
+        usedFallback: false,
+        isObjection: true,
+        responseTime: Date.now() - startTime,
+        buyingIntent: {
+          hasBuyingIntent: true, // They're still engaged!
+          isHighIntent: false,
+          signals: ['objection_response'],
+          proceduresMentioned: [],
+          intentScore: 2 // Medium intent - they have concerns but are still talking
         }
       };
     }

@@ -166,6 +166,73 @@ Which works better for you?`;
 }
 
 /**
+ * Detects if a query is an objection/negative response (no, not sure, etc.)
+ * These typically indicate concerns about cost, fear, or timing
+ * @param {string} query - User's query
+ * @returns {boolean} True if it's an objection
+ */
+function isObjection(query) {
+  const lowerQuery = query.toLowerCase().trim();
+  const objections = [
+    'no', 'nope', 'nah', 'not really', 'not sure', 'not yet',
+    'maybe', 'maybe later', 'i\'ll think about it', 'let me think',
+    'i don\'t know', 'idk', 'i\'m not sure', 'not right now',
+    'can\'t afford', 'too expensive', 'too much', 'costs too much',
+    'scared', 'nervous', 'afraid', 'worried', 'anxious',
+    'not ready', 'need to think'
+  ];
+  
+  return objections.some(obj => lowerQuery === obj || lowerQuery.startsWith(obj + ' ') || lowerQuery.startsWith(obj + '.') || lowerQuery.startsWith(obj + ','));
+}
+
+/**
+ * Gets the objection handling response - gently probes for the real concern
+ * @param {string} query - The user's objection
+ * @returns {string} Empathetic response that addresses concerns
+ */
+function getObjectionResponse(query) {
+  const lowerQuery = query.toLowerCase();
+  
+  // Check if they explicitly mentioned cost concerns
+  const isCostConcern = lowerQuery.includes('afford') || lowerQuery.includes('expensive') || 
+                        lowerQuery.includes('cost') || lowerQuery.includes('too much') ||
+                        lowerQuery.includes('money') || lowerQuery.includes('price');
+  
+  // Check if they explicitly mentioned fear/nervousness
+  const isFearConcern = lowerQuery.includes('scared') || lowerQuery.includes('nervous') || 
+                        lowerQuery.includes('afraid') || lowerQuery.includes('worried') ||
+                        lowerQuery.includes('anxious') || lowerQuery.includes('fear');
+  
+  if (isCostConcern) {
+    return `I completely understand - a few thousand dollars is a big decision! But let me share something that might help:
+
+If you're spending around $180 on contacts every 90 days plus $500/year on glasses, that's over **$17,000 over 20 years**. Vision correction typically pays for itself in just a few years.
+
+Plus, we offer **financing options** starting around $150/month, and you can use **HSA/FSA funds**. The consultation is completely free with no obligation - would you like to at least find out what your options are?`;
+  }
+  
+  if (isFearConcern) {
+    return `Those feelings are completely normal! Almost everyone feels nervous when thinking about someone working on their eyes. But I want to reassure you:
+
+• The procedures are **incredibly safe** - our surgeons have performed thousands of them
+• You'll be **extremely comfortable** the whole time with relaxing medication
+• Most procedures are **over in under 10 minutes** - people often say it was done before they realized it started!
+• Many of our **staff have had the procedures themselves**, so we truly understand
+
+The consultation is free and no-pressure. It might help just to come in, meet the team, and see the facility. Would that help ease your mind?`;
+  }
+  
+  // General objection - probe for the reason
+  return `That's completely okay! There's no pressure at all. I'm curious though - is there something specific holding you back?
+
+• Feeling a bit **nervous** about the procedure?
+• Wondering about the **cost** or payment options?
+• Just need **more time** to think it over?
+
+Whatever it is, I'm here to help address any concerns. What's on your mind?`;
+}
+
+/**
  * Detects if a query is a statement (not a question)
  * Statements should get conversational guidance, not RAG answers
  * @param {string} query - User's query
@@ -314,6 +381,8 @@ module.exports = {
   getGreetingResponse,
   isAffirmative,
   getSchedulingResponse,
+  isObjection,
+  getObjectionResponse,
   isStatement,
   getConversationalPrompt,
   CLINIC_PHONE,
