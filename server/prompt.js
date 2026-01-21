@@ -397,6 +397,48 @@ ${!isFearConcern && !isFinancialConcern ? `Examples:
 Keep responses warm, empathetic, and encouraging (3-5 sentences for fear/financial concerns, 2-3 for others).`;
 }
 
+/**
+ * Detects if a query is asking about reading glasses/readers
+ * @param {string} query - User's query
+ * @returns {boolean} True if it's about reading glasses
+ */
+function isReaderQuestion(query) {
+  const lowerQuery = query.toLowerCase();
+  const readerKeywords = [
+    'reading glasses', 'readers', 'reading glasses after', 'need reading glasses',
+    'avoid reading glasses', 'reading vision', 'close up vision', 'near vision',
+    'reading after', 'read after', 'small print', 'close reading'
+  ];
+  
+  return readerKeywords.some(keyword => lowerQuery.includes(keyword));
+}
+
+/**
+ * Checks if age is mentioned in the query
+ * @param {string} query - User's query
+ * @returns {boolean} True if age is mentioned
+ */
+function hasAgeMentioned(query) {
+  const lowerQuery = query.toLowerCase();
+  // Check for patterns like "I'm 45", "I am 42", "age 50", "45 years old", etc.
+  const agePatterns = [
+    /\b(i'?m|i am|im)\s+(\d{2,3})\b/i,
+    /\bage\s+(\d{2,3})\b/i,
+    /\b(\d{2,3})\s+(years?\s+old|yrs?\s+old)\b/i,
+    /\b(\d{2,3})\s+years?\b/i
+  ];
+  
+  return agePatterns.some(pattern => pattern.test(query));
+}
+
+/**
+ * Gets the age-request response for reader questions
+ * @returns {string} Response asking for age
+ */
+function getAgeRequestResponse() {
+  return `That's a great question! To give you the most accurate answer about reading glasses and what options might work best for you, can you tell me how old you are? The strategies we use can vary depending on your age.`;
+}
+
 module.exports = {
   generatePrompt,
   getSystemMessage,
@@ -410,6 +452,9 @@ module.exports = {
   getObjectionResponse,
   isStatement,
   getConversationalPrompt,
+  isReaderQuestion,
+  hasAgeMentioned,
+  getAgeRequestResponse,
   CLINIC_PHONE,
   CLINIC_NAME
 };

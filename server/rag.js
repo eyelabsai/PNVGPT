@@ -10,7 +10,7 @@
 const { OpenAI } = require('openai');
 // Use Supabase vector store if configured, otherwise fall back to local
 const { querySimilar, getCount, healthCheck: vectorHealthCheck } = require('./vectorstore-supabase');
-const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isAffirmative, getSchedulingResponse, isObjection, getObjectionResponse, isStatement, getConversationalPrompt } = require('./prompt');
+const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isAffirmative, getSchedulingResponse, isObjection, getObjectionResponse, isStatement, getConversationalPrompt, isReaderQuestion, hasAgeMentioned, getAgeRequestResponse } = require('./prompt');
 require('dotenv').config();
 
 // Initialize OpenAI client
@@ -712,6 +712,19 @@ async function generateAnswer(question, conversationHistory = []) {
       };
     }
 
+    // MANDATORY: Check if it's a reader question - MUST ask for age first if not provided
+    if (isReaderQuestion(question) && !hasAgeMentioned(question)) {
+      const ageRequestResponse = getAgeRequestResponse();
+      return {
+        answer: ageRequestResponse,
+        chunks: [],
+        usedFallback: false,
+        requiresAge: true,
+        responseTime: Date.now() - startTime,
+        buyingIntent: detectBuyingIntent(question)
+      };
+    }
+
     // Check if it's an affirmative response (yes, sure, ok) - likely responding to scheduling question
     // This is a HIGH INTENT signal - give them clear scheduling next steps!
     if (isAffirmative(question)) {
@@ -883,6 +896,14 @@ async function* generateAnswerStream(question, conversationHistory = []) {
       const greetingResponse = getGreetingResponse(question);
       yield { type: 'content', content: greetingResponse };
       yield { type: 'done', responseTime: Date.now() - startTime };
+      return;
+    }
+
+    // MANDATORY: Check if it's a reader question - MUST ask for age first if not provided
+    if (isReaderQuestion(question) && !hasAgeMentioned(question)) {
+      const ageRequestResponse = getAgeRequestResponse();
+      yield { type: 'content', content: ageRequestResponse };
+      yield { type: 'done', responseTime: Date.now() - startTime, requiresAge: true };
       return;
     }
 
