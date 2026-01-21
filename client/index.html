@@ -835,7 +835,7 @@
     <!-- Floating CTA Buttons -->
     <div class="floating-cta" id="floatingCTA">
         <button class="cta-primary" id="scheduleCTA" onclick="openScheduleModal()">
-            📅 Schedule Free Consultation
+            📅 Schedule Consultation
         </button>
         <a href="tel:+12105852020" class="cta-secondary" onclick="trackEvent('cta_call')">
             📞 Call (210) 585-2020
@@ -845,7 +845,7 @@
     <!-- Lead Capture Modal -->
     <div class="modal-overlay" id="scheduleModal">
         <div class="modal-content">
-            <h3 class="modal-title">📅 Schedule Your Free Consultation</h3>
+            <h3 class="modal-title">📅 Schedule Your Consultation</h3>
             <p class="modal-subtitle">We'll reach out within 24 hours to find a time that works for you.</p>
             
             <form class="modal-form" id="leadForm" onsubmit="submitLead(event)">
@@ -983,12 +983,12 @@
             // Join and clean up
             html = result.join(' ');
             
-            // Make "free consultation" clickable (case insensitive)
+            // Make "consultation" clickable (case insensitive)
             // Handle both plain text and text inside <strong> tags
-            // First handle cases where it's already bold: <strong>free consultation</strong>
-            html = html.replace(/<strong>(free consultation)<\/strong>/gi, '<a href="#" class="consultation-link" onclick="event.preventDefault(); openScheduleModal(); trackEvent(\'consultation_link_click\'); return false;"><strong>$1</strong></a>');
+            // First handle cases where it's already bold: <strong>consultation</strong>
+            html = html.replace(/<strong>(consultation)<\/strong>/gi, '<a href="#" class="consultation-link" onclick="event.preventDefault(); openScheduleModal(); trackEvent(\'consultation_link_click\'); return false;"><strong>$1</strong></a>');
             // Then handle plain text cases (avoid double-wrapping)
-            html = html.replace(/(?<!<a[^>]*>)(?<!<strong>)(free consultation)(?!<\/strong>)(?![^<]*<\/a>)/gi, '<a href="#" class="consultation-link" onclick="event.preventDefault(); openScheduleModal(); trackEvent(\'consultation_link_click\'); return false;">$1</a>');
+            html = html.replace(/(?<!<a[^>]*>)(?<!<strong>)(consultation)(?!<\/strong>)(?![^<]*<\/a>)/gi, '<a href="#" class="consultation-link" onclick="event.preventDefault(); openScheduleModal(); trackEvent(\'consultation_link_click\'); return false;">$1</a>');
             
             // Clean up empty paragraphs and extra spaces
             html = html.replace(/<p>\s*<\/p>/g, '');
@@ -1105,7 +1105,7 @@
                         <div style="text-align:center;padding:20px;">
                             <div style="font-size:48px;margin-bottom:16px;">✅</div>
                             <h3 style="color:#19c37d;margin-bottom:8px;">Thank You!</h3>
-                            <p style="color:#8e8ea0;">We'll reach out within 24 hours to schedule your free consultation.</p>
+                            <p style="color:#8e8ea0;">We'll reach out within 24 hours to schedule your consultation.</p>
                         </div>
                     `;
                     
@@ -1202,7 +1202,7 @@
             if (messageCount >= 2 || (buyingIntent && buyingIntent.hasBuyingIntent)) {
                 const scheduleBtn = document.createElement('button');
                 scheduleBtn.className = 'quick-action-btn primary';
-                scheduleBtn.textContent = '📅 Schedule Free Consultation';
+                scheduleBtn.textContent = '📅 Schedule Consultation';
                 scheduleBtn.onclick = () => {
                     trackEvent('quick_action_schedule');
                     openScheduleModal();

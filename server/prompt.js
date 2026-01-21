@@ -69,21 +69,22 @@ SAFETY RULES (CRITICAL):
      • **SMILE** - Single laser procedure, less invasive
      • **EVO ICL** - Implantable lens, reversible if needed
      
-     The best way to know which is right for you is a free consultation!"
+     The best way to know which is right for you is a consultation!"
 
 9. Length: Aim for 3-5 sentences unless the question needs more detail. Be thorough but conversational.
 
 10. CONVERSION & NEXT STEPS:
    - After answering substantive questions about procedures, candidacy, or costs, gently suggest a consultation
-   - Use natural phrases like: "Would you like to schedule a free consultation to see if you're a candidate?"
-   - If they ask about candidacy or pricing, emphasize the free consultation: "The best way to get exact answers for your situation is a free consultation with our specialists."
-   - Make scheduling feel easy and low-pressure: "It's free, takes about an hour, and there's no obligation."
+   - Use natural phrases like: "Would you like to schedule a consultation to see if you're a candidate?"
+   - If they ask about candidacy or pricing, emphasize the consultation: "The best way to get exact answers for your situation is a consultation with our specialists."
+   - Make scheduling feel easy and low-pressure: "It takes a little over an hour, and there's no obligation."
    - Include the phone number when appropriate: "You can call us at ${CLINIC_PHONE} or schedule online."
    - SAVINGS CALCULATOR NUDGE:
      * If the user is asking about LASIK cost, expensive procedures, or shows hesitation about the investment, you can say:
        "By the way, if you share your age and how often you typically buy new glasses or contacts, I can help you calculate how much you could save over the long run with vision correction!"
 
 11. GROUND RULES & SPECIFIC KNOWLEDGE (CRITICAL):
+    - **NO "FREE"**: NEVER call the consultation "free." Just call it a "consultation."
     - **POSITIVE LANGUAGE**: NEVER use the word "reduce" when talking about the need for glasses or contacts. Be more positive! Instead of saying "it reduces your need," say things like "it works great to help you stay out of glasses" or "it's an incredible way to achieve freedom from readers." 
     - **LASIK/SMILE/ICL/PRK HAVE NO LENSES**: You MUST explicitly state that **LASIK, SMILE, and PRK do NOT involve lenses or implants.** They only reshape the surface of your eye with a laser. **ICL** is an implant, but it is NOT a monofocal or multifocal lens.
     - **NO MONO/MULTI-FOCALS IN LASIK/SMILE/ICL**: NEVER mention "monofocal" or "multifocal" lenses when discussing LASIK, SMILE, ICL, or PRK. These terms ONLY apply to **Cataract Surgery** and **Lens Replacement.**
@@ -95,6 +96,8 @@ SAFETY RULES (CRITICAL):
     - **LENS REPLACEMENT NAMING**: Never call the procedure "RLE" in isolation. You must call it **"Lens Replacement, sometimes called Refractive Lens Exchange (RLE)."**
     - **NO LENSES WITHOUT PROCEDURES**: NEVER mention "Multifocal lenses" or "IOLs" in isolation. You MUST first introduce the procedure they belong to: **Lens Replacement** or **Cataract Surgery**. 
     - **AGE 50-55+ GUIDANCE**: For patients in their 50s asking about LASIK, emphasize that while LASIK is an option, it doesn't solve the internal aging of the lens. Introduce **Lens Replacement** as the more permanent solution for this age group.
+    - **LENS PLACEMENT TERMINOLOGY**: NEVER say a lens is "inside the eye" for ICL or cataracts. ALWAYS say the lens is **"under the surface of the eye."**
+    - **INSURANCE & ELECTIVE**: Whenever mentioning that something is not covered by insurance, "blame" the insurance by saying **"they consider it elective and do not cover it."**
 
 User Question:
 ${userQuestion}
@@ -172,11 +175,11 @@ function isAffirmative(query) {
  * @returns {string} Scheduling call-to-action response
  */
 function getSchedulingResponse() {
-  return `Perfect! Let's get you scheduled for a free consultation. You have two easy options:
+  return `Perfect! Let's get you scheduled for a consultation. You have two easy options:
 
 📞 **Call us directly**: ${CLINIC_PHONE} - We can usually get you in within a week!
 
-📅 **Request a callback**: Click the "Schedule Free Consultation" button and we'll reach out within 24 hours to find a time that works for you.
+📅 **Request a callback**: Click the "Schedule Consultation" button and we'll reach out within 24 hours to find a time that works for you.
 
 Which works better for you?`;
 }
@@ -224,7 +227,7 @@ function getObjectionResponse(query) {
 
 If you're spending around $180 on contacts every 90 days plus $500/year on glasses, that's over **$17,000 over 20 years**. Vision correction typically pays for itself in just a few years.
 
-Plus, we offer **financing options** starting around $150/month, and you can use **HSA/FSA funds**. The consultation is completely free with no obligation - would you like to at least find out what your options are?`;
+Plus, we offer **financing options** starting around $150/month, and you can use **HSA/FSA funds**. The consultation has no obligation - would you like to at least find out what your options are?`;
   }
   
   if (isFearConcern) {
@@ -235,7 +238,7 @@ Plus, we offer **financing options** starting around $150/month, and you can use
 • Most procedures are **over in under 10 minutes** - people often say it was done before they realized it started!
 • Many of our **staff have had the procedures themselves**, so we truly understand
 
-The consultation is free and no-pressure. It might help just to come in, meet the team, and see the facility. Would that help ease your mind?`;
+The consultation is no-pressure. It might help just to come in, meet the team, and see the facility. Would that help ease your mind?`;
   }
   
   // General objection - probe for the reason
