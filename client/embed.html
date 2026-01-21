@@ -1428,6 +1428,24 @@
 
             const { wrapper, messageText } = addStreamingMessage();
             let fullResponse = '';
+            let displayedLength = 0;
+            let typingInterval = null;
+            const TYPING_SPEED = 12; // milliseconds per character (lower = faster)
+
+            // Gradual reveal function for smoother typewriter effect
+            function revealText() {
+                if (displayedLength < fullResponse.length) {
+                    // Reveal 2-3 characters at a time for smoother effect
+                    const charsToReveal = Math.min(2, fullResponse.length - displayedLength);
+                    displayedLength += charsToReveal;
+                    const partialText = fullResponse.substring(0, displayedLength);
+                    messageText.innerHTML = renderMarkdown(partialText);
+                    scrollToBottom();
+                }
+            }
+
+            // Start the typing interval
+            typingInterval = setInterval(revealText, TYPING_SPEED);
 
             try {
                 const response = await fetch(STREAM_URL, {
@@ -1458,44 +1476,56 @@
                                 const data = JSON.parse(line.slice(6));
                                 
                                 if (data.type === 'content') {
+                                    // Buffer the content - it will be revealed gradually by the interval
                                     fullResponse += data.content;
-                                    // Live markdown rendering while typing
-                                    messageText.innerHTML = renderMarkdown(fullResponse);
-                                    // Smooth scroll during streaming
-                                    scrollToBottom();
                                 } else if (data.type === 'error') {
+                                    clearInterval(typingInterval);
                                     messageText.textContent = data.content;
                                     fullResponse = data.content;
                                 } else if (data.type === 'done') {
+                                    // Stop the typing interval
+                                    clearInterval(typingInterval);
+                                    
                                     // Handle metadata from done message
                                     if (data.buyingIntent) {
                                         lastBuyingIntent = data.buyingIntent;
                                         trackEvent('buying_intent', data.buyingIntent);
                                     }
                                     
-                                    // Remove streaming cursor and render markdown
-                                    messageText.classList.remove('streaming');
-                                    messageText.innerHTML = renderMarkdown(fullResponse);
-                                    
-                                    // Add specific components like quick actions or calculator
-                                    const actionsWrapper = document.createElement('div');
-                                    actionsWrapper.style.maxWidth = '800px';
-                                    actionsWrapper.style.margin = '0 auto';
-                                    actionsWrapper.style.padding = '0 20px 0 74px';
-                                    
-                                    if (data.showSavingsCalculator) {
-                                        actionsWrapper.appendChild(createSavingsCalculator());
-                                    }
-                                    
-                                    const quickActions = createQuickActions(lastBuyingIntent);
-                                    actionsWrapper.appendChild(quickActions);
-                                    wrapper.appendChild(actionsWrapper);
-                                    
-                                    // Scroll to bottom after rendering everything
-                                    scrollToBottom(150);
-                                    
-                                    // Update CTA highlight
-                                    highlightCTA(lastBuyingIntent);
+                                    // Finish revealing any remaining text smoothly
+                                    const finishTyping = () => {
+                                        if (displayedLength < fullResponse.length) {
+                                            displayedLength = Math.min(displayedLength + 3, fullResponse.length);
+                                            messageText.innerHTML = renderMarkdown(fullResponse.substring(0, displayedLength));
+                                            scrollToBottom();
+                                            requestAnimationFrame(finishTyping);
+                                        } else {
+                                            // All text revealed - now finalize
+                                            messageText.classList.remove('streaming');
+                                            messageText.innerHTML = renderMarkdown(fullResponse);
+                                            
+                                            // Add specific components like quick actions or calculator
+                                            const actionsWrapper = document.createElement('div');
+                                            actionsWrapper.style.maxWidth = '800px';
+                                            actionsWrapper.style.margin = '0 auto';
+                                            actionsWrapper.style.padding = '0 20px 0 74px';
+                                            
+                                            if (data.showSavingsCalculator) {
+                                                actionsWrapper.appendChild(createSavingsCalculator());
+                                            }
+                                            
+                                            const quickActions = createQuickActions(lastBuyingIntent);
+                                            actionsWrapper.appendChild(quickActions);
+                                            wrapper.appendChild(actionsWrapper);
+                                            
+                                            // Scroll to bottom after rendering everything
+                                            scrollToBottom(150);
+                                            
+                                            // Update CTA highlight
+                                            highlightCTA(lastBuyingIntent);
+                                        }
+                                    };
+                                    finishTyping();
                                 }
                             } catch (e) {
                                 // Ignore parse errors for incomplete chunks
@@ -1511,6 +1541,7 @@
 
             } catch (error) {
                 console.error('Stream error:', error);
+                clearInterval(typingInterval); // Stop typing animation on error
                 messageText.classList.remove('streaming');
                 
                 // If streaming fails (500 or other server errors), fall back to non-streaming endpoint
@@ -1535,6 +1566,7 @@
                 messageText.textContent = errorMsg;
                 conversationHistory.push({ role: 'assistant', content: errorMsg });
             } finally {
+                clearInterval(typingInterval); // Ensure interval is always cleared
                 questionInput.disabled = false;
                 askButton.disabled = !questionInput.value.trim();
                 questionInput.value = '';
