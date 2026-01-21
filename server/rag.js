@@ -10,7 +10,7 @@
 const { OpenAI } = require('openai');
 // Use Supabase vector store if configured, otherwise fall back to local
 const { querySimilar, getCount, healthCheck: vectorHealthCheck } = require('./vectorstore-supabase');
-const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isStatement, getConversationalPrompt } = require('./prompt');
+const { generatePrompt, getFallbackResponse, hasRelevantInformation, isGreeting, getGreetingResponse, isAffirmative, getSchedulingResponse, isStatement, getConversationalPrompt } = require('./prompt');
 require('dotenv').config();
 
 // Initialize OpenAI client
@@ -648,6 +648,26 @@ async function generateAnswer(question, conversationHistory = []) {
         isGreeting: true,
         responseTime: Date.now() - startTime,
         buyingIntent: detectBuyingIntent(question)
+      };
+    }
+
+    // Check if it's an affirmative response (yes, sure, ok) - likely responding to scheduling question
+    // This is a HIGH INTENT signal - give them clear scheduling next steps!
+    if (isAffirmative(question)) {
+      const schedulingResponse = getSchedulingResponse();
+      return {
+        answer: schedulingResponse,
+        chunks: [],
+        usedFallback: false,
+        isAffirmative: true,
+        responseTime: Date.now() - startTime,
+        buyingIntent: {
+          hasBuyingIntent: true,
+          isHighIntent: true,
+          signals: ['affirmative_response'],
+          proceduresMentioned: [],
+          intentScore: 5 // Highest intent!
+        }
       };
     }
 

@@ -137,6 +137,44 @@
             font-style: italic;
         }
 
+        /* Markdown rendered content */
+        .message-text p {
+            margin: 0 0 12px 0;
+        }
+
+        .message-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-text strong {
+            color: #19c37d;
+            font-weight: 600;
+        }
+
+        .message-text em {
+            font-style: italic;
+        }
+
+        .message-text ul {
+            margin: 12px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .message-text li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 8px;
+        }
+
+        .message-text li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: #19c37d;
+            font-weight: bold;
+        }
+
         .metadata {
             font-size: 12px;
             color: #8e8ea0;
@@ -743,6 +781,50 @@
         let lastBuyingIntent = null;
 
         // ============================================
+        // MARKDOWN RENDERING
+        // ============================================
+        
+        /**
+         * Simple markdown to HTML converter
+         * Handles: **bold**, *italic*, bullet points, line breaks
+         */
+        function renderMarkdown(text) {
+            if (!text) return '';
+            
+            // Escape HTML first to prevent XSS
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            
+            // Convert markdown
+            // Bold: **text** or __text__
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+            
+            // Italic: *text* or _text_ (but not inside bold)
+            html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+            html = html.replace(/(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/g, '<em>$1</em>');
+            
+            // Bullet points: • or - at start of line
+            html = html.replace(/^[•\-]\s+(.+)$/gm, '<li>$1</li>');
+            
+            // Wrap consecutive <li> in <ul>
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+            
+            // Line breaks: double newline = paragraph, single = <br>
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = html.replace(/\n/g, '<br>');
+            
+            // Wrap in paragraph if not already
+            if (!html.startsWith('<')) {
+                html = '<p>' + html + '</p>';
+            }
+            
+            return html;
+        }
+
+        // ============================================
         // ANALYTICS & TRACKING
         // ============================================
         
@@ -957,7 +1039,13 @@
             
             const messageText = document.createElement('div');
             messageText.className = `message-text${isLoading ? ' loading' : ''}`;
-            messageText.textContent = text;
+            
+            // Render markdown for assistant messages, plain text for user messages
+            if (type === 'assistant' && !isLoading) {
+                messageText.innerHTML = renderMarkdown(text);
+            } else {
+                messageText.textContent = text;
+            }
             
             // Add suggestions if provided (for fallback responses)
             if (suggestions && suggestions.length > 0 && !isLoading) {
@@ -1148,8 +1236,9 @@
                     }
                 }
 
-                // Remove streaming cursor
+                // Remove streaming cursor and render markdown
                 messageText.classList.remove('streaming');
+                messageText.innerHTML = renderMarkdown(fullResponse);
                 
                 // Add quick actions after streaming completes
                 const quickActions = createQuickActions(lastBuyingIntent);

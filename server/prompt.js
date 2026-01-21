@@ -133,6 +133,39 @@ function isGreeting(query) {
 }
 
 /**
+ * Detects if a query is an affirmative response (yes, sure, ok, etc.)
+ * These typically follow a scheduling question and should trigger clear next steps
+ * @param {string} query - User's query
+ * @returns {boolean} True if it's an affirmative
+ */
+function isAffirmative(query) {
+  const lowerQuery = query.toLowerCase().trim();
+  const affirmatives = [
+    'yes', 'yeah', 'yep', 'yup', 'sure', 'ok', 'okay',
+    'definitely', 'absolutely', 'of course', 'please',
+    'i would', 'i\'d like', 'let\'s do it', 'sounds good',
+    'sign me up', 'i\'m in', 'let\'s go', 'book it',
+    'schedule', 'i want to schedule', 'i\'d like to schedule'
+  ];
+  
+  return affirmatives.some(aff => lowerQuery === aff || lowerQuery.startsWith(aff + ' ') || lowerQuery.startsWith(aff + '!') || lowerQuery.startsWith(aff + ','));
+}
+
+/**
+ * Gets the scheduling response when user says "yes" or similar
+ * @returns {string} Scheduling call-to-action response
+ */
+function getSchedulingResponse() {
+  return `Perfect! Let's get you scheduled for a free consultation. You have two easy options:
+
+📞 **Call us directly**: ${CLINIC_PHONE} - We can usually get you in within a week!
+
+📅 **Request a callback**: Click the "Schedule Free Consultation" button and we'll reach out within 24 hours to find a time that works for you.
+
+Which works better for you?`;
+}
+
+/**
  * Detects if a query is a statement (not a question)
  * Statements should get conversational guidance, not RAG answers
  * @param {string} query - User's query
@@ -279,6 +312,8 @@ module.exports = {
   getFallbackResponse,
   isGreeting,
   getGreetingResponse,
+  isAffirmative,
+  getSchedulingResponse,
   isStatement,
   getConversationalPrompt,
   CLINIC_PHONE,
