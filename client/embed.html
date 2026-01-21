@@ -1018,15 +1018,6 @@
             };
             actionsDiv.appendChild(callBtn);
             
-            // Show ask another question button
-            const askBtn = document.createElement('button');
-            askBtn.className = 'quick-action-btn';
-            askBtn.textContent = '💬 Ask Another Question';
-            askBtn.onclick = () => {
-                questionInput.focus();
-            };
-            actionsDiv.appendChild(askBtn);
-            
             return actionsDiv;
         }
 
