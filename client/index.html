@@ -781,6 +781,26 @@
         let lastBuyingIntent = null;
 
         // ============================================
+        // SCROLL HELPERS
+        // ============================================
+        
+        /**
+         * Scroll chat container to bottom smoothly
+         * @param {number} delay - Optional delay in ms to wait for DOM updates
+         */
+        function scrollToBottom(delay = 0) {
+            if (delay > 0) {
+                setTimeout(() => {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }, delay);
+            } else {
+                requestAnimationFrame(() => {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                });
+            }
+        }
+
+        // ============================================
         // MARKDOWN RENDERING
         // ============================================
         
@@ -1161,8 +1181,8 @@
             
             chatContainer.appendChild(wrapper);
             
-            // Scroll to bottom
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            // Scroll to bottom after DOM updates (including quick actions)
+            scrollToBottom(150);
             
             return wrapper;
         }
@@ -1252,7 +1272,8 @@
                                 if (data.type === 'content') {
                                     fullResponse += data.content;
                                     messageText.textContent = fullResponse;
-                                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                                    // Smooth scroll during streaming
+                                    scrollToBottom();
                                 } else if (data.type === 'error') {
                                     messageText.textContent = data.content;
                                     fullResponse = data.content;
@@ -1276,6 +1297,9 @@
                 actionsWrapper.style.padding = '0 20px 0 74px';
                 actionsWrapper.appendChild(quickActions);
                 wrapper.appendChild(actionsWrapper);
+                
+                // Scroll to bottom after markdown and quick actions are rendered
+                scrollToBottom(150);
                 
                 conversationHistory.push({ role: 'assistant', content: fullResponse });
                 if (conversationHistory.length > 10) {
