@@ -201,10 +201,22 @@
         }
 
         /* Typing cursor animation */
-        .message-text.streaming::after {
+        .message-text.streaming::after,
+        .message-text.streaming p:last-child::after {
             content: '▋';
             animation: blink 1s infinite;
             color: #19c37d;
+            margin-left: 2px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Prevent double cursor if there are paragraphs */
+        .message-text.streaming p:last-child::after {
+            display: inline-block;
+        }
+        .message-text.streaming:has(p)::after {
+            display: none;
         }
 
         @keyframes blink {
@@ -1442,7 +1454,8 @@
                                 
                                 if (data.type === 'content') {
                                     fullResponse += data.content;
-                                    messageText.textContent = fullResponse;
+                                    // Live markdown rendering while typing
+                                    messageText.innerHTML = renderMarkdown(fullResponse);
                                     // Smooth scroll during streaming
                                     scrollToBottom();
                                 } else if (data.type === 'error') {
