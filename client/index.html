@@ -1012,7 +1012,7 @@
          */
         async function trackEvent(eventName, data = {}) {
             try {
-                await fetch(baseURL + '/analytics/event', {
+                await fetch(baseURL + '/log-event', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 

@@ -25,9 +25,10 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts for the chat widget
-      styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
-      connectSrc: ["'self'", "http://localhost:3000", "https://pnvgpt.onrender.com"]
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"], // Allow jspdf from Cloudflare
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow fonts
+      fontSrc: ["'self'", "https://fonts.gstatic.com"], // Allow fonts
+      connectSrc: ["'self'", "http://localhost:3000", "https://pnvgpt.onrender.com", "https://refractivegpt.vercel.app"]
     }
   }
 })); // Security headers
@@ -348,7 +349,7 @@ app.post('/lead', async (req, res) => {
  * 
  * Body: { event, data }
  */
-app.post('/analytics/event', async (req, res) => {
+app.post('/log-event', async (req, res) => {
   try {
     const { event, data } = req.body;
     
