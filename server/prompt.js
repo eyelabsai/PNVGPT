@@ -123,10 +123,10 @@ function getFallbackResponse() {
 function isGreeting(query) {
   const lowerQuery = query.toLowerCase().trim();
   const greetings = [
-    'hi', 'hello', 'hey', 'howdy', 'greetings',
-    'good morning', 'good afternoon', 'good evening',
-    'how are you', 'what\'s up', 'whats up',
-    'thanks', 'thank you', 'bye', 'goodbye'
+    'hi', 'hello', 'hey', 'howdy', 'greetings', 'sup', 'yo', 'what\'s up', 'whats up',
+    'good morning', 'good afternoon', 'good evening', 'gm', 'gn',
+    'how are you', 'how\'s it going', 'hows it going', 'what\'s good', 'whats good',
+    'thanks', 'thank you', 'thx', 'ty', 'bye', 'goodbye', 'see ya', 'cya'
   ];
   
   return greetings.some(greeting => lowerQuery === greeting || lowerQuery.startsWith(greeting + ' ') || lowerQuery.startsWith(greeting + '!'));
@@ -300,15 +300,20 @@ function getGreetingResponse(query) {
   const lowerQuery = query.toLowerCase().trim();
   
   if (lowerQuery.includes('thank')) {
-    return "You're welcome! Is there anything else I can help you with?";
+    return "You're so welcome! Happy to help. Is there anything else you'd like to know?";
   }
   
-  if (lowerQuery.includes('bye') || lowerQuery.includes('goodbye')) {
-    return "Have a great day! Feel free to come back anytime if you have more questions.";
+  if (lowerQuery.includes('bye') || lowerQuery.includes('goodbye') || lowerQuery.includes('see ya') || lowerQuery.includes('cya')) {
+    return "Have an amazing day! Feel free to come back anytime if you have more questions. We're here to help! 😊";
+  }
+  
+  // Casual greetings (sup, yo, what's up)
+  if (lowerQuery === 'sup' || lowerQuery === 'yo' || lowerQuery.includes('what\'s up') || lowerQuery.includes('whats up') || lowerQuery.includes('what\'s good')) {
+    return "Hey there! 👋 I'm here to help answer any questions you have about vision correction procedures like LASIK, SMILE, ICL, or cataract surgery. What's on your mind?";
   }
   
   // Default friendly greeting
-  return "Hello! I'm here to answer your questions about refractive surgery procedures like LASIK, PRK, recovery, costs, and more. What would you like to know?";
+  return "Hey! 👋 Great to meet you! I'm here to help answer all your questions about vision correction procedures—whether you're curious about LASIK, SMILE, ICL, cataract surgery, recovery, costs, or anything else. What would you like to know?";
 }
 
 /**
