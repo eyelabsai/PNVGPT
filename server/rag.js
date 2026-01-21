@@ -45,16 +45,45 @@ function detectSavingsContext(query, answer) {
   const lowerQuery = query.toLowerCase();
   const lowerAnswer = answer.toLowerCase();
   
-  // Keywords that indicate cost concerns or hesitation
-  const costKeywords = ['cost', 'price', 'expensive', 'afford', 'financing', 'pay', 'money', 'investment'];
-  const hesitationKeywords = ['hesitant', 'unsure', 'nervous', 'worried', 'not sure', 'think about it', 'maybe later'];
+  // High confidence signals in the bot's own response
+  const botMentionsCalculation = lowerAnswer.includes('calculate') || 
+                                lowerAnswer.includes('how much you could save') || 
+                                lowerAnswer.includes('break even') ||
+                                lowerAnswer.includes('investment');
+
+  // Keywords that indicate cost concerns (including common typos and fragments)
+  const costKeywords = [
+    'cost', 'price', 'expen', 'afford', 'financ', 'pay', 
+    'money', 'invest', 'value', 'dollar', 'amount', 'cheap', 'cheep',
+    'payment', 'budget', 'saving', 'expensive'
+  ];
   
-  const hasCostQuery = costKeywords.some(kw => lowerQuery.includes(kw));
-  const hasHesitationQuery = hesitationKeywords.some(kw => lowerQuery.includes(kw));
-  const isLasikQuery = lowerQuery.includes('lasik') || lowerQuery.includes('vision correction') || lowerQuery.includes('surgery');
+  // Keywords that indicate hesitation
+  const hesitationKeywords = [
+    'hesitant', 'unsure', 'nervous', 'worried', 'not sure', 
+    'think about', 'maybe', 'scared', 'afraid', 'don\'t know', 'idk'
+  ];
   
-  // Only trigger if it's about LASIK/surgery AND they mention cost or hesitation
-  return isLasikQuery && (hasCostQuery || hasHesitationQuery);
+  // Check if query or answer mentions costs/savings
+  const hasCostContext = costKeywords.some(kw => lowerQuery.includes(kw) || lowerAnswer.includes(kw));
+  const hasHesitation = hesitationKeywords.some(kw => lowerQuery.includes(kw) || lowerAnswer.includes(kw));
+  const hasPriceValue = lowerAnswer.includes('$') || lowerAnswer.includes('dollars');
+  const mentionsSaving = lowerAnswer.includes('save') || lowerAnswer.includes('calculat') || 
+                         lowerAnswer.includes('break even') || lowerAnswer.includes('break-even');
+  
+  // Check if it's about surgery
+  const isSurgeryContext = lowerQuery.includes('lasik') || lowerQuery.includes('lasi') || 
+                           lowerQuery.includes('surgery') || lowerQuery.includes('icl') || 
+                           lowerQuery.includes('smile') || lowerQuery.includes('procedure') || 
+                           lowerQuery.includes('correction') || lowerAnswer.includes('lasik') || 
+                           lowerAnswer.includes('icl') || lowerAnswer.includes('surgery') ||
+                           lowerAnswer.includes('procedure');
+  
+  // ALWAYS trigger if the bot explicitly offered to calculate or mentions specific dollar amounts
+  if (botMentionsCalculation || (isSurgeryContext && hasPriceValue && mentionsSaving)) return true;
+
+  // Otherwise trigger if it's surgery-related AND (mentions cost/hesitation)
+  return isSurgeryContext && (hasCostContext || hasHesitation);
 }
 
 const PROCEDURE_KEYWORDS = {
