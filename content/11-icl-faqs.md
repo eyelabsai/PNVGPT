@@ -26,9 +26,17 @@ This is a digital rendering by Dr. Hirabayashi after his own ICL surgery of what
 
 Yes! One of the biggest advantages of ICLs is that they are completely reversible. The lens can be upgraded, removed, or replaced for any reason including if your prescription changes or if technology advances. That flexibility makes ICLs a safe long-term option while preserving future surgical possibilities. Because they don't change anything about your eye, you are more likely to be a candidate for whatever incredible technology is available for cataract surgery many decades later.
 
-## Will I need glasses after ICL surgery?
+## Will I need reading glasses after ICL surgery?
 
-Many and most patients achieve 20/20 or better distance vision without glasses after ICL surgery. However, as with any procedure, there may be natural reasons an eye cannot achieve 20/20 vision under all circumstances. These include age-related reading changes (presbyopia) where reading glasses may be needed in the mid 40s and beyond. This is not because of the ICL, but because of natural lens aging that affects near focus. One of the perks of ICLs is that this allows for more ways to stay out of reading glasses because the ICL allows for so much flexibility!
+Whether you'll need reading glasses after getting an ICL depends on your age and the vision strategy we choose. Currently, there is **NO multifocal ICL** available. The EVO ICL is designed primarily for distance vision correction.
+
+However, we can use a **blended vision strategy** (also known as monovision) where one eye is targeted for distance and the other for closer tasks. This allows many patients to stay out of reading glasses for most daily activities.
+
+It's important to keep in mind that as we age (typically in our 40s and beyond), the eye's natural lens loses flexibility, leading to presbyopia. While the ICL provides excellent distance vision, you may still need over-the-counter readers for very small print or prolonged close-up work unless a blended vision strategy is used.
+
+For patients whose primary goal is to eliminate reading glasses entirely, especially those over 45, we might also discuss **Refractive Lens Exchange (RLE)** as an alternative, which uses multifocal or extended-range lens technology that isn't available with ICLs.
+
+The best way to know which option is right for you is a free consultation!
 
 ## Are there age limits or prescription limits for ICLs?
 
