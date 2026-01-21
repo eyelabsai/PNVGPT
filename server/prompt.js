@@ -273,12 +273,16 @@ function isStatement(query) {
     /considering.*(lasik|prk|smile|icl|surgery|procedure)/i,
     /looking.*(into|at).*(lasik|prk|smile|icl|surgery|procedure)/i,
     /get rid.*(glasses|contacts)/i,
-    /no more.*(glasses|contacts)/i
+    /no more.*(glasses|contacts)/i,
+    // Exclude prescriptions/measurements (should trigger RAG)
+    /([-+]?[0-9](\.[0-9]+)?)/, // Numbers like -9, +3.5, 2.75
+    /minus|plus|diopter|astigmatism|cylinder|axis|cornea|thick|thin/i,
+    /prescription|myopia|hyperopia/i
   ];
   
-  // If it's about wanting procedures or getting rid of glasses/contacts, treat it as a question (trigger RAG)
+  // If it's about wanting procedures, getting rid of glasses, or sharing a prescription, treat it as a question (trigger RAG)
   if (procedureInterestPatterns.some(pattern => pattern.test(trimmed))) {
-    return false; // Not a statement - it's a question about procedures
+    return false; // Not a statement - it's a question or high-value context
   }
   
   const statementPatterns = [

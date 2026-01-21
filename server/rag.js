@@ -25,6 +25,7 @@ const COLLECTION_NAME = process.env.CHROMA_COLLECTION_NAME || 'faq_collection';
 const TOP_K_RESULTS = 5; // Increased from 3 to better find relevant content
 const SIMILARITY_THRESHOLD = 0.25; // Lowered from 0.3 to catch more relevant matches
 const COUNSELING_THRESHOLD = 0.20; // Lower threshold for counseling/emotional concerns
+const PRESCRIPTION_THRESHOLD = 0.12; // Even lower threshold for prescriptions/measurements (very short queries)
 
 // Buying intent signals for conversion tracking
 const BUYING_SIGNALS = [
@@ -347,9 +348,13 @@ async function retrieveRelevant(query, conversationHistory = []) {
         const isFinancialQuery = lowerQuery.includes('expensive') || lowerQuery.includes('too much') || 
                                  lowerQuery.includes('afford') || lowerQuery.includes('cost too much') ||
                                  lowerQuery.includes('responding to financial'); // Check for enhanced query keywords
+        const isPrescriptionQuery = lowerQuery.match(/([-+]?[0-9](\.[0-9]+)?)/) || 
+                                    lowerQuery.includes('astigmatism') || lowerQuery.includes('minus') || 
+                                    lowerQuery.includes('plus') || lowerQuery.includes('diopter') ||
+                                    lowerQuery.includes('prescription');
         const isCounselingQuery = isEmotionalQuery || isFinancialQuery;
         
-        console.log(`🔍 Query analysis: emotional=${isEmotionalQuery}, financial=${isFinancialQuery}, counseling=${isCounselingQuery}`);
+        console.log(`🔍 Query analysis: emotional=${isEmotionalQuery}, financial=${isFinancialQuery}, prescription=${!!isPrescriptionQuery}, counseling=${isCounselingQuery}`);
         
         for (let i = 0; i < results.documents[0].length; i++) {
           const metadata = results.metadatas[0][i];
@@ -357,8 +362,15 @@ async function retrieveRelevant(query, conversationHistory = []) {
           const similarity = 1 - distance;
           
           // Use lower threshold for counseling strategies content or counseling-related queries
+          // Use even lower threshold for prescriptions (very short queries)
           const isCounselingContent = metadata.filename && metadata.filename.includes('counseling');
-          const effectiveThreshold = (isCounselingContent || isCounselingQuery) ? COUNSELING_THRESHOLD : SIMILARITY_THRESHOLD;
+          let effectiveThreshold = SIMILARITY_THRESHOLD;
+          
+          if (isCounselingContent || isCounselingQuery) {
+            effectiveThreshold = COUNSELING_THRESHOLD;
+          } else if (isPrescriptionQuery) {
+            effectiveThreshold = PRESCRIPTION_THRESHOLD;
+          }
 
           const chunkInfo = {
             filename: metadata.filename || 'unknown',
@@ -698,9 +710,13 @@ async function generateAnswer(question, conversationHistory = []) {
                                lowerQuestion.includes('anxious') || lowerQuestion.includes('fear');
     const isFinancialConcern = lowerQuestion.includes('expensive') || lowerQuestion.includes('too much') || 
                                lowerQuestion.includes('afford') || lowerQuestion.includes('cost too much');
+    const isPrescriptionConcern = lowerQuestion.match(/([-+]?[0-9](\.[0-9]+)?)/) || 
+                                  lowerQuestion.includes('astigmatism') || lowerQuestion.includes('minus') || 
+                                  lowerQuestion.includes('plus') || lowerQuestion.includes('diopter') ||
+                                  lowerQuestion.includes('prescription');
     
     // For emotional or financial concerns, try RAG first to get counseling strategies
-    if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern) {
+    if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern && !isPrescriptionConcern) {
       const conversationalResponse = await handleConversationalMode(question, conversationHistory);
       return {
         answer: conversationalResponse,
@@ -712,12 +728,14 @@ async function generateAnswer(question, conversationHistory = []) {
       };
     }
     
-    // For emotional/financial concerns, enhance the query to find counseling strategies
+    // For specific concerns, enhance the query to find better chunks
     let searchQuery = question;
     if (isEmotionalConcern) {
       searchQuery = question + ' responding to fear nervousness concerns reassurance';
     } else if (isFinancialConcern) {
       searchQuery = question + ' responding to financial concerns expensive cost affordability';
+    } else if (isPrescriptionConcern) {
+      searchQuery = question + ' high prescription limits candidacy treatable range';
     }
 
     // Retrieve relevant chunks (use enhanced query for emotional/financial concerns)
@@ -838,16 +856,30 @@ async function* generateAnswerStream(question, conversationHistory = []) {
                                lowerQuestion.includes('scared') || lowerQuestion.includes('afraid');
     const isFinancialConcern = lowerQuestion.includes('expensive') || lowerQuestion.includes('too much') || 
                                lowerQuestion.includes('afford');
+    const isPrescriptionConcern = lowerQuestion.match(/([-+]?[0-9](\.[0-9]+)?)/) || 
+                                  lowerQuestion.includes('astigmatism') || lowerQuestion.includes('minus') || 
+                                  lowerQuestion.includes('plus') || lowerQuestion.includes('diopter') ||
+                                  lowerQuestion.includes('prescription');
     
-    if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern) {
+    if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern && !isPrescriptionConcern) {
       const conversationalResponse = await handleConversationalMode(question, conversationHistory);
       yield { type: 'content', content: conversationalResponse };
       yield { type: 'done', responseTime: Date.now() - startTime };
       return;
     }
 
+    // Prepare enhanced search query
+    let searchQuery = question;
+    if (isEmotionalConcern) {
+      searchQuery = question + ' responding to fear nervousness concerns reassurance';
+    } else if (isFinancialConcern) {
+      searchQuery = question + ' responding to financial concerns expensive cost affordability';
+    } else if (isPrescriptionConcern) {
+      searchQuery = question + ' high prescription limits candidacy treatable range';
+    }
+
     // Retrieve relevant chunks
-    const retrievalResult = await retrieveRelevant(question, conversationHistory);
+    const retrievalResult = await retrieveRelevant(searchQuery, conversationHistory);
     const chunks = retrievalResult.chunks;
 
     // If no relevant chunks, return fallback
