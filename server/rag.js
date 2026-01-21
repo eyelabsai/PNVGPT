@@ -26,6 +26,57 @@ const TOP_K_RESULTS = 5; // Increased from 3 to better find relevant content
 const SIMILARITY_THRESHOLD = 0.25; // Lowered from 0.3 to catch more relevant matches
 const COUNSELING_THRESHOLD = 0.20; // Lower threshold for counseling/emotional concerns
 
+// Buying intent signals for conversion tracking
+const BUYING_SIGNALS = [
+  'ready', 'schedule', 'book', 'appointment', 'consultation',
+  'how do i get started', 'next step', 'sign up', 'qualify',
+  'interested', 'want to do this', 'how soon', 'available',
+  'cost', 'price', 'financing', 'payment', 'afford',
+  'candidate', 'good candidate', 'am i eligible',
+  'where are you', 'location', 'address', 'directions'
+];
+
+const PROCEDURE_KEYWORDS = {
+  lasik: ['lasik', 'laser eye surgery', 'laser vision'],
+  prk: ['prk', 'photorefractive'],
+  smile: ['smile', 'lalex', 'small incision'],
+  icl: ['icl', 'evo', 'implantable lens', 'implantable contact'],
+  cataract: ['cataract', 'cloudy lens', 'lens replacement'],
+  rle: ['rle', 'refractive lens exchange', 'lens replacement']
+};
+
+/**
+ * Detect buying intent in user query
+ * @param {string} query - User's question
+ * @returns {Object} Intent analysis
+ */
+function detectBuyingIntent(query) {
+  const lowerQuery = query.toLowerCase();
+  
+  const signals = BUYING_SIGNALS.filter(signal => lowerQuery.includes(signal));
+  const hasBuyingIntent = signals.length > 0;
+  
+  // Detect which procedures are mentioned
+  const proceduresMentioned = [];
+  for (const [procedure, keywords] of Object.entries(PROCEDURE_KEYWORDS)) {
+    if (keywords.some(kw => lowerQuery.includes(kw))) {
+      proceduresMentioned.push(procedure);
+    }
+  }
+  
+  // High intent signals
+  const highIntentSignals = ['schedule', 'book', 'appointment', 'ready', 'sign up', 'get started'];
+  const isHighIntent = highIntentSignals.some(signal => lowerQuery.includes(signal));
+  
+  return {
+    hasBuyingIntent,
+    isHighIntent,
+    signals,
+    proceduresMentioned,
+    intentScore: signals.length + (isHighIntent ? 2 : 0)
+  };
+}
+
 let initialized = false;
 
 /**
@@ -595,7 +646,8 @@ async function generateAnswer(question, conversationHistory = []) {
         chunks: [],
         usedFallback: false,
         isGreeting: true,
-        responseTime: Date.now() - startTime
+        responseTime: Date.now() - startTime,
+        buyingIntent: detectBuyingIntent(question)
       };
     }
 
@@ -615,7 +667,8 @@ async function generateAnswer(question, conversationHistory = []) {
         chunks: [],
         usedFallback: false,
         isConversational: true,
-        responseTime: Date.now() - startTime
+        responseTime: Date.now() - startTime,
+        buyingIntent: detectBuyingIntent(question)
       };
     }
     
@@ -632,6 +685,9 @@ async function generateAnswer(question, conversationHistory = []) {
     const chunks = retrievalResult.chunks;
     const debugInfo = retrievalResult.debugInfo;
 
+    // Detect buying intent for analytics and CTA suggestions
+    const buyingIntent = detectBuyingIntent(question);
+    
     // Generate answer with conversation context
     const result = await generateAnswerFromChunks(question, chunks, conversationHistory);
 
@@ -641,7 +697,8 @@ async function generateAnswer(question, conversationHistory = []) {
     return {
       ...result,
       responseTime: responseTime,
-      debugInfo: debugInfo // Include similarity scores and chunk details
+      debugInfo: debugInfo, // Include similarity scores and chunk details
+      buyingIntent: buyingIntent // Include buying intent for frontend CTAs
     };
   } catch (error) {
     console.error('❌ RAG pipeline error:', error.message);

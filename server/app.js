@@ -137,7 +137,7 @@ app.post('/ask', async (req, res) => {
     // Generate answer using RAG pipeline with conversation context
     const result = await generateAnswer(sanitizedQuery, conversationHistory);
 
-    // Log to Firebase (async, don't wait)
+    // Log to Firebase (async, don't wait) - enhanced with buying intent
     logQuery({
       question: sanitizedQuery,
       answer: result.answer,
@@ -147,13 +147,15 @@ app.post('/ask', async (req, res) => {
         responseTime: result.responseTime,
         usedFallback: result.usedFallback,
         tokensUsed: result.tokensUsed,
-        model: result.model
+        model: result.model,
+        buyingIntent: result.buyingIntent || null,
+        questionCount: conversationHistory.filter(m => m.role === 'user').length + 1
       }
     }).catch(err => {
       console.error('Failed to log query:', err.message);
     });
 
-    // Return response
+    // Return response with buying intent for frontend CTA decisions
     const responseTime = Date.now() - startTime;
     
     res.json({
@@ -164,7 +166,8 @@ app.post('/ask', async (req, res) => {
         retrievedChunks: result.chunks ? result.chunks.length : 0,
         usedFallback: result.usedFallback || false,
         timestamp: Date.now(),
-        debugInfo: result.debugInfo || null // Include similarity scores and chunk details
+        debugInfo: result.debugInfo || null, // Include similarity scores and chunk details
+        buyingIntent: result.buyingIntent || null // Include buying intent for frontend CTAs
       }
     });
 
@@ -286,6 +289,85 @@ app.get('/status', (req, res) => {
     uptime: process.uptime(),
     timestamp: new Date().toISOString()
   });
+});
+
+/**
+ * POST /lead - Lead capture endpoint
+ * 
+ * Body: { name?, email?, phone?, procedure?, notes?, conversationSummary? }
+ * Response: { success: true, leadId: "..." }
+ */
+app.post('/lead', async (req, res) => {
+  try {
+    const { name, email, phone, procedure, notes, conversationSummary, source } = req.body;
+    
+    // Validate - at least one contact method required
+    if (!email && !phone) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'Please provide at least an email or phone number'
+      });
+    }
+    
+    // Create lead object
+    const lead = {
+      name: name || 'Not provided',
+      email: email || null,
+      phone: phone || null,
+      procedure: procedure || 'Not specified',
+      notes: notes || null,
+      conversationSummary: conversationSummary || null,
+      source: source || 'chatbot',
+      createdAt: new Date().toISOString(),
+      status: 'new'
+    };
+    
+    // Log to Firebase
+    const leadId = await logEvent('lead_capture', 'New lead from chatbot', lead);
+    
+    console.log(`🎯 New lead captured: ${email || phone} (${procedure || 'general'})`);
+    
+    res.json({
+      success: true,
+      leadId: leadId || 'logged',
+      message: 'Thank you! Our team will reach out to you shortly.'
+    });
+    
+  } catch (error) {
+    console.error('❌ Error capturing lead:', error);
+    res.status(500).json({
+      error: 'Failed to submit',
+      message: 'Please try again or call us directly at (210) 585-2020'
+    });
+  }
+});
+
+/**
+ * POST /analytics/event - Track frontend events
+ * 
+ * Body: { event, data }
+ */
+app.post('/analytics/event', async (req, res) => {
+  try {
+    const { event, data } = req.body;
+    
+    if (!event) {
+      return res.status(400).json({ error: 'Event name required' });
+    }
+    
+    // Log to Firebase
+    await logEvent('frontend_event', event, {
+      ...data,
+      timestamp: new Date().toISOString(),
+      userAgent: req.get('User-Agent')
+    });
+    
+    res.json({ success: true });
+    
+  } catch (error) {
+    console.error('❌ Error logging event:', error);
+    res.status(500).json({ error: 'Failed to log event' });
+  }
 });
 
 /**
