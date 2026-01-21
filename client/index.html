@@ -806,18 +806,55 @@
             html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
             html = html.replace(/(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/g, '<em>$1</em>');
             
-            // Bullet points: • or - at start of line
-            html = html.replace(/^[•\-]\s+(.+)$/gm, '<li>$1</li>');
+            // Process line by line to handle bullet points better
+            const lines = html.split('\n');
+            let result = [];
+            let inList = false;
             
-            // Wrap consecutive <li> in <ul>
-            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                // Check if it's a bullet point
+                if (line.match(/^[•\-]\s+/)) {
+                    if (!inList) {
+                        result.push('<ul>');
+                        inList = true;
+                    }
+                    line = line.replace(/^[•\-]\s+/, '');
+                    result.push('<li>' + line + '</li>');
+                } else {
+                    // Close list if we were in one
+                    if (inList) {
+                        result.push('</ul>');
+                        inList = false;
+                    }
+                    
+                    // Handle empty lines as paragraph breaks
+                    if (line === '') {
+                        if (result.length > 0 && !result[result.length - 1].match(/<\/(ul|p)>$/)) {
+                            result.push('</p><p>');
+                        }
+                    } else {
+                        result.push(line);
+                    }
+                }
+            }
             
-            // Line breaks: double newline = paragraph, single = <br>
-            html = html.replace(/\n\n/g, '</p><p>');
-            html = html.replace(/\n/g, '<br>');
+            // Close any open list
+            if (inList) {
+                result.push('</ul>');
+            }
             
-            // Wrap in paragraph if not already
-            if (!html.startsWith('<')) {
+            // Join and clean up
+            html = result.join(' ');
+            
+            // Clean up empty paragraphs and extra spaces
+            html = html.replace(/<p>\s*<\/p>/g, '');
+            html = html.replace(/\s+/g, ' ');
+            html = html.replace(/<\/p>\s*<p>/g, '</p><p>');
+            
+            // Wrap in paragraph if starts with text
+            if (html && !html.startsWith('<')) {
                 html = '<p>' + html + '</p>';
             }
             
