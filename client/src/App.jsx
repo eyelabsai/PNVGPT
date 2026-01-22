@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Moon, Sun, PanelLeftOpen } from 'lucide-react'
+import { Moon, Sun, PanelLeftOpen, Phone, Calendar } from 'lucide-react'
 import ChatInterface from './components/ChatInterface'
 import ChatSidebar from './components/ChatSidebar'
 import './App.css'
@@ -101,6 +101,18 @@ function App() {
           onNewChat={handleNewChat}
           isDarkMode={isDarkMode}
         />
+      </div>
+
+      {/* Floating Action Button - Schedule Consultation */}
+      <div className="floating-actions">
+        <a href="tel:2105852020" className="floating-phone" aria-label="Call (210) 585-2020">
+          <Phone className="w-4 h-4" />
+          <span>(210) 585-2020</span>
+        </a>
+        <a href="tel:2105852020" className="floating-consultation" aria-label="Schedule Consultation">
+          <Calendar className="w-4 h-4" />
+          <span>Schedule Consultation</span>
+        </a>
       </div>
     </div>
   )
