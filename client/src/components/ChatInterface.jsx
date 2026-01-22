@@ -220,7 +220,8 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
   const examplePrompts = [
     "What is LASIK? What are other options?",
     "How do I book an appointment?",
-    "Where are you located?"
+    "Where are you located?",
+    "What is a cataract?"
   ]
 
   const handleExampleClick = (prompt) => {
