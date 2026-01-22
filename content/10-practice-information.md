@@ -33,7 +33,7 @@ We offer a comprehensive range of vision correction procedures:
 - PRK
 - SMILE
 - EVO ICL (Implantable Collamer Lens)
-- Refractive Lens Exchange (RLE)
+- Lens Replacement (sometimes called Refractive Lens Exchange or RLE)
 
 ## Do you accept insurance?
 

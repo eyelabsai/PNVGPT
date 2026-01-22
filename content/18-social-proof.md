@@ -40,4 +40,4 @@ San Antonio, TX 78229
 
 **Phone:** (210) 585-2020
 
-Ready to see what's possible for your vision? Schedule your free consultation today!
+Ready to see what's possible for your vision? Schedule your consultation today!

@@ -4,13 +4,11 @@
 
 Insurance covers the cost to remove the cataract and place a new lens (called an intraocular lens, or IOL) that doesn't have any special technology. Special technology includes things that would help you have some freedom from glasses such as astigmatism correction (called toric IOLs) or multifocal or EDOF IOLs that provide clear vision at multiple distances. Insurance doesn't cover the cost of the laser since the laser is used to help correct astigmatism.
 
-For age-related cataract surgery with advanced technology, the total cost varies by prescription and procedure needed, but generally costs about $2,500-3,000 per eye or $150 per month when financed. For refractive lens exchange (RLE), which is performed electively before a true cataract diagnosis or for presbyopia treatment, costs are generally about $3,500-4,500 per eye or $250 per month when financed. Most people divert what they spend on glasses and contacts toward this, and depending on the type of glasses they need, the procedures often pay for themselves within a few years.
+For age-related cataract surgery with advanced technology, the total cost varies by prescription and procedure needed, but generally costs about $2,500-3,000 per eye or $150 per month when financed. For Lens Replacement (sometimes called Refractive Lens Exchange or RLE), which is performed electively before a true cataract diagnosis or for presbyopia treatment, costs are generally about $3,500-4,500 per eye or $250 per month when financed. Most people divert what they spend on glasses and contacts toward this, and depending on the type of glasses they need, the procedures often pay for themselves within a few years.
 
 ## Why doesn't my insurance cover this?
 
-Insurance only covers the cost of removing the cataract and placing a new lens (called an intraocular lens, or IOL) that doesn't have any special technology. Special technology includes things that would help you have some freedom from glasses such as astigmatism correction (called toric IOLs) or multifocal or EDOF IOLs that provide clear vision at multiple distances. Insurance doesn't cover the cost of the laser since the laser is used to help correct astigmatism. Unfortunately insurance doesn't consider these lifestyle upgrades "medically necessary", similar to aesthetics procedures. Insurance doesn't cover any technology that would provide some independence from glasses or contact lenses.
-
-Insurance companies unfortunately consider elective procedures like refractive lens exchange elective and do not cover them. While the procedure is not cheap, most people divert what they spend on glasses and contacts toward this. Depending on how much they normally spend, it often pays for itself within a few years.
+Insurance only covers the cost of removing the cataract and placing a new lens (called an intraocular lens, or IOL) that doesn't have any special technology. Special technology includes things that would help you have some freedom from glasses such as astigmatism correction (called toric IOLs) or multifocal or EDOF IOLs that provide clear vision at multiple distances. Insurance doesn't cover the cost of the laser since the laser is used to help correct astigmatism. Insurance considers these lifestyle upgrades elective and does not cover them. Insurance considers elective procedures like Lens Replacement elective and does not cover them. While the procedure is not cheap, most people divert what they spend on glasses and contacts toward this. Depending on how much they normally spend, it often pays for itself within a few years.
 
 ## Is this the typical price of this surgery?
 
@@ -25,10 +23,6 @@ We are committed to such a high level of excellence, for example offering progra
 ## Is there a discount if I pay in full?
 
 We expect everyone to pay in full, but we do provide a discount if you pay in cash.
-
-## Do you have any referral discounts?
-
-[ANSWER NEEDED]
 
 ## Can you price match?
 
@@ -48,5 +42,5 @@ Almost everyone has even small amounts of astigmatism that the laser can correct
 
 ## Is there any government assistance to help with the cost?
 
-Unfortunately, government programs still consider the use of advanced technology like lenses for cataract surgery that correct astigmatism or provide independence from glasses OR any vision correction procedure to be elective and do not cover them. You can however use your HSA or FSA funds and we offer many convenient financing solutions.
+Unfortunately, insurance and government programs consider the use of advanced technology like lenses for cataract surgery that correct astigmatism or provide independence from glasses OR any vision correction procedure to be elective and does not cover them. You can however use your HSA or FSA funds and we offer many convenient financing solutions.
 

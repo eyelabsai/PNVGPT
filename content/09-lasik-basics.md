@@ -6,11 +6,11 @@ LASIK (Laser-Assisted In Situ Keratomileusis) is a popular refractive surgery pr
 
 ## How does LASIK work?
 
-During LASIK, your surgeon creates a thin flap in your cornea, then uses an excimer laser to precisely reshape the underlying corneal tissue. The laser removes microscopic amounts of tissue to correct how light enters your eye. After reshaping, the flap is repositioned and heals naturally without stitches.
+During LASIK, your surgeon creates a thin window in your cornea, then uses an excimer laser to precisely reshape the underlying corneal tissue. The laser removes microscopic amounts of tissue to correct how light enters your eye. After reshaping, the window is repositioned and heals naturally without stitches.
 
 ## Am I a good candidate for LASIK?
 
-Good LASIK candidates are typically over 18 years old with stable vision for at least a year, have healthy eyes free from diseases, and have an adequate corneal thickness. During your consultation, we'll perform comprehensive testing to determine if LASIK is right for you.
+Good LASIK candidates have stable vision for at least a year (this usually happens around age 18, but can be before or after), have healthy eyes free from diseases, and have an adequate corneal thickness. During your consultation, we'll perform comprehensive testing to determine if LASIK is right for you.
 
 ## What is the recovery time for LASIK?
 
@@ -18,7 +18,7 @@ Most patients notice improved vision within 24 hours after LASIK. You can typica
 
 ## Is LASIK painful?
 
-Most patients report feeling little to no pain during LASIK. We use numbing eye drops to keep you comfortable throughout the procedure. Some patients may feel slight pressure during the treatment, but the procedure itself is not painful. After surgery, you might experience mild discomfort, dryness, or a scratchy sensation for a few hours, but this typically resolves quickly.
+LASIK feels NO pain during the procedure. Through a combination of numbing eye drops and relaxing medications, you won't feel anything. Some patients may feel slight pressure during the treatment, but the procedure itself is not painful. After surgery, you might experience mild discomfort, dryness, or a scratchy sensation for a few hours, but this typically resolves quickly.
 
 ## What is SMILE and how is it different from LASIK?
 
@@ -37,14 +37,14 @@ Key advantages of EVO include:
 
 Total cost varies by prescription and procedure needed, but generally costs about $2,500-3,000 per eye for laser treatments or $150 per month when financed.
 
-## What is Refractive Lens Exchange (RLE)?
+## What is Lens Replacement?
 
-Refractive Lens Exchange is a procedure where the natural lens inside your eye is replaced with a high-tech lens implant. This is particularly beneficial for people in their 40s and 50s experiencing presbyopia (difficulty seeing up close).
+Lens Replacement (sometimes called Refractive Lens Exchange or RLE) is a procedure where the natural lens under the surface of the eye is replaced with a high-tech lens implant. This is particularly beneficial for people in their 40s and 50s experiencing presbyopia (difficulty seeing up close).
 
-The inside natural lens we are born with starts to age and dysfunction in our 40s and 50s. This is what causes our prescription to change in that age range, especially for seeing up close. Once this dysfunctional lens is replaced with a hi-tech lens implant by our surgeon, the prescription doesn't change anymore - it's permanent!
+The natural lens we are born with starts to age and dysfunction in our 40s and 50s. This is what causes our prescription to change in that age range, especially for seeing up close. Once this dysfunctional lens is replaced with a hi-tech lens implant by our surgeon, the prescription doesn't change anymore - it's permanent! Lens Replacement prevents cataracts from ever forming and eliminates the need for future cataract surgery.
 
-For RLE, the total cost varies by prescription and generally costs about $6,500 per eye or $350 per month when financed. We will go over this in a lot more detail during an in-person consultation with our surgeon specialists to answer all the questions you may have.
+For Lens Replacement, the total cost varies by prescription and generally costs about $6,500 per eye or $350 per month when financed. We will go over this in a lot more detail during an in-person consultation with our surgeon specialists to answer all the questions you may have.
 
-## Can EVO or RLE help with keratoconus?
+## Can EVO or Lens Replacement help with keratoconus?
 
 Great question! A lot of people wonder about this! In short, we've been able to help hundreds of people with keratoconus using specific procedures. We will go over this in a lot more detail during an in-person consultation with our surgeon specialists to answer any questions you may have and to see if you qualify.

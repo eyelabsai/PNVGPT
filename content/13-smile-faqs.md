@@ -10,7 +10,7 @@ SMILE (Small Incision Lenticule Extraction) is a minimally invasive laser vision
 
 ## Am I a good candidate for SMILE?
 
-SMILE is ideal for people with nearsightedness (up to –10.00 D) and astigmatism (up to –3.00 D), who are around 18 or older with stable prescriptions and healthy corneas. It's especially beneficial for people with mild dry eye or those in contact sports. We will evaluate your eyes carefully to determine if SMILE is right for you.
+SMILE is ideal for people with nearsightedness (up to –10.00 D) and astigmatism (up to –3.00 D), who have stable prescriptions (this usually happens around age 18, but can be before or after) and healthy corneas. It's especially beneficial for people with mild dry eye or those in contact sports. We will evaluate your eyes carefully to determine if SMILE is right for you.
 
 ## How long does SMILE surgery take and what is recovery like?
 
@@ -22,7 +22,7 @@ Yes! Enhancements or polishing are possible if a small prescription remains or v
 
 ## Will I need glasses after SMILE surgery?
 
-Most people are 20/20 or better without glasses or contacts after SMILE. However, as you age, the natural lens inside your eye stiffens, a process called presbyopia or lens dysfunction, which affects near vision. This is unrelated to SMILE and happens to everyone, even those who never needed glasses before. This usually happens around the mid-40s and is why many people start to need readers or bifocals around this time. Don't worry! There are plenty of ways to keep you out of glasses at any age!
+Most people are 20/20 or better without glasses or contacts after SMILE. However, as you age, the natural lens under the surface of the eye stiffens, a process called presbyopia or lens dysfunction, which affects near vision. This is unrelated to SMILE and happens to everyone, even those who never needed glasses before. This usually happens around the mid-40s and is why many people start to need readers or bifocals around this time. Don't worry! There are plenty of ways to keep you out of glasses at any age!
 
 ## Are there prescription or age limits for SMILE?
 

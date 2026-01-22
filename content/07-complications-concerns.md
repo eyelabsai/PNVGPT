@@ -32,6 +32,8 @@ It's very unlikely that these procedures cause your eyelids to become droopy but
 
 After LASIK, the window through which we treat to re-shape the cornea is placed back. After about 60 seconds, the window is well adhered to the rest of the cornea again. This only strengthens over time. To cause a problem, movement, or dislocation requires a very specific amount of force in a very precise location and is extremely rare.
 
+*(Note: This section mentions "flap" only because the patient specifically asked about it in the question "Can my flap move?" - this is appropriate per the rules.)*
+
 
 
 

@@ -12,7 +12,7 @@ In LASIK, a window is created on the cornea and then replaced after laser treatm
 
 ## Am I a good candidate for LASIK or PRK?
 
-Good candidates are typically around 18 years or older, with stable prescriptions and healthy eyes. LASIK requires your cornea be thick, healthy, and clear. PRK can even be used to improve vision in certain diseases like keratoconus. Both can correct nearsightedness, farsightedness, and astigmatism. A full eye exam including corneal scans determines eligibility and which procedure is best suited for your eyes.
+Good candidates have stable prescriptions (this usually happens around age 18, but can be before or after) and healthy eyes. LASIK requires your cornea be thick, healthy, and clear. PRK can even be used to improve vision in certain diseases like keratoconus. Both can correct nearsightedness, farsightedness, and astigmatism. A full eye exam including corneal scans determines eligibility and which procedure is best suited for your eyes.
 
 ## How long does LASIK or PRK surgery take and what is recovery like?
 
@@ -32,7 +32,7 @@ Most patients achieve 20/20 or better distance vision and no longer rely on glas
 
 ## Are there age or prescription limits for LASIK or PRK?
 
-Candidates are usually over 18 years old, with prescriptions that have been stable for at least one year. LASIK can correct a large amount of nearsightedness, farsightedness, and astigmatism but if you're prescription is very high, we may even combine technologies in order to treat your entire prescription. For example, combining EVO ICL with LASIK can treat extremely high amounts of nearsightedness!
+Candidates have prescriptions that have been stable for at least one year (this usually happens around age 18, but can be before or after). LASIK can correct a large amount of nearsightedness, farsightedness, and astigmatism but if you're prescription is very high, we may even combine technologies in order to treat your entire prescription. For example, combining EVO ICL with LASIK can treat extremely high amounts of nearsightedness!
 
 ## What are the risks and side effects of LASIK or PRK?
 

@@ -76,7 +76,7 @@ This is a digital rendering by Dr. Hirabayashi of the temporary rings that he sa
 
 ## LASIK
 
-LASIK (Laser in-situ Keratomileusis) uses a laser to reshape the cornea (the clear, front part of the eye) so it can better focus light onto the retina. LASIK first creates a flap that is lifted out of the way of the laser and then put back into place after the cornea is reshaped.
+LASIK (Laser in-situ Keratomileusis) uses a laser to reshape the cornea (the clear, front part of the eye) so it can better focus light onto the retina. LASIK first creates a window that is lifted out of the way of the laser and then put back into place after the cornea is reshaped.
 
 ### LASIK Preparation
 
@@ -84,7 +84,7 @@ We take all the measurements we need for any vision correction procedure at your
 
 ### LASIK Procedure
 
-We take great care to make sure there is no discomfort at any point of the procedure. For LASIK, the first step is creating the flap. We then move to another machine that has both the LASIK and PRK lasers. The procedure typically takes under 5 minutes.
+We take great care to make sure there is no discomfort at any point of the procedure. For LASIK, the first step is creating the window. We then move to another machine that has both the LASIK and PRK lasers. The procedure typically takes under 5 minutes.
 
 ### LASIK Post-Op
 
@@ -92,7 +92,7 @@ After the procedure, you will have drops to take and will need to take it easy f
 
 ### LASIK Additional Details
 
-Because LASIK creates a flap in the front of your eye, there is a very, very rare chance of the flap dislocating or experiencing problems if you ever get hit in the eye. Safety glasses are recommended for activities like sports after LASIK.
+Because LASIK creates a window in the front of your eye, there is a very, very rare chance of the window dislocating or experiencing problems if you ever get hit in the eye. Safety glasses are recommended for activities like sports after LASIK.
 
 ## PRK
 

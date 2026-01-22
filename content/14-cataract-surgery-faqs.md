@@ -1,6 +1,6 @@
 # Cataract Surgery FAQs
 
-We're all born with a clear lens that sits behind the iris (the colored portion of the eye). As we age, this lens become cloudy and we call this cloudy lens a cataract. Cataract surgery involves replacing this cloudy lens with a new, clear lens. There are many types of lenses we can put in the eye and they essentially put the prescription inside the eye! There are many types of lenses that we review in our Cataract Packet. Cataract surgery is one of the most common procedures performed in the United States every year.
+We're all born with a clear lens that sits behind the iris (the colored portion of the eye). As we age, this lens become cloudy and we call this cloudy lens a cataract. Cataract surgery involves replacing this cloudy lens with a new, clear lens. There are many types of lenses we can place under the surface of the eye and they essentially put the prescription under the surface of the eye! There are many types of lenses that we review in our Cataract Packet. Cataract surgery is one of the most common procedures performed in the United States every year.
 
 Here is an overview of the process but it's important to know the specifics of your surgical plan may vary.
 
@@ -24,7 +24,7 @@ No! Cataract surgery is performed with plenty of numbing drops and mild sedation
 
 There are two main types of cataract surgery:
 
-Laser Cataract Surgery – uses laser precision for lens softening, improving accuracy and consistency. This type of surgery also allows us to fully correct astigmatism and use lenses with special technology to reduce your need for glasses!
+Laser Cataract Surgery – uses laser precision for lens softening, improving accuracy and consistency. This type of surgery also allows us to fully correct astigmatism and use lenses with special technology to help you stay out of glasses!
 
 Basic Manual Surgery – this is when all steps of the surgery are done by hand.
 
@@ -44,7 +44,7 @@ We will help select the right lens based on your eyes and lifestyle goals!
 
 ## Do you have lenses that work for bifocal needs?
 
-Yes, we have lenses that work for the bifocal need. Multifocal and extended depth-of-focus (EDOF) lenses are designed to provide clear vision at multiple distances, eliminating or significantly reducing the need for bifocals. These advanced lens options allow you to see clearly at distance, intermediate, and near ranges, similar to what bifocal glasses provide but without needing glasses at all!
+Yes, we have lenses that work for the bifocal need. Multifocal and extended depth-of-focus (EDOF) lenses are designed to provide clear vision at multiple distances, eliminating or significantly helping you stay out of bifocals. These advanced lens options allow you to see clearly at distance, intermediate, and near ranges, similar to what bifocal glasses provide but without needing glasses at all!
 
 ## Will I still need glasses after cataract surgery?
 
@@ -64,7 +64,7 @@ WMost patients notice clearer, brighter vision within hours to a day after surge
 
 ## Does cataract surgery correct astigmatism or presbyopia?
 
-Yes! With the right lens choice and use of the laser we can significantly reduce your need for glasses. Toric lenses correct astigmatism, while multifocal or extended range lenses correct both distance and near vision, addressing presbyopia. We will tailor the IOL so you see clearly at multiple distances with minimal or no glasses afterward based on your personal goals, wants, and needs.
+Yes! With the right lens choice and use of the laser we can significantly help you stay out of glasses. Toric lenses correct astigmatism, while multifocal or extended range lenses correct both distance and near vision, addressing presbyopia. We will tailor the IOL so you see clearly at multiple distances with minimal or no glasses afterward based on your personal goals, wants, and needs.
 
 ## Can cataracts come back after surgery?
 

@@ -34,13 +34,13 @@ However, we can use a **blended vision strategy** (also known as monovision) whe
 
 It's important to keep in mind that as we age (typically in our 40s and beyond), the eye's natural lens loses flexibility, leading to presbyopia. While the ICL provides excellent distance vision, you may still need over-the-counter readers for very small print or prolonged close-up work unless a blended vision strategy is used.
 
-For patients whose primary goal is to eliminate reading glasses entirely, especially those over 45, we might also discuss **Refractive Lens Exchange (RLE)** as an alternative, which uses multifocal or extended-range lens technology that isn't available with ICLs.
+For patients whose primary goal is to eliminate reading glasses entirely, especially those over 45, we might also discuss **Lens Replacement** (sometimes called Refractive Lens Exchange or RLE) as an alternative, which uses multifocal or extended-range lens technology that isn't available with ICLs.
 
-The best way to know which option is right for you is a free consultation!
+The best way to know which option is right for you is a consultation!
 
 ## Are there age limits or prescription limits for ICLs?
 
-ICL surgery is FDA-approved for adults 21–45 years old, though we are very comfortable treating patients from around 18-59 depending on eye health, personal goals, and stability of the glasses prescription. Younger patients with stable vision and older adults without cataracts are both possible candidates after an evaluation. It's typically used for moderate to high myopia (nearsightedness) from –3.00 to –20.00 D and can treat astigmatism up to 4.00 D. ICLs can also be used to reduce the amount of prescription into a place that's treatable with LASIK or a different procedure so a combination of ICLs and LASIK may be able to treat even very high amounts of nearsightedness!
+ICL surgery is FDA-approved for adults 21–45 years old, though we are very comfortable treating patients from around 18-59 depending on eye health, personal goals, and stability of the glasses prescription. Younger patients with stable vision and older adults without cataracts are both possible candidates after an evaluation. It's typically used for moderate to high myopia (nearsightedness) from –3.00 to –20.00 D and can treat astigmatism up to 4.00 D. ICLs can also be used to help adjust the amount of prescription into a place that's treatable with LASIK or a different procedure so a combination of ICLs and LASIK may be able to treat even very high amounts of nearsightedness!
 
 ## What are the risks and complications of ICL surgery?
 
