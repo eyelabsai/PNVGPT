@@ -44,3 +44,7 @@ Almost everyone has even small amounts of astigmatism that the laser can correct
 
 Unfortunately, insurance and government programs consider the use of advanced technology like lenses for cataract surgery that correct astigmatism or provide independence from glasses OR any vision correction procedure to be elective and does not cover them. You can however use your HSA or FSA funds and we offer many convenient financing solutions.
 
+## Will I be pre-approved for financing?
+
+We offer many financing options with different credit agencies and many of these even offer convenient, 0% financing. Additionally, you can use HSA or FSA funds for these procedures. The financing options require an application that we will help you with on the day of your consultation.
+

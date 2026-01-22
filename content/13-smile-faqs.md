@@ -20,6 +20,13 @@ SMILE takes about 15 minutes for both eyes, with the laser part lasting under 30
 
 Yes! Enhancements or polishing are possible if a small prescription remains or vision changes over time. We have the knowledge and skillset to enhance SMILE in a very comfortable way and can avoid PRK in most cases.
 
+## I’ve had SMILE before, what are my options?
+
+Depending on your age, we have several ways to help:
+- **Ages 18-40:** We absolutely can “enhance” the SMILE you’ve had before, usually by converting it to a type of LASIK. ICLs are also sometimes possible if your prescription is more than -2.50.
+- **Ages 40-59:** We can adjust your SMILE with either a variation of LASIK or PRK to help you see without glasses or readers using a blended vision strategy.
+- **Ages 60+:** We can correct your vision and help you be free from reading glasses or bifocals with either a Lens Replacement or Cataract Surgery if needed.
+
 ## Will I need glasses after SMILE surgery?
 
 Most people are 20/20 or better without glasses or contacts after SMILE. However, as you age, the natural lens under the surface of the eye stiffens, a process called presbyopia or lens dysfunction, which affects near vision. This is unrelated to SMILE and happens to everyone, even those who never needed glasses before. This usually happens around the mid-40s and is why many people start to need readers or bifocals around this time. Don't worry! There are plenty of ways to keep you out of glasses at any age!

@@ -16,6 +16,26 @@ It depends on the "target", which means where we set the lens to see the most cl
 
 While it's not possible to guarantee an outcome, we always hope for 20/20 vision or better and will do everything we possibly can before, during, and after your procedure to get you to that point. That being said, there are some eye conditions that naturally limit vision. For example, if there is a problem with your retina (the light sensing part of the eye) or you have a history of a "lazy eye" from childhood, your vision might be limited and unable to achieve 20/20 or better but that doesn't mean we won't do absolutely everything possible to maximize your visual potential and give you hopefully the best vision you've ever had.
 
+## Will I be 20/20 with basic (manual cataract surgery)?
+
+For basic manual surgery, it’s best to plan full time use of glasses after surgery because we won’t be able to have the accuracy that the lasers provide.
+
+## Will I be 20/20 after cataract surgery?
+
+We expect your vision to be as good or slightly better than it was before you had cataracts. Some people have diseases of the cornea or retina that may limit vision but we will discuss expectations in your exact case at your consultation.
+
+## Will I be 20/20 after EVO ICL/SMILE/PRK/LASIK/Lens Replacement?
+
+We expect your vision to be slightly better than wearing glasses or contact lenses. For many people, this is even better than 20/20.
+
+## Can anyone be 20/20?
+
+You may have pre-existing eye diseases that could limit your vision (examples include needing to wear a patch as a child or retinal diseases) but these are rare and we will look for them on your exam.
+
+## Can I change the lens after having cataract surgery?
+
+Exchanging an IOL comes with certain risks so it’s best to choose the best lens for your eye before having cataract surgery. That being said, it’s possible to exchange an IOL in the first 6-12 months under certain circumstances.
+
 ## Will I be able to see my golf ball?
 
 Short answer, yes. The goal of any vision correction surgery, including cataract surgery, is to optimize your vision and improve your ability to do the things you love including golf, tennis, shooting sports, reading, or simply spending time with your family. Sometimes, there are pre-existing eye diseases that may limit your vision after surgery but your doctor will perform a complete exam to uncover these and discuss vision expectations with you before proceeding.

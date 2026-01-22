@@ -22,6 +22,13 @@ Both procedures take about 10–15 minutes for both eyes. LASIK patients often n
 
 Yes! Enhancements are sometimes performed to touch up your outcome or if vision changes over time. LASIK or PRK can be used to fine-tune vision. We will determine timing and method based on corneal thickness, healing response, and visual stability.
 
+## If I’ve had LASIK before, what are my options?
+
+Depending on your age, we have several ways to help:
+- **Ages 18-40:** We absolutely can “enhance” the LASIK you’ve had before with either repeat LASIK or PRK. ICLs are also sometimes possible if your prescription is more than -2.50.
+- **Ages 40-59:** We can adjust your LASIK with either repeat LASIK or PRK to help you see without glasses or readers using a blended vision strategy.
+- **Ages 60+:** We can correct your vision and help you be free from reading glasses or bifocals with either a Lens Replacement or Cataract Surgery if needed.
+
 ## Preparation
 
 We take all the measurements we need for any vision correction procedure at your consultation. It's important to stay out of soft contact lenses for at least five (5) days and three (3) weeks for rigid contact lenses. If you have special contact lenses, let us know when you schedule your consultation. We can operate on the same day as your consultation with proper planning.

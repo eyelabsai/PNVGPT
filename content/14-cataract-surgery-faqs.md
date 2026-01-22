@@ -74,6 +74,10 @@ No! A cataract happens when the lens behind the iris (color part of the eye) bec
 
 Yes! Cataract surgery can still be safely performed in people with previous vision correction. We will use specialized calculations and imaging to select the correct IOL power, accounting for prior surgery. Many patients who've had LASIK or ICL still achieve excellent visual outcomes after cataract surgery!
 
+## I’ve had cataract surgery before and don’t like the outcome, can anything help me?
+
+Even if you’ve had cataract surgery somewhere else, there are many ways to help you even after cataract surgery has already been performed. This can be as simple as polishing the existing lens with a YAG procedure or involve enhancing your vision with a procedure like LASIK.
+
 ## What are the risks of not having cataract surgery?
 
 If left untreated, cataracts will only continue to worsen, leading to increasing blur, glare, and potential vision loss. Advanced cataracts can make daily activities unsafe, especially driving, and may become more risky to remove later. Timely surgery restores both clarity and confidence in everyday tasks!
