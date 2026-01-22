@@ -326,7 +326,16 @@
 }
 
 /* Mobile Responsive */
-/* Savings Calculator */
+/* Savings Calculator - Inline within message */
+.savings-calculator-inline {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(16, 163, 127, 0.08);
+  border: 1px solid rgba(16, 163, 127, 0.2);
+  border-radius: 0.75rem;
+}
+
+/* Legacy standalone calculator (if needed) */
 .savings-calculator {
   max-width: 800px;
   margin: 1rem auto;

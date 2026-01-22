@@ -310,91 +310,90 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
         ) : (
           <>
             {messages.map((message, idx) => (
-              <React.Fragment key={idx}>
-                <div
-                  className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
-                >
-                  <div className="message-content">
-                    <div className="message-avatar">
-                      {message.role === 'user' ? (
-                        <div className="avatar-user">U</div>
-                      ) : (
-                        <div className="avatar-assistant">
-                          <Sparkles className="w-4 h-4" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="message-text">
-                      {message.role === 'assistant' ? (
-                        <>
-                          {message.content ? (
-                            <div 
-                              className="formatted-content"
-                              dangerouslySetInnerHTML={{ __html: renderMarkdown(message.content) }} 
-                            />
-                          ) : (
-                            <span className="typing-cursor">▋</span>
-                          )}
-                          {isStreaming && idx === messages.length - 1 && message.content && (
-                            <span className="typing-cursor">▋</span>
-                          )}
-                        </>
-                      ) : (
-                        message.content
-                      )}
-                    </div>
+              <div
+                key={idx}
+                className={`message ${message.role === 'user' ? 'user-message' : 'assistant-message'}`}
+              >
+                <div className="message-content">
+                  <div className="message-avatar">
+                    {message.role === 'user' ? (
+                      <div className="avatar-user">U</div>
+                    ) : (
+                      <div className="avatar-assistant">
+                        <Sparkles className="w-4 h-4" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="message-text">
+                    {message.role === 'assistant' ? (
+                      <>
+                        {message.content ? (
+                          <div 
+                            className="formatted-content"
+                            dangerouslySetInnerHTML={{ __html: renderMarkdown(message.content) }} 
+                          />
+                        ) : (
+                          <span className="typing-cursor">▋</span>
+                        )}
+                        {isStreaming && idx === messages.length - 1 && message.content && (
+                          <span className="typing-cursor">▋</span>
+                        )}
+                        
+                        {/* Savings Calculator - shows INSIDE the message that triggered it */}
+                        {calculatorMessageIndex === idx && !isStreaming && (
+                          <div className="savings-calculator-inline">
+                            <div className="calculator-header">
+                              <Calculator className="w-5 h-5" />
+                              <h4>See Your Potential Savings</h4>
+                            </div>
+                            <div className="calculator-form">
+                              <div className="calculator-row">
+                                <label>Your Age</label>
+                                <input
+                                  type="number"
+                                  value={calcAge}
+                                  onChange={(e) => setCalcAge(e.target.value)}
+                                  placeholder="e.g. 25"
+                                  min="18"
+                                  max="100"
+                                />
+                              </div>
+                              <div className="calculator-row">
+                                <label>Annual Cost of Glasses/Contacts ($)</label>
+                                <input
+                                  type="number"
+                                  value={calcCost}
+                                  onChange={(e) => setCalcCost(e.target.value)}
+                                  placeholder="e.g. 860"
+                                  min="0"
+                                />
+                              </div>
+                              <button className="calculate-btn" onClick={calculateSavings}>
+                                {calcResult === null ? 'Calculate My Savings' : 'Recalculate'}
+                              </button>
+                              {calcResult !== null && (
+                                <div className="savings-result">
+                                  <p>By age 65, your estimated spending on eyewear would be:</p>
+                                  <div className="savings-number">${calcResult.toLocaleString()}</div>
+                                  <p className="savings-subtitle">That's enough to pay for vision correction several times over!</p>
+                                  <a 
+                                    href="tel:2105852020" 
+                                    className="schedule-btn"
+                                  >
+                                    📅 Call to Schedule Consultation
+                                  </a>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      message.content
+                    )}
                   </div>
                 </div>
-                
-                {/* Savings Calculator - shows inline after the message that triggered it */}
-                {calculatorMessageIndex === idx && !isStreaming && (
-                  <div className="savings-calculator">
-                    <div className="calculator-header">
-                      <Calculator className="w-5 h-5" />
-                      <h4>See Your Potential Savings</h4>
-                    </div>
-                    <div className="calculator-form">
-                      <div className="calculator-row">
-                        <label>Your Age</label>
-                        <input
-                          type="number"
-                          value={calcAge}
-                          onChange={(e) => setCalcAge(e.target.value)}
-                          placeholder="e.g. 25"
-                          min="18"
-                          max="100"
-                        />
-                      </div>
-                      <div className="calculator-row">
-                        <label>Annual Cost of Glasses/Contacts ($)</label>
-                        <input
-                          type="number"
-                          value={calcCost}
-                          onChange={(e) => setCalcCost(e.target.value)}
-                          placeholder="e.g. 860"
-                          min="0"
-                        />
-                      </div>
-                      <button className="calculate-btn" onClick={calculateSavings}>
-                        {calcResult === null ? 'Calculate My Savings' : 'Recalculate'}
-                      </button>
-                      {calcResult !== null && (
-                        <div className="savings-result">
-                          <p>By age 65, your estimated spending on eyewear would be:</p>
-                          <div className="savings-number">${calcResult.toLocaleString()}</div>
-                          <p className="savings-subtitle">That's enough to pay for vision correction several times over!</p>
-                          <a 
-                            href="tel:2105852020" 
-                            className="schedule-btn"
-                          >
-                            📅 Call to Schedule Consultation
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </React.Fragment>
+              </div>
             ))}
             
             <div ref={messagesEndRef} />
