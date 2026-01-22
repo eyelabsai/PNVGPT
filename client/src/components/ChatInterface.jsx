@@ -100,13 +100,18 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Load messages from chat prop
+  // Load messages from chat prop and reset calculator when chat changes
   useEffect(() => {
     if (chat) {
       setMessages(chat.messages || [])
     } else {
       setMessages([])
     }
+    // Reset calculator state when switching chats
+    setCalculatorMessageIndex(null)
+    setCalcAge('')
+    setCalcCost('')
+    setCalcResult(null)
   }, [chatId, chat])
 
   // Auto-scroll to bottom
@@ -180,7 +185,8 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
               } else if (data.type === 'done') {
                 setIsStreaming(false)
                 // Show savings calculator attached to this message if context detected
-                if (data.showSavingsCalculator) {
+                // Only set if not already showing (don't move existing calculator)
+                if (data.showSavingsCalculator && calculatorMessageIndex === null) {
                   // The assistant message is at newMessages.length (last position)
                   setCalculatorMessageIndex(newMessages.length)
                   setCalcResult(null) // Reset previous results
