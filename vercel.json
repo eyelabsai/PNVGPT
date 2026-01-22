@@ -1,14 +1,10 @@
 {
-  "buildCommand": "mkdir -p public && cp -r client/* public/",
-  "outputDirectory": "public",
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist",
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/embed.html"
-    },
-    {
       "source": "/(.*)",
-      "destination": "/embed.html"
+      "destination": "/index.html"
     }
   ]
 }
