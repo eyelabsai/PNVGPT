@@ -315,6 +315,121 @@
 }
 
 /* Mobile Responsive */
+/* Savings Calculator */
+.savings-calculator {
+  max-width: 800px;
+  margin: 1rem auto;
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+}
+
+.calculator-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.calculator-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.calculator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.calculator-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.calculator-row label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.calculator-row input {
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.calculator-row input:focus {
+  outline: none;
+  border-color: #10a37f;
+}
+
+.calculate-btn {
+  padding: 0.75rem 1rem;
+  background: #10a37f;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+.calculate-btn:hover {
+  background: #0d8a6d;
+}
+
+.savings-result {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(16, 163, 127, 0.1);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.savings-result p {
+  margin: 0 0 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.savings-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10a37f;
+  margin-bottom: 0.5rem;
+}
+
+.savings-subtitle {
+  font-size: 0.75rem !important;
+  color: var(--text-muted) !important;
+}
+
+.schedule-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #10a37f;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.75rem;
+  transition: background 0.2s;
+}
+
+.schedule-btn:hover {
+  background: #0d8a6d;
+}
+
 @media (max-width: 768px) {
   .welcome-title {
     font-size: 1.5rem;
@@ -326,5 +441,14 @@
 
   .input-area {
     padding: 0.75rem;
+  }
+
+  .savings-calculator {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .savings-number {
+    font-size: 1.5rem;
   }
 }

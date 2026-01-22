@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Send, Loader2, Sparkles } from 'lucide-react'
+import { Send, Loader2, Sparkles, Calculator } from 'lucide-react'
 import './ChatInterface.css'
 
 const API_BASE = import.meta.env.DEV 
@@ -88,6 +88,10 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isStreaming, setIsStreaming] = useState(false)
+  const [showSavingsCalculator, setShowSavingsCalculator] = useState(false)
+  const [calcAge, setCalcAge] = useState('')
+  const [calcCost, setCalcCost] = useState('')
+  const [calcResult, setCalcResult] = useState(null)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -170,6 +174,11 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
                 scrollToBottom()
               } else if (data.type === 'done') {
                 setIsStreaming(false)
+                // Show savings calculator if context detected
+                if (data.showSavingsCalculator) {
+                  setShowSavingsCalculator(true)
+                  setCalcResult(null) // Reset previous results
+                }
               } else if (data.type === 'error') {
                 throw new Error(data.content)
               }
@@ -217,6 +226,23 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
   const handleExampleClick = (prompt) => {
     setInput(prompt)
     inputRef.current?.focus()
+  }
+
+  const calculateSavings = () => {
+    const age = parseInt(calcAge)
+    const annualCost = parseInt(calcCost)
+    
+    if (isNaN(age) || isNaN(annualCost) || age < 18 || age > 100 || annualCost < 0) {
+      alert('Please enter valid numbers for age (18-100) and annual cost.')
+      return
+    }
+    
+    // Years until 65 * annual cost
+    const yearsUntil65 = Math.max(0, 65 - age)
+    const total = yearsUntil65 * annualCost
+    
+    setCalcResult(total)
+    scrollToBottom()
   }
 
   const showEmptyState = messages.length === 0 && !isLoading
@@ -313,6 +339,56 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
                 </div>
               </div>
             ))}
+            
+            {/* Savings Calculator */}
+            {showSavingsCalculator && !isStreaming && (
+              <div className="savings-calculator">
+                <div className="calculator-header">
+                  <Calculator className="w-5 h-5" />
+                  <h4>See Your Potential Savings</h4>
+                </div>
+                <div className="calculator-form">
+                  <div className="calculator-row">
+                    <label>Your Age</label>
+                    <input
+                      type="number"
+                      value={calcAge}
+                      onChange={(e) => setCalcAge(e.target.value)}
+                      placeholder="e.g. 25"
+                      min="18"
+                      max="100"
+                    />
+                  </div>
+                  <div className="calculator-row">
+                    <label>Annual Cost of Glasses/Contacts ($)</label>
+                    <input
+                      type="number"
+                      value={calcCost}
+                      onChange={(e) => setCalcCost(e.target.value)}
+                      placeholder="e.g. 860"
+                      min="0"
+                    />
+                  </div>
+                  {calcResult === null ? (
+                    <button className="calculate-btn" onClick={calculateSavings}>
+                      Calculate My Savings
+                    </button>
+                  ) : (
+                    <div className="savings-result">
+                      <p>By age 65, your estimated spending on eyewear would be:</p>
+                      <div className="savings-number">${calcResult.toLocaleString()}</div>
+                      <p className="savings-subtitle">That's enough to pay for vision correction several times over!</p>
+                      <a 
+                        href="tel:2105852020" 
+                        className="schedule-btn"
+                      >
+                        📅 Call to Schedule Consultation
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
             
             <div ref={messagesEndRef} />
           </>
