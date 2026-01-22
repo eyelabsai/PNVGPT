@@ -429,10 +429,37 @@ function getConversationalPrompt(statement, conversationHistory) {
                              lowerStatement.includes('a lot of money') || lowerStatement.includes('so much') ||
                              lowerStatement.includes('yikes') || lowerStatement.includes('wow') ||
                              lowerStatement.includes('pricey');
+  
+  // Detect vague medical statements that need clarification
+  const mentionsSurgery = lowerStatement.includes('surgery') || lowerStatement.includes('procedure') || 
+                          lowerStatement.includes('operation') || lowerStatement.includes('lasik') || 
+                          lowerStatement.includes('icl') || lowerStatement.includes('prk') || 
+                          lowerStatement.includes('smile');
+  const mentionsPainOrIssue = lowerStatement.includes('hurt') || lowerStatement.includes('pain') || 
+                              lowerStatement.includes('burning') || lowerStatement.includes('uncomfortable') ||
+                              lowerStatement.includes('discomfort') || lowerStatement.includes('blurry') ||
+                              lowerStatement.includes('dry') || lowerStatement.includes('irritated') ||
+                              lowerStatement.includes('red') || lowerStatement.includes('problem');
+  const isVagueMedicalStatement = mentionsSurgery && mentionsPainOrIssue && 
+                                  (lowerStatement.includes('i had') || lowerStatement.includes('ive had') ||
+                                   lowerStatement.includes('i got') || lowerStatement.includes('my eye'));
 
   let specificGuidance = '';
   
-  if (isFearConcern) {
+  if (isVagueMedicalStatement) {
+    specificGuidance = `SPECIFIC GUIDANCE FOR VAGUE MEDICAL STATEMENTS:
+- Show immediate empathy and concern ("I'm sorry to hear you're experiencing discomfort/pain")
+- ASK CLARIFYING QUESTIONS before giving advice:
+  * What type of surgery/procedure did you have?
+  * Was it done here at ${CLINIC_NAME}?
+  * When exactly was the procedure? (today, yesterday, last week?)
+  * What specific symptoms are you experiencing?
+- Keep initial response brief (2-3 sentences)
+- Focus on gathering information, not giving medical advice yet
+- Example: "I'm sorry to hear you're experiencing discomfort. Can you tell me what type of surgery you had and when? Was it done here at our practice?"
+- NEVER provide specific medical advice without knowing the details
+- If they mention concerning symptoms, always remind them to contact the office immediately`;
+  } else if (isFearConcern) {
     specificGuidance = `SPECIFIC GUIDANCE FOR FEAR/NERVOUSNESS:
 - Acknowledge that these feelings are completely normal when thinking about someone working on your eyes
 - Reassure them that the procedures are safe and efficient
@@ -441,9 +468,7 @@ function getConversationalPrompt(statement, conversationHistory) {
 - Note that procedures are typically over before people realize they started - they're quick and painless
 - Share that most surgeons and staff have had vision correction themselves, so they understand the nervousness
 - Be warm, empathetic, and encouraging`;
-  }
-  
-  if (isFinancialConcern) {
+  } else if (isFinancialConcern) {
     specificGuidance = `SPECIFIC GUIDANCE FOR FINANCIAL CONCERNS:
 - Acknowledge that a few thousand dollars can be a lot for anybody
 - Help them understand the long-term value by comparing to ongoing costs of glasses and contacts
@@ -461,18 +486,18 @@ The user just made a statement or shared context (not a direct question): "${sta
 Your job is to:
 1. Acknowledge their statement warmly and with empathy
 2. Understand what they might need help with
-3. ${isFearConcern || isFinancialConcern ? 'Use the specific guidance below to address their concern directly and reassuringly' : 'Guide them to ask specific questions about procedures, recovery, costs, or concerns'}
+3. ${isVagueMedicalStatement ? 'ASK CLARIFYING QUESTIONS first - do NOT give generic advice without details' : isFearConcern || isFinancialConcern ? 'Use the specific guidance below to address their concern directly and reassuringly' : 'Guide them to ask specific questions about procedures, recovery, costs, or concerns'}
 4. Be conversational and supportive
 5. NEVER provide specific medical advice or diagnoses
 6. If they need more specific information, suggest they ask questions or call the office
 
 ${specificGuidance}
 
-${!isFearConcern && !isFinancialConcern ? `Examples:
+${!isVagueMedicalStatement && !isFearConcern && !isFinancialConcern ? `Examples:
 - "I was told I need cataract surgery" → "I'd be happy to help! What would you like to know about cataract surgery? I can answer questions about the procedure, recovery, costs, or anything else."
 - "My doctor said I'm a good candidate" → "That's great news! Do you have any questions about the procedure, what to expect, or next steps?"` : ''}
 
-Keep responses warm, empathetic, and encouraging (3-5 sentences for fear/financial concerns, 2-3 for others).`;
+Keep responses warm, empathetic, and encouraging (2-3 sentences for clarifying questions, 3-5 sentences for fear/financial concerns).`;
 }
 
 /**

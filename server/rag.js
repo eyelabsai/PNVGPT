@@ -911,35 +911,35 @@ async function* generateAnswerStream(question, conversationHistory = []) {
       return;
     }
 
-    // Check if it's a greeting - respond immediately (no streaming needed)
+    // Check if it's a greeting - respond immediately (reflex → typewriter on client)
     if (isGreeting(question)) {
       const greetingResponse = getGreetingResponse(question);
-      yield { type: 'content', content: greetingResponse };
-      yield { type: 'done', responseTime: Date.now() - startTime };
+      yield { type: 'reflex_content', content: greetingResponse };
+      yield { type: 'done', reflex: true, responseTime: Date.now() - startTime };
       return;
     }
 
     // MANDATORY: Check if it's a reader question - MUST ask for age first if not provided
     if (isReaderQuestion(question) && !hasAgeMentioned(question)) {
       const ageRequestResponse = getAgeRequestResponse();
-      yield { type: 'content', content: ageRequestResponse };
-      yield { type: 'done', responseTime: Date.now() - startTime, requiresAge: true };
+      yield { type: 'reflex_content', content: ageRequestResponse };
+      yield { type: 'done', reflex: true, responseTime: Date.now() - startTime, requiresAge: true };
       return;
     }
 
     // Check if it's an affirmative response (yes, sure, ok) - give scheduling next steps
     if (isAffirmative(question)) {
       const schedulingResponse = getSchedulingResponse();
-      yield { type: 'content', content: schedulingResponse };
-      yield { type: 'done', responseTime: Date.now() - startTime, isAffirmative: true };
+      yield { type: 'reflex_content', content: schedulingResponse };
+      yield { type: 'done', reflex: true, responseTime: Date.now() - startTime, isAffirmative: true };
       return;
     }
 
     // Check if it's an objection (no, not sure, scared, too expensive) - address concerns
     if (isObjection(question)) {
       const objectionResponse = getObjectionResponse(question);
-      yield { type: 'content', content: objectionResponse };
-      yield { type: 'done', responseTime: Date.now() - startTime, isObjection: true };
+      yield { type: 'reflex_content', content: objectionResponse };
+      yield { type: 'done', reflex: true, responseTime: Date.now() - startTime, isObjection: true };
       return;
     }
 
@@ -960,8 +960,8 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     
     if (isStatement(question) && !isEmotionalConcern && !isFinancialConcern && !isPrescriptionConcern) {
       const conversationalResponse = await handleConversationalMode(question, conversationHistory);
-      yield { type: 'content', content: conversationalResponse };
-      yield { type: 'done', responseTime: Date.now() - startTime };
+      yield { type: 'reflex_content', content: conversationalResponse };
+      yield { type: 'done', reflex: true, responseTime: Date.now() - startTime };
       return;
     }
 
@@ -985,12 +985,12 @@ async function* generateAnswerStream(question, conversationHistory = []) {
       if (conversationHistory && conversationHistory.length > 0) {
         // Use conversational mode with context
         const conversationalResponse = await handleConversationalMode(question, conversationHistory);
-        yield { type: 'content', content: conversationalResponse };
-        yield { type: 'done', responseTime: Date.now() - startTime };
+        yield { type: 'reflex_content', content: conversationalResponse };
+        yield { type: 'done', reflex: true, responseTime: Date.now() - startTime };
         return;
       }
-      yield { type: 'content', content: getFallbackResponse() };
-      yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime };
+      yield { type: 'reflex_content', content: getFallbackResponse() };
+      yield { type: 'done', reflex: true, usedFallback: true, responseTime: Date.now() - startTime };
       return;
     }
 
@@ -1004,12 +1004,12 @@ async function* generateAnswerStream(question, conversationHistory = []) {
       if (conversationHistory && conversationHistory.length > 0) {
         // Use conversational mode with context
         const conversationalResponse = await handleConversationalMode(question, conversationHistory);
-        yield { type: 'content', content: conversationalResponse };
-        yield { type: 'done', responseTime: Date.now() - startTime };
+        yield { type: 'reflex_content', content: conversationalResponse };
+        yield { type: 'done', responseTime: Date.now() - startTime, reflex: true };
         return;
       }
-      yield { type: 'content', content: getFallbackResponse() };
-      yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime };
+      yield { type: 'reflex_content', content: getFallbackResponse() };
+      yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime, reflex: true };
       return;
     }
 

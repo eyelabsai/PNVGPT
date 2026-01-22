@@ -99,6 +99,8 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
   const [calcResult, setCalcResult] = useState(null)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+  const reflexBufferRef = useRef('')
+  const typewriterIntervalRef = useRef(null)
 
   // Load messages from chat prop and reset calculator when chat changes
   useEffect(() => {
@@ -133,12 +135,28 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
     inputRef.current?.focus()
   }, [])
 
+  // Cleanup typewriter interval on unmount
+  useEffect(() => {
+    return () => {
+      if (typewriterIntervalRef.current) {
+        clearInterval(typewriterIntervalRef.current)
+        typewriterIntervalRef.current = null
+      }
+    }
+  }, [])
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return
+
+    // Clear any running typewriter
+    if (typewriterIntervalRef.current) {
+      clearInterval(typewriterIntervalRef.current)
+      typewriterIntervalRef.current = null
+    }
 
     const userMessage = {
       role: 'user',
@@ -173,6 +191,7 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let assistantContent = ''
+      reflexBufferRef.current = '' // Reset reflex buffer
 
       while (true) {
         const { value, done } = await reader.read()
@@ -187,12 +206,52 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
               const data = JSON.parse(line.slice(6))
               
               if (data.type === 'content') {
+                // Normal streaming content - display incrementally
                 assistantContent += data.content
-                // Update the assistant message in place
                 setMessages([...newMessages, { role: 'assistant', content: assistantContent }])
                 scrollToBottom()
+              } else if (data.type === 'reflex_content') {
+                // Reflex response - buffer it, don't display yet (will typewriter on done)
+                reflexBufferRef.current += data.content
+                // Keep showing typing cursor (empty content)
               } else if (data.type === 'done') {
                 setIsStreaming(false)
+                
+                // If this was a reflex response, use typewriter effect
+                if (data.reflex && reflexBufferRef.current) {
+                  const fullReflexText = reflexBufferRef.current
+                  reflexBufferRef.current = '' // Clear buffer
+                  
+                  // Typewriter effect: reveal text character by character
+                  let typewriterIndex = 0
+                  const typewriterSpeed = 15 // milliseconds per character
+                  
+                  // Clear any existing typewriter interval
+                  if (typewriterIntervalRef.current) {
+                    clearInterval(typewriterIntervalRef.current)
+                  }
+                  
+                  typewriterIntervalRef.current = setInterval(() => {
+                    typewriterIndex++
+                    const revealedText = fullReflexText.substring(0, typewriterIndex)
+                    setMessages([...newMessages, { role: 'assistant', content: revealedText }])
+                    scrollToBottom()
+                    
+                    if (typewriterIndex >= fullReflexText.length) {
+                      clearInterval(typewriterIntervalRef.current)
+                      typewriterIntervalRef.current = null
+                      // Final update with complete message
+                      const finalMessages = [...newMessages, { role: 'assistant', content: fullReflexText }]
+                      onUpdateChat(chatId, finalMessages)
+                    }
+                  }, typewriterSpeed)
+                } else {
+                  // Normal response - final update with complete message
+                  const finalMessages = [...newMessages, { role: 'assistant', content: assistantContent }]
+                  setMessages(finalMessages)
+                  onUpdateChat(chatId, finalMessages)
+                }
+                
                 // Show savings calculator attached to this message if context detected
                 // Only set if not already showing (don't move existing calculator)
                 if (data.showSavingsCalculator && calculatorMessageIndex === null) {
@@ -209,11 +268,6 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
           }
         }
       }
-
-      // Final update with complete message
-      const finalMessages = [...newMessages, { role: 'assistant', content: assistantContent }]
-      setMessages(finalMessages)
-      onUpdateChat(chatId, finalMessages)
 
     } catch (error) {
       console.error('Error:', error)
