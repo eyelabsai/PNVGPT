@@ -34,7 +34,7 @@ Our patients consistently share their excitement about their results. Many are a
 
 We are located in the San Antonio Medical Center at:
 
-**Parkhurst NuVision San Antonio**
+[**Parkhurst NuVision San Antonio**](https://maps.app.goo.gl/TPA9ZaQkVmQR4nKh8)
 9725 Datapoint Dr Suite 106
 San Antonio, TX 78229
 

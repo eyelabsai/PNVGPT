@@ -20,6 +20,10 @@ function renderMarkdown(text) {
     .replace(/>/g, '&gt;')
   
   // Convert markdown
+  // Links: [text](url) - do this BEFORE escaping breaks the URLs
+  // We need to handle this specially since we escaped < and >
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+  
   // Bold: **text** or __text__
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
   html = html.replace(/__(.+?)__/g, '<strong>$1</strong>')
