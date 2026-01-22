@@ -606,7 +606,7 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
 
     // Add conversation history (last 5 messages for context)
     if (conversationHistory && conversationHistory.length > 0) {
-      conversationHistory.slice(-5).forEach(msg => {
+      conversationHistory.slice(-15).forEach(msg => {
         messages.push({
           role: msg.role === 'user' ? 'user' : 'assistant',
           content: msg.content
@@ -672,7 +672,7 @@ async function handleConversationalMode(statement, conversationHistory = []) {
 
     // Add recent conversation history for context
     if (conversationHistory && conversationHistory.length > 0) {
-      conversationHistory.slice(-5).forEach(msg => {
+      conversationHistory.slice(-15).forEach(msg => {
         messages.push({
           role: msg.role === 'user' ? 'user' : 'assistant',
           content: msg.content
@@ -1026,7 +1026,7 @@ async function* generateAnswerStream(question, conversationHistory = []) {
 
     // Add conversation history
     if (conversationHistory && conversationHistory.length > 0) {
-      conversationHistory.slice(-5).forEach(msg => {
+      conversationHistory.slice(-15).forEach(msg => {
         messages.push({
           role: msg.role === 'user' ? 'user' : 'assistant',
           content: msg.content

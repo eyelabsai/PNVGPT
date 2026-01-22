@@ -127,7 +127,7 @@ app.post('/ask', async (req, res) => {
         });
       }
       sanitizedQuery = lastMessage.content.trim().substring(0, 500);
-      conversationHistory = messages.slice(0, -1).slice(-10); // Keep last 10 messages for context (excluding current)
+      conversationHistory = messages.slice(0, -1).slice(-20); // Keep last 20 messages for context (excluding current)
     } else if (query) {
       // Old format: single query string (backwards compatible)
       if (typeof query !== 'string' || query.trim().length === 0) {
