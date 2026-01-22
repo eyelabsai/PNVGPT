@@ -6,7 +6,7 @@ Here is an overview of the process but it's important to know the specifics of y
 
 ## What is cataract surgery?
 
-Cataract surgery is a procedure to remove the eye's cloudy natural lens and replace it with a clear artificial lens (IOL) oftentimes with special technology that reduces or eliminates your need for glasses. Cataracts form when the natural lens becomes cloudy with age, causing blurry, dim, or yellowed vision. Modern cataract surgery is quick and painless and takes only 6 minutes per eye with vision improving almost immediately!
+Cataract surgery is a procedure to remove the eye's cloudy natural lens and replace it with a clear artificial lens (IOL) oftentimes with special technology that can help you stay out of glasses. Cataracts form when the natural lens becomes cloudy with age, causing blurry, dim, or yellowed vision. Modern cataract surgery is quick and painless and takes only 6 minutes per eye with vision improving almost immediately!
 
 ## When should I have cataract surgery?
 
