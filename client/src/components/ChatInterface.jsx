@@ -374,11 +374,10 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
                       min="0"
                     />
                   </div>
-                  {calcResult === null ? (
-                    <button className="calculate-btn" onClick={calculateSavings}>
-                      Calculate My Savings
-                    </button>
-                  ) : (
+                  <button className="calculate-btn" onClick={calculateSavings}>
+                    {calcResult === null ? 'Calculate My Savings' : 'Recalculate'}
+                  </button>
+                  {calcResult !== null && (
                     <div className="savings-result">
                       <p>By age 65, your estimated spending on eyewear would be:</p>
                       <div className="savings-number">${calcResult.toLocaleString()}</div>
