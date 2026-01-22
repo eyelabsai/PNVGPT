@@ -346,7 +346,7 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
                         )}
                         
                         {/* Savings Calculator - shows INSIDE the message that triggered it */}
-                        {calculatorMessageIndex === idx && !isStreaming && (
+                        {calculatorMessageIndex === idx && (
                           <div className="savings-calculator-inline">
                             <div className="calculator-header">
                               <Calculator className="w-5 h-5" />
