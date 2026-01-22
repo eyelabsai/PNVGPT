@@ -74,9 +74,6 @@ app.use(cors(corsOptions)); // Enable CORS for frontend integration
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// Serve static files from client directory
-app.use(express.static('client'));
-
 // Request logging middleware
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
@@ -84,10 +81,23 @@ app.use((req, res, next) => {
 });
 
 /**
- * Root endpoint - Serve chat interface
+ * Root endpoint - API info (frontend is hosted on Vercel)
  */
 app.get('/', (req, res) => {
-  res.sendFile('embed.html', { root: 'client' });
+  res.json({
+    name: 'Parkhurst NuVision GPT API',
+    version: '1.0.0',
+    status: 'online',
+    endpoints: {
+      health: '/health',
+      status: '/status',
+      ask: 'POST /ask',
+      askStream: 'POST /ask/stream',
+      lead: 'POST /lead',
+      logEvent: 'POST /log-event'
+    },
+    frontend: 'https://refractivegpt.vercel.app'
+  });
 });
 
 /**
