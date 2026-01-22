@@ -116,8 +116,17 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
 
   // Auto-scroll to bottom
   useEffect(() => {
+    // Only scroll if we are streaming or if a new message was added
+    // Avoid scrolling when calculator state changes unless it's the first time it appears
     scrollToBottom()
   }, [messages])
+
+  // Scroll to bottom when calculator appears for the first time
+  useEffect(() => {
+    if (calculatorMessageIndex !== null) {
+      scrollToBottom()
+    }
+  }, [calculatorMessageIndex])
 
   // Focus input on mount
   useEffect(() => {
@@ -255,7 +264,6 @@ const ChatInterface = ({ chatId, chat, onUpdateChat, onNewChat, isDarkMode }) =>
     const total = yearsUntil65 * annualCost
     
     setCalcResult(total)
-    scrollToBottom()
   }
 
   const showEmptyState = messages.length === 0 && !isLoading
