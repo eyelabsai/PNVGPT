@@ -550,8 +550,16 @@ Question 3`;
  */
 async function generateAnswerFromChunks(question, chunks, conversationHistory = []) {
   try {
-    // If no relevant chunks found, return fallback with suggestions
+    // If no relevant chunks found but we have conversation history, use conversational mode
     if (!chunks || chunks.length === 0) {
+      if (conversationHistory && conversationHistory.length > 0) {
+        const conversationalResponse = await handleConversationalMode(question, conversationHistory);
+        return {
+          answer: conversationalResponse,
+          chunks: [],
+          usedFallback: false
+        };
+      }
       const suggestions = await generateSuggestions(question, []);
       return {
         answer: getFallbackResponse(),
@@ -568,6 +576,14 @@ async function generateAnswerFromChunks(question, chunks, conversationHistory = 
 
     // Check if we have relevant information
     if (!hasRelevantInformation(retrievedText)) {
+      if (conversationHistory && conversationHistory.length > 0) {
+        const conversationalResponse = await handleConversationalMode(question, conversationHistory);
+        return {
+          answer: conversationalResponse,
+          chunks: [],
+          usedFallback: false
+        };
+      }
       const suggestions = await generateSuggestions(question, chunks);
       return {
         answer: getFallbackResponse(),
@@ -771,7 +787,11 @@ async function generateAnswer(question, conversationHistory = []) {
                                lowerQuestion.includes('scared') || lowerQuestion.includes('afraid') || 
                                lowerQuestion.includes('anxious') || lowerQuestion.includes('fear');
     const isFinancialConcern = lowerQuestion.includes('expensive') || lowerQuestion.includes('too much') || 
-                               lowerQuestion.includes('afford') || lowerQuestion.includes('cost too much');
+                               lowerQuestion.includes('afford') || lowerQuestion.includes('cost too much') ||
+                               lowerQuestion.includes("that's a lot") || lowerQuestion.includes('thats a lot') ||
+                               lowerQuestion.includes('a lot of money') || lowerQuestion.includes('so much') ||
+                               lowerQuestion.includes('yikes') || lowerQuestion.includes('wow') ||
+                               lowerQuestion.includes('pricey');
     const isPrescriptionConcern = lowerQuestion.match(/([-+]?[0-9](\.[0-9]+)?)/) || 
                                   lowerQuestion.includes('astigmatism') || lowerQuestion.includes('minus') || 
                                   lowerQuestion.includes('plus') || lowerQuestion.includes('diopter') ||
@@ -929,7 +949,10 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     const isEmotionalConcern = lowerQuestion.includes('nervous') || lowerQuestion.includes('worried') || 
                                lowerQuestion.includes('scared') || lowerQuestion.includes('afraid');
     const isFinancialConcern = lowerQuestion.includes('expensive') || lowerQuestion.includes('too much') || 
-                               lowerQuestion.includes('afford');
+                               lowerQuestion.includes('afford') || lowerQuestion.includes("that's a lot") ||
+                               lowerQuestion.includes('thats a lot') || lowerQuestion.includes('a lot of money') ||
+                               lowerQuestion.includes('so much') || lowerQuestion.includes('yikes') ||
+                               lowerQuestion.includes('wow') || lowerQuestion.includes('pricey');
     const isPrescriptionConcern = lowerQuestion.match(/([-+]?[0-9](\.[0-9]+)?)/) || 
                                   lowerQuestion.includes('astigmatism') || lowerQuestion.includes('minus') || 
                                   lowerQuestion.includes('plus') || lowerQuestion.includes('diopter') ||
@@ -956,8 +979,16 @@ async function* generateAnswerStream(question, conversationHistory = []) {
     const retrievalResult = await retrieveRelevant(searchQuery, conversationHistory);
     const chunks = retrievalResult.chunks;
 
-    // If no relevant chunks, return fallback
+    // If no relevant chunks but we have conversation history, use conversational mode
+    // This handles short responses like "that's a lot", "ok", "thanks" etc.
     if (!chunks || chunks.length === 0) {
+      if (conversationHistory && conversationHistory.length > 0) {
+        // Use conversational mode with context
+        const conversationalResponse = await handleConversationalMode(question, conversationHistory);
+        yield { type: 'content', content: conversationalResponse };
+        yield { type: 'done', responseTime: Date.now() - startTime };
+        return;
+      }
       yield { type: 'content', content: getFallbackResponse() };
       yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime };
       return;
@@ -970,6 +1001,13 @@ async function* generateAnswerStream(question, conversationHistory = []) {
 
     // Check if we have relevant information
     if (!hasRelevantInformation(retrievedText)) {
+      if (conversationHistory && conversationHistory.length > 0) {
+        // Use conversational mode with context
+        const conversationalResponse = await handleConversationalMode(question, conversationHistory);
+        yield { type: 'content', content: conversationalResponse };
+        yield { type: 'done', responseTime: Date.now() - startTime };
+        return;
+      }
       yield { type: 'content', content: getFallbackResponse() };
       yield { type: 'done', usedFallback: true, responseTime: Date.now() - startTime };
       return;

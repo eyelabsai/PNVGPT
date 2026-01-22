@@ -420,7 +420,11 @@ function getConversationalPrompt(statement, conversationHistory) {
                         lowerStatement.includes('anxious') || lowerStatement.includes('fear');
   const isFinancialConcern = lowerStatement.includes('expensive') || lowerStatement.includes('cost') || 
                              lowerStatement.includes('afford') || lowerStatement.includes('price') ||
-                             lowerStatement.includes('too much') || lowerStatement.includes('cheap');
+                             lowerStatement.includes('too much') || lowerStatement.includes('cheap') ||
+                             lowerStatement.includes("that's a lot") || lowerStatement.includes('thats a lot') ||
+                             lowerStatement.includes('a lot of money') || lowerStatement.includes('so much') ||
+                             lowerStatement.includes('yikes') || lowerStatement.includes('wow') ||
+                             lowerStatement.includes('pricey');
 
   let specificGuidance = '';
   
