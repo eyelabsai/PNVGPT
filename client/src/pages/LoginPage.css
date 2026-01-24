@@ -1,5 +1,5 @@
 .login-container {
-  background-color: #0a0a0a;
+  background-color: #00181a;
   color: white;
   min-height: 100vh;
   display: flex;
@@ -16,14 +16,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-image: radial-gradient(circle at 2px 2px, rgba(0, 152, 155, 0.1) 1px, transparent 0);
   background-size: 40px 40px;
   pointer-events: none;
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(220, 222, 221, 0.05);
+  border: 1px solid rgba(153, 162, 161, 0.3);
   padding: 3rem;
   border-radius: 24px;
   width: 100%;
@@ -51,11 +51,11 @@
 }
 
 .login-logo-icon {
-  color: #00ff88;
+  color: #00989b;
 }
 
 .login-accent {
-  color: #00ff88;
+  color: #00989b;
 }
 
 .login-header h1 {
@@ -66,7 +66,7 @@
 }
 
 .login-header p {
-  color: #a1a1aa;
+  color: #99a2a1;
 }
 
 .login-form {
@@ -84,7 +84,7 @@
 .input-group label {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #a1a1aa;
+  color: #99a2a1;
 }
 
 .input-wrapper {
@@ -96,7 +96,7 @@
 .input-icon {
   position: absolute;
   left: 1rem;
-  color: #52525b;
+  color: #99a2a1;
   width: 18px;
   height: 18px;
 }
@@ -123,14 +123,14 @@
 
 .input-wrapper input:focus {
   outline: none;
-  border-color: #00ff88;
+  border-color: #00989b;
   background-color: #ffffff !important;
-  box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 0 4px rgba(0, 152, 155, 0.2);
 }
 
 .submit-btn {
-  background: #00ff88;
-  color: #000;
+  background: #00989b;
+  color: #ffffff;
   padding: 1rem;
   border-radius: 12px;
   font-size: 1rem;
@@ -147,7 +147,8 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+  background: #00585a;
+  box-shadow: 0 4px 20px rgba(0, 152, 155, 0.4);
 }
 
 .submit-btn:disabled {
@@ -182,17 +183,17 @@
   margin-top: 2rem;
   text-align: center;
   font-size: 0.85rem;
-  color: #52525b;
+  color: #99a2a1;
 }
 
 .back-link {
   display: block;
   margin-top: 1rem;
-  color: #a1a1aa;
+  color: #99a2a1;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .back-link:hover {
-  color: white;
+  color: #00989b;
 }
