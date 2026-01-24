@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Moon, Sun, PanelLeftOpen } from 'lucide-react'
+import { Moon, Sun, PanelLeftOpen, Sparkles, Plus, LogOut } from 'lucide-react'
 import ChatInterface from './components/ChatInterface'
 import ChatSidebar from './components/ChatSidebar'
 import LandingPage from './pages/LandingPage'
@@ -48,6 +48,44 @@ function MainApp() {
   })
   const [chats, setChats] = useState([])
   const [activeChatId, setActiveChatId] = useState(null)
+  const [loadingChats, setLoadingLoadingChats] = useState(true)
+  const [user, setUser] = useState(null)
+
+  // Load chats and user from Supabase on mount
+  useEffect(() => {
+    fetchChats()
+    fetchUser()
+  }, [])
+
+  async function fetchUser() {
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
+  }
+
+  async function fetchChats() {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from('user_chats')
+        .select('*')
+        .order('updated_at', { ascending: false })
+
+      if (error) throw error
+      setChats(data || [])
+      
+      // Auto-select the first chat if available
+      if (data && data.length > 0 && !activeChatId) {
+        // We don't auto-select anymore to avoid jumping away from the welcome screen
+        // setActiveChatId(data[0].id)
+      }
+    } catch (err) {
+      console.error('Error fetching chats:', err.message)
+    } finally {
+      setLoadingLoadingChats(false)
+    }
+  }
 
   useEffect(() => {
     localStorage.setItem('pnvgptDarkMode', JSON.stringify(isDarkMode))
@@ -58,30 +96,85 @@ function MainApp() {
     }
   }, [isDarkMode])
 
-  const handleNewChat = () => {
-    const newChatId = `chat-${Date.now()}`
-    const newChat = {
-      id: newChatId,
-      title: 'New Chat',
-      messages: [],
-      createdAt: Date.now()
+  const handleNewChat = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const newChat = {
+        user_id: user.id,
+        title: 'New Chat',
+        messages: []
+      }
+
+      const { data, error } = await supabase
+        .from('user_chats')
+        .insert([newChat])
+        .select()
+        .single()
+
+      if (error) throw error
+
+    setChats(prev => [data, ...prev])
+    setActiveChatId(data.id)
+    // Removed setSidebarOpen(false) to keep sidebar open on desktop
+  } catch (err) {
+      console.error('Error creating new chat:', err.message)
     }
-    setChats(prev => [newChat, ...prev])
-    setActiveChatId(newChatId)
-    setSidebarOpen(false)
   }
 
   const handleSelectChat = (chatId) => {
     setActiveChatId(chatId)
-    setSidebarOpen(false)
+    // Removed setSidebarOpen(false) to keep sidebar open on desktop
   }
 
-  const handleUpdateChat = (chatId, messages) => {
+  const handleUpdateChat = async (chatId, messages) => {
+    // Determine title from first message
+    const newTitle = messages.length > 0 
+      ? messages[0].content.substring(0, 30) + (messages[0].content.length > 30 ? '...' : '')
+      : 'New Chat'
+
+    // Update local state immediately for UI responsiveness
     setChats(prev => prev.map(chat => 
       chat.id === chatId 
-        ? { ...chat, messages, title: messages.length > 0 ? messages[0].content.substring(0, 50) : 'New Chat' }
+        ? { ...chat, messages, title: newTitle }
         : chat
     ))
+
+    // Update database
+    try {
+      const title = messages.length > 0 ? messages[0].content.substring(0, 30) + (messages[0].content.length > 30 ? '...' : '') : 'New Chat'
+      const { error } = await supabase
+        .from('user_chats')
+        .update({ messages, title, updated_at: new Date().toISOString() })
+        .eq('id', chatId)
+
+      if (error) throw error
+    } catch (err) {
+      console.error('Error updating chat in DB:', err.message)
+    }
+  }
+
+  const handleDeleteChat = async (chatId, e) => {
+    e.stopPropagation() // Prevent selecting the chat when clicking delete
+    
+    if (!window.confirm('Are you sure you want to delete this chat?')) return
+
+    try {
+      const { error } = await supabase
+        .from('user_chats')
+        .delete()
+        .eq('id', chatId)
+
+      if (error) throw error
+
+      setChats(prev => prev.filter(c => c.id !== chatId))
+      if (activeChatId === chatId) {
+        setActiveChatId(null)
+      }
+    } catch (err) {
+      console.error('Error deleting chat:', err.message)
+    }
   }
 
   const handleLogout = async () => {
@@ -109,8 +202,11 @@ function MainApp() {
         activeChatId={activeChatId}
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
+        onDeleteChat={handleDeleteChat}
         isDarkMode={isDarkMode}
         onLogout={handleLogout}
+        loading={loadingChats}
+        user={user}
       />
 
       <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
@@ -124,13 +220,41 @@ function MainApp() {
           </button>
         </div>
 
-        <ChatInterface
-          chatId={activeChatId}
-          chat={activeChat}
-          onUpdateChat={handleUpdateChat}
-          onNewChat={handleNewChat}
-          isDarkMode={isDarkMode}
-        />
+        {activeChatId ? (
+          <ChatInterface
+            chatId={activeChatId}
+            chat={activeChat}
+            onUpdateChat={handleUpdateChat}
+            onNewChat={handleNewChat}
+            isDarkMode={isDarkMode}
+          />
+        ) : (
+          <div className="welcome-container">
+            <div className="welcome-card">
+              <div className="welcome-icon-wrapper">
+                <Sparkles className="welcome-icon" />
+              </div>
+              <h2 className="welcome-title">Welcome to refractiveGPT</h2>
+              <p className="welcome-subtitle">
+                Your clinical co-pilot for refractive surgery excellence. Start a new conversation to get guidance.
+              </p>
+              <button 
+                onClick={handleNewChat}
+                className="welcome-new-chat-btn"
+              >
+                <Plus className="w-5 h-5" />
+                New Conversation
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="welcome-logout-btn"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

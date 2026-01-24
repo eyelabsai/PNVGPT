@@ -1,5 +1,5 @@
 import React from 'react'
-import { X, Plus, MessageSquare, ChevronLeft, LogOut } from 'lucide-react'
+import { X, Plus, MessageSquare, ChevronLeft, LogOut, Trash2, Loader2 } from 'lucide-react'
 import './ChatSidebar.css'
 
 const ChatSidebar = ({ 
@@ -9,10 +9,14 @@ const ChatSidebar = ({
   activeChatId, 
   onSelectChat, 
   onNewChat,
+  onDeleteChat,
   isDarkMode,
-  onLogout
+  onLogout,
+  loading,
+  user
 }) => {
   const formatTime = (timestamp) => {
+    if (!timestamp) return ''
     const date = new Date(timestamp)
     const now = new Date()
     const diff = now - date
@@ -46,7 +50,11 @@ const ChatSidebar = ({
 
         {/* Chat List */}
         <div className="sidebar-content">
-          {chats.length === 0 ? (
+          {loading ? (
+            <div className="flex items-center justify-center p-8">
+              <Loader2 className="w-6 h-6 animate-spin text-gray-500" />
+            </div>
+          ) : chats.length === 0 ? (
             <div className="empty-state">
               <MessageSquare className="w-12 h-12" />
               <p>No chats yet</p>
@@ -60,9 +68,17 @@ const ChatSidebar = ({
                   className={`chat-item ${activeChatId === chat.id ? 'active' : ''}`}
                   onClick={() => onSelectChat(chat.id)}
                 >
-                  <MessageSquare className="w-4 h-4" />
+                  <MessageSquare className="w-4 h-4 shrink-0" />
                   <span className="chat-title">{chat.title || 'New Chat'}</span>
-                  <span className="chat-time">{formatTime(chat.createdAt)}</span>
+                  <div className="chat-actions">
+                    <button 
+                      className="delete-chat-btn" 
+                      onClick={(e) => onDeleteChat(chat.id, e)}
+                      title="Delete chat"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -71,15 +87,20 @@ const ChatSidebar = ({
 
         {/* Footer */}
         <div className="sidebar-footer">
-          <div className="footer-info">
-            <div className="footer-name">Parkhurst NuVision</div>
-            <div className="footer-subtitle">AI Assistant</div>
+          <div className="user-profile">
+            <div className="user-avatar">
+              {user?.email?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <div className="user-info">
+              <div className="user-name">{user?.email?.split('@')[0] || 'User'}</div>
+              <div className="user-email">{user?.email}</div>
+            </div>
+            {onLogout && (
+              <button className="logout-btn" onClick={onLogout} title="Logout">
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
           </div>
-          {onLogout && (
-            <button className="logout-btn" onClick={onLogout} title="Logout">
-              <LogOut className="w-4 h-4" />
-            </button>
-          )}
         </div>
       </div>
     </>
