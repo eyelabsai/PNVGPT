@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { Moon, Sun, PanelLeftOpen, Sparkles, Plus, LogOut } from 'lucide-react'
+import { Moon, Sun, PanelLeftOpen, LogOut } from 'lucide-react'
 import ChatInterface from './components/ChatInterface'
 import ChatSidebar from './components/ChatSidebar'
 import LandingPage from './pages/LandingPage'
@@ -50,6 +50,7 @@ function MainApp() {
   const [activeChatId, setActiveChatId] = useState(null)
   const [loadingChats, setLoadingLoadingChats] = useState(true)
   const [user, setUser] = useState(null)
+  const [hasAutoCreated, setHasAutoCreated] = useState(false)
 
   // Load chats and user from Supabase on mount
   useEffect(() => {
@@ -74,18 +75,20 @@ function MainApp() {
 
       if (error) throw error
       setChats(data || [])
-      
-      // Auto-select the first chat if available
-      if (data && data.length > 0 && !activeChatId) {
-        // We don't auto-select anymore to avoid jumping away from the welcome screen
-        // setActiveChatId(data[0].id)
-      }
     } catch (err) {
       console.error('Error fetching chats:', err.message)
     } finally {
       setLoadingLoadingChats(false)
     }
   }
+
+  // Automatically create a new chat when chats finish loading (like ChatGPT)
+  useEffect(() => {
+    if (!loadingChats && !hasAutoCreated && !activeChatId) {
+      setHasAutoCreated(true)
+      handleNewChat()
+    }
+  }, [loadingChats, hasAutoCreated, activeChatId])
 
   useEffect(() => {
     localStorage.setItem('pnvgptDarkMode', JSON.stringify(isDarkMode))
@@ -170,7 +173,9 @@ function MainApp() {
 
       setChats(prev => prev.filter(c => c.id !== chatId))
       if (activeChatId === chatId) {
+        // If we deleted the active chat, create a new one immediately
         setActiveChatId(null)
+        handleNewChat()
       }
     } catch (err) {
       console.error('Error deleting chat:', err.message)
@@ -220,7 +225,7 @@ function MainApp() {
           </button>
         </div>
 
-        {activeChatId ? (
+        {activeChatId && activeChat ? (
           <ChatInterface
             chatId={activeChatId}
             chat={activeChat}
@@ -229,30 +234,9 @@ function MainApp() {
             isDarkMode={isDarkMode}
           />
         ) : (
-          <div className="welcome-container">
-            <div className="welcome-card">
-              <div className="welcome-icon-wrapper">
-                <Sparkles className="welcome-icon" />
-              </div>
-              <h2 className="welcome-title">Welcome to refractiveGPT</h2>
-              <p className="welcome-subtitle">
-                Your clinical co-pilot for refractive surgery excellence. Start a new conversation to get guidance.
-              </p>
-              <button 
-                onClick={handleNewChat}
-                className="welcome-new-chat-btn"
-              >
-                <Plus className="w-5 h-5" />
-                New Conversation
-              </button>
-              <button 
-                onClick={handleLogout}
-                className="welcome-logout-btn"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
-            </div>
+          <div className="loading-chat-container">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Starting new conversation...</p>
           </div>
         )}
       </div>
