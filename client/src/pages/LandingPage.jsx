@@ -30,8 +30,8 @@ const LandingPage = () => {
           <span className="gradient-text">Information Gaps</span>
         </h1>
         <p className="hero-subtitle">
-          The first AI clinical coach designed exclusively for refractive surgery. 
-          Convert more consultations with expert-level clinical reasoning, available 24/7.
+          The first AI clinical coach designed exclusively for refractive surgery. <br />
+          <span className="subtitle-line-2">Convert more consultations with expert-level clinical reasoning, available 24/7.</span>
         </p>
         <div className="hero-actions">
           <Link to="/login" className="primary-btn">

@@ -146,6 +146,11 @@
   margin: 0 auto 3rem;
 }
 
+.subtitle-line-2 {
+  white-space: nowrap;
+  display: inline-block;
+}
+
 .hero-actions {
   display: flex;
   gap: 1rem;
