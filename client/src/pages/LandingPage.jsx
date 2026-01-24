@@ -31,7 +31,7 @@ const LandingPage = () => {
         </h1>
         <p className="hero-subtitle">
           The first AI clinical coach designed exclusively for refractive surgery. 
-          Convert more consultations with the brain of an expert surgeon, available 24/7.
+          Convert more consultations with expert-level clinical reasoning, available 24/7.
         </p>
         <div className="hero-actions">
           <Link to="/login" className="primary-btn">
@@ -46,17 +46,17 @@ const LandingPage = () => {
         <div className="feature-card">
           <Zap className="feature-icon" />
           <h3>Instant Expertise</h3>
-          <p>Retrieve accurate answers from your practice's approved medical content in milliseconds.</p>
+          <p>Advanced neural retrieval delivers precise clinical insights from your practice's medical content in milliseconds.</p>
         </div>
         <div className="feature-card">
           <Shield className="feature-icon" />
           <h3>Safety First</h3>
-          <p>Zero hallucinations. Our RAG system ensures the AI only speaks from your verified data.</p>
+          <p>Zero hallucinations. Our precision-tuned AI only speaks from your verified medical knowledge base.</p>
         </div>
         <div className="feature-card">
           <BarChart3 className="feature-icon" />
           <h3>Conversion Driven</h3>
-          <p>Built-in buying intent detection and proactive CTAs to turn inquiries into consultations.</p>
+          <p>Intelligent intent detection and optimized conversational flows turn inquiries into consultations.</p>
         </div>
       </section>
 
