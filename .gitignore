@@ -4,6 +4,9 @@ vector-store/
 *.log
 .DS_Store
 firebase-service-account.json
+user-chats-*.md
+user-chats-*.html
+user-chats-*.json
 
 
 
