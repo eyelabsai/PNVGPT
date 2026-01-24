@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Send, Loader2, Sparkles, Calculator } from 'lucide-react'
 import './ChatInterface.css'
 
-const API_BASE = import.meta.env.DEV 
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV 
   ? 'http://localhost:3000' 
-  : 'https://pnvgpt.onrender.com'
+  : 'https://pnvgpt.onrender.com')
 
 /**
  * Simple markdown to HTML converter

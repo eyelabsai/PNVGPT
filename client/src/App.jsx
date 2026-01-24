@@ -1,16 +1,46 @@
 import React, { useState, useEffect } from 'react'
-import { Moon, Sun, PanelLeftOpen, Phone, Calendar } from 'lucide-react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { Moon, Sun, PanelLeftOpen } from 'lucide-react'
 import ChatInterface from './components/ChatInterface'
 import ChatSidebar from './components/ChatSidebar'
+import LandingPage from './pages/LandingPage'
+import LoginPage from './pages/LoginPage'
+import { supabase } from './lib/supabase'
 import './App.css'
 
-function App() {
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (loading) return <div className="loading-screen">Loading...</div>
+
+  if (!session) {
+    return <Navigate to="/login" replace />
+  }
+
+  return children
+}
+
+function MainApp() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('pnvgptDarkMode')
     return saved ? JSON.parse(saved) : true
   })
   const [sidebarOpen, setSidebarOpen] = useState(() => {
-    // Default to closed on mobile, open on desktop
     if (typeof window !== 'undefined') {
       return window.innerWidth >= 768
     }
@@ -54,11 +84,14 @@ function App() {
     ))
   }
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+  }
+
   const activeChat = chats.find(c => c.id === activeChatId)
 
   return (
     <div className={`app ${isDarkMode ? 'dark' : ''}`}>
-      {/* Sidebar Toggle Button - Show when sidebar is closed */}
       {!sidebarOpen && (
         <button
           className="sidebar-toggle"
@@ -69,7 +102,6 @@ function App() {
         </button>
       )}
 
-      {/* Sidebar */}
       <ChatSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -78,11 +110,10 @@ function App() {
         onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
         isDarkMode={isDarkMode}
+        onLogout={handleLogout}
       />
 
-      {/* Main Chat Area */}
       <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
-        {/* Top Bar */}
         <div className="top-bar">
           <button
             className="theme-toggle"
@@ -93,7 +124,6 @@ function App() {
           </button>
         </div>
 
-        {/* Chat Interface */}
         <ChatInterface
           chatId={activeChatId}
           chat={activeChat}
@@ -102,19 +132,28 @@ function App() {
           isDarkMode={isDarkMode}
         />
       </div>
-
-      {/* Floating Action Button - Schedule Consultation */}
-      <div className="floating-actions">
-        <a href="tel:2105852020" className="floating-phone" aria-label="Call (210) 585-2020">
-          <Phone className="w-4 h-4" />
-          <span>(210) 585-2020</span>
-        </a>
-        <a href="tel:2105852020" className="floating-consultation" aria-label="Schedule Consultation">
-          <Calendar className="w-4 h-4" />
-          <span>Schedule Consultation</span>
-        </a>
-      </div>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route 
+          path="/chat" 
+          element={
+            <ProtectedRoute>
+              <MainApp />
+            </ProtectedRoute>
+          } 
+        />
+        {/* Redirect any other path to landing */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   )
 }
 

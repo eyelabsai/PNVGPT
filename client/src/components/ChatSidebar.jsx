@@ -1,5 +1,5 @@
 import React from 'react'
-import { X, Plus, MessageSquare, ChevronLeft } from 'lucide-react'
+import { X, Plus, MessageSquare, ChevronLeft, LogOut } from 'lucide-react'
 import './ChatSidebar.css'
 
 const ChatSidebar = ({ 
@@ -9,7 +9,8 @@ const ChatSidebar = ({
   activeChatId, 
   onSelectChat, 
   onNewChat,
-  isDarkMode 
+  isDarkMode,
+  onLogout
 }) => {
   const formatTime = (timestamp) => {
     const date = new Date(timestamp)
@@ -74,6 +75,11 @@ const ChatSidebar = ({
             <div className="footer-name">Parkhurst NuVision</div>
             <div className="footer-subtitle">AI Assistant</div>
           </div>
+          {onLogout && (
+            <button className="logout-btn" onClick={onLogout} title="Logout">
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </>
