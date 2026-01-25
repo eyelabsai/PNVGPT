@@ -8,8 +8,16 @@
  * Patient-facing voice features should use a separate service.
  */
 
-const { FormData, fetch, File } = require('undici');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const OpenAI = require('openai');
 require('dotenv').config();
+
+// Initialize OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 /**
  * Transcribe audio buffer using OpenAI Whisper API
@@ -30,18 +38,12 @@ async function transcribeAudioBuffer({ buffer, filename, mimetype }) {
     };
   }
 
+  // Create a temporary file to store the audio buffer
+  let tempFilePath = null;
+  
   try {
     console.log(`🎤 Transcribing audio: ${filename} (${buffer.length} bytes, ${mimetype})`);
 
-    // Create FormData for OpenAI API
-    const formData = new FormData();
-    
-    // Add Whisper parameters
-    formData.append('model', 'whisper-1');
-    formData.append('response_format', 'text');
-    formData.append('temperature', '0.3');
-    formData.append('language', 'en');
-    
     // Fix filename - ensure proper extension for OpenAI validation
     let safeFilename = filename;
     if (!filename || filename === 'blob') {
@@ -64,60 +66,26 @@ async function transcribeAudioBuffer({ buffer, filename, mimetype }) {
     
     console.log(`📁 Using filename: ${safeFilename}`);
     
-    // Create File object for undici FormData
-    const audioFile = new File([buffer], safeFilename, {
-      type: mimetype || 'audio/webm'
-    });
+    // Write buffer to temp file (OpenAI SDK requires file path or stream)
+    tempFilePath = path.join(os.tmpdir(), `whisper_${Date.now()}_${safeFilename}`);
+    fs.writeFileSync(tempFilePath, buffer);
     
-    formData.append('file', audioFile);
-
     console.log('🔄 Sending to OpenAI Whisper API...');
     
-    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: formData
+    // Use OpenAI SDK for transcription
+    const transcription = await openai.audio.transcriptions.create({
+      file: fs.createReadStream(tempFilePath),
+      model: 'whisper-1',
+      response_format: 'text',
+      temperature: 0.3,
+      language: 'en'
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`❌ OpenAI API error: ${response.status}`, errorText);
-      
-      // Parse common errors
-      if (response.status === 401) {
-        return {
-          success: false,
-          error: 'Invalid OpenAI API key'
-        };
-      }
-      if (response.status === 413) {
-        return {
-          success: false,
-          error: 'Audio file too large for OpenAI (max 25MB)'
-        };
-      }
-      if (response.status === 400 && errorText.includes('Invalid file format')) {
-        return {
-          success: false,
-          error: 'Unsupported audio format. Use mp3, wav, webm, m4a, or ogg.'
-        };
-      }
-      
-      return {
-        success: false,
-        error: `OpenAI API error: ${response.status} - ${errorText}`
-      };
-    }
-
-    const transcript = await response.text();
     
-    console.log(`✅ Transcription completed: ${transcript.length} characters`);
+    console.log(`✅ Transcription completed: ${transcription.length} characters`);
     
     return {
       success: true,
-      transcript: transcript.trim()
+      transcript: transcription.trim()
     };
 
   } catch (error) {
@@ -136,11 +104,32 @@ async function transcribeAudioBuffer({ buffer, filename, mimetype }) {
         error: 'Could not connect to OpenAI API. Please check your network.'
       };
     }
+    if (error.status === 401) {
+      return {
+        success: false,
+        error: 'Invalid OpenAI API key'
+      };
+    }
+    if (error.status === 413) {
+      return {
+        success: false,
+        error: 'Audio file too large for OpenAI (max 25MB)'
+      };
+    }
     
     return {
       success: false,
       error: `Transcription failed: ${error.message}`
     };
+  } finally {
+    // Clean up temp file
+    if (tempFilePath) {
+      try {
+        fs.unlinkSync(tempFilePath);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    }
   }
 }
 
