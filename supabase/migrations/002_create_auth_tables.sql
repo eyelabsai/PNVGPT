@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS public.user_profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT,
-  role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin', 'staff')),
+  role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin', 'staff', 'clinician')),
   is_active BOOLEAN DEFAULT TRUE,
   last_login TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW(),

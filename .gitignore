@@ -7,6 +7,12 @@ firebase-service-account.json
 user-chats-*.md
 user-chats-*.html
 user-chats-*.json
+.ob1-clipboard/
+dist/
+build/
+*.swp
+*.swo
+*~
 
 
 

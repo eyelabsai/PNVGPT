@@ -27,22 +27,37 @@ async function verifyToken(token) {
     }
 
     // Get user profile with role
+    console.log('🔍 Looking up profile for user ID:', user.id, 'email:', user.email);
+    
     const { data: profile, error: profileError } = await supabase
       .from('user_profiles')
       .select('id, email, role, is_active')
       .eq('id', user.id)
       .single();
 
+    console.log('🔍 Profile lookup result:');
+    console.log('   Profile data:', JSON.stringify(profile));
+    console.log('   Profile error:', profileError);
+    console.log('   Profile role specifically:', profile?.role);
+
     if (profileError || !profile || !profile.is_active) {
+      console.log('❌ Profile check failed - profileError:', !!profileError, 'profile:', !!profile, 'is_active:', profile?.is_active);
       return null;
     }
 
-    return {
+    // IMPORTANT: Spread user first, then override with our values
+    // The Supabase user.role is 'authenticated' by default, we need OUR profile.role
+    console.log('🔐 FINAL ROLE ASSIGNMENT - profile.role:', profile.role, 'user.role:', user.role);
+    
+    const finalUser = {
+      ...user,
       id: user.id,
       email: user.email,
-      role: profile.role,
-      ...user
+      role: profile.role  // This MUST come after ...user to override Supabase's default 'authenticated' role
     };
+    
+    console.log('🔐 RETURNING USER WITH ROLE:', finalUser.role);
+    return finalUser;
   } catch (error) {
     console.error('Token verification error:', error);
     return null;

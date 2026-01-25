@@ -5,6 +5,8 @@ import ChatInterface from './components/ChatInterface'
 import ChatSidebar from './components/ChatSidebar'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
+import ClinicianCoachPage from './pages/ClinicianCoachPage'
+import ClinicianProtectedRoute from './components/ClinicianProtectedRoute'
 import { supabase } from './lib/supabase'
 import './App.css'
 
@@ -256,6 +258,15 @@ function App() {
             <ProtectedRoute>
               <MainApp />
             </ProtectedRoute>
+          } 
+        />
+        {/* Clinician-only routes */}
+        <Route 
+          path="/clinician/coach" 
+          element={
+            <ClinicianProtectedRoute>
+              <ClinicianCoachPage />
+            </ClinicianProtectedRoute>
           } 
         />
         {/* Redirect any other path to landing */}

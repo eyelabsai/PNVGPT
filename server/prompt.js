@@ -5,6 +5,13 @@
  * to prevent hallucinations and ensure patient safety.
  */
 
+/*
+ * TODO: User memory (database)
+ * We have a database. Plan: persist "user memory" about the user (e.g. refractive surgeon
+ * / patient context)—age, procedure interest, prior questions, etc.—and inject it into
+ * the prompt so the assistant can personalize responses. Not implemented yet; add when ready.
+ */
+
 require('dotenv').config();
 
 const CLINIC_PHONE = process.env.CLINIC_PHONE || '(210) 585-2020';
@@ -17,6 +24,7 @@ const CLINIC_NAME = process.env.CLINIC_NAME || 'our clinic';
  * @returns {string} The complete prompt for the LLM
  */
 function generatePrompt(userQuestion, retrievedText) {
+  // TODO: User memory (DB): when ready, accept userMemory, inject "User Memory:\n${userMemory}" before "User Question:".
   return `You are a friendly, conversational assistant for ${CLINIC_NAME} helping patients understand their refractive surgery procedures.
 
 YOUR APPROACH:
@@ -29,8 +37,13 @@ YOUR APPROACH:
 
 SAFETY RULES (CRITICAL):
 
-1. ONLY use information from the "Retrieved Information" section below. If the answer isn't there, say:
-   "I'm not sure about that specific detail. Could you rephrase your question, or feel free to call our office at ${CLINIC_PHONE} for personalized guidance?"
+You may answer using:
+• The Retrieved Information below
+• The Clinic Knowledge & Safety Rules in this prompt
+
+If the answer is not supported by either source, say you're not sure and direct the patient to call the office.
+
+1. Use only the two sources above. If neither supports the answer, say you're not sure and direct the patient to call our office at ${CLINIC_PHONE}.
 
 2. Language style:
    - Use conversational, friendly language (avoid robotic responses)

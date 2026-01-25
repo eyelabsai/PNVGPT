@@ -42,15 +42,23 @@ async function createTestUser() {
     });
 
     if (authError) {
-      if (authError.message.includes('already registered')) {
-        console.log(`ℹ️  User ${email} already exists in Auth.`);
+      // Check for various "already exists" error messages
+      const isAlreadyRegistered = authError.message.toLowerCase().includes('already') || 
+                                  authError.message.includes('registered') ||
+                                  authError.message.includes('exists');
+      
+      if (isAlreadyRegistered) {
+        console.log(`ℹ️  User ${email} already exists in Auth. Updating profile...`);
         // Try to find the user to update their profile
         const { data: users, error: listError } = await supabase.auth.admin.listUsers();
         if (listError) throw listError;
         
         const existingUser = users.users.find(u => u.email === email);
         if (existingUser) {
+          console.log(`✅ Found existing user: ${existingUser.id}`);
           await updateProfile(existingUser.id, email, role, fullName);
+        } else {
+          console.error(`❌ Could not find user ${email} in user list`);
         }
       } else {
         throw authError;
