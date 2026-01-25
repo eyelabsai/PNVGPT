@@ -269,6 +269,11 @@ function App() {
             </ClinicianProtectedRoute>
           } 
         />
+        {/* Short alias for clinician coach */}
+        <Route 
+          path="/coach" 
+          element={<Navigate to="/clinician/coach" replace />} 
+        />
         {/* Redirect any other path to landing */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

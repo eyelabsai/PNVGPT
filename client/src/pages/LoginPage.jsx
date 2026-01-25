@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { checkUserRole } from '../lib/api';
 import { Bot, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import './LoginPage.css';
 
@@ -25,8 +26,23 @@ const LoginPage = () => {
       if (error) throw error;
 
       if (data.session) {
-        // Store token for API calls if needed (Supabase handles this automatically in localStorage)
-        navigate('/chat');
+        // Check user role to determine redirect destination
+        try {
+          const roleData = await checkUserRole();
+          const clinicianRoles = ['clinician', 'admin'];
+          
+          if (roleData.authenticated && clinicianRoles.includes(roleData.role)) {
+            // Clinicians go to coaching area
+            navigate('/clinician/coach');
+          } else {
+            // Regular users go to patient chat
+            navigate('/chat');
+          }
+        } catch (roleError) {
+          // If role check fails, default to chat
+          console.error('Role check failed:', roleError);
+          navigate('/chat');
+        }
       }
     } catch (err) {
       setError(err.message);
