@@ -53,6 +53,7 @@ function MainApp() {
   const [loadingChats, setLoadingLoadingChats] = useState(true)
   const [user, setUser] = useState(null)
   const [hasAutoCreated, setHasAutoCreated] = useState(false)
+  const [isCreatingChat, setIsCreatingChat] = useState(false)
 
   // Load chats and user from Supabase on mount
   useEffect(() => {
@@ -84,13 +85,20 @@ function MainApp() {
     }
   }
 
-  // Automatically create a new chat when chats finish loading (like ChatGPT)
+  // Automatically select most recent chat or create new one when chats finish loading
   useEffect(() => {
-    if (!loadingChats && !hasAutoCreated && !activeChatId) {
+    if (!loadingChats && !hasAutoCreated) {
       setHasAutoCreated(true)
-      handleNewChat()
+      
+      if (chats.length > 0) {
+        // Select the most recent chat instead of creating a new one
+        setActiveChatId(chats[0].id)
+      } else {
+        // Only create a new chat if there are no existing chats
+        handleNewChat()
+      }
     }
-  }, [loadingChats, hasAutoCreated, activeChatId])
+  }, [loadingChats, hasAutoCreated, chats.length])
 
   useEffect(() => {
     localStorage.setItem('pnvgptDarkMode', JSON.stringify(isDarkMode))
@@ -102,6 +110,10 @@ function MainApp() {
   }, [isDarkMode])
 
   const handleNewChat = async () => {
+    // Prevent duplicate chat creation
+    if (isCreatingChat) return
+    setIsCreatingChat(true)
+    
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
@@ -120,11 +132,12 @@ function MainApp() {
 
       if (error) throw error
 
-    setChats(prev => [data, ...prev])
-    setActiveChatId(data.id)
-    // Removed setSidebarOpen(false) to keep sidebar open on desktop
-  } catch (err) {
+      setChats(prev => [data, ...prev])
+      setActiveChatId(data.id)
+    } catch (err) {
       console.error('Error creating new chat:', err.message)
+    } finally {
+      setIsCreatingChat(false)
     }
   }
 
