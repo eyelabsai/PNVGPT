@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bot, Zap, Shield, BarChart3, ChevronRight } from 'lucide-react';
+import { Bot, Users, Mic, Phone, ChevronRight } from 'lucide-react';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -15,7 +15,7 @@ const LandingPage = () => {
       <nav className="landing-nav">
         <div className="nav-logo">
           <Bot className="logo-icon" />
-          <span>refractive<span className="accent">GPT</span></span>
+          <span>Medly<span className="accent">One</span></span>
         </div>
         <div className="nav-links">
           <Link to="/login" className="login-btn">App Login</Link>
@@ -24,14 +24,13 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <header className="hero">
-        <div className="badge">Trusted by Refractive Practices</div>
+        <div className="badge">Built INSIDE a Refractive Practice</div>
         <h1 className="hero-title">
-          Stop Losing Patients to <br />
-          <span className="gradient-text">Information Gaps</span>
+          Informed Decisions <br />
+          <span className="gradient-text">Start Here</span>
         </h1>
         <p className="hero-subtitle">
-          The first AI clinical coach designed exclusively for refractive surgery. <br />
-          <span className="subtitle-line-2">Convert more consultations with expert-level clinical reasoning, available 24/7.</span>
+          The first AI client designed exclusively by refractive surgeons. Over 50 years of medical education at your fingertips.
         </p>
         <div className="hero-actions">
           <Link to="/login" className="primary-btn">
@@ -44,25 +43,25 @@ const LandingPage = () => {
       {/* Features Grid */}
       <section className="features">
         <div className="feature-card">
-          <Zap className="feature-icon" />
-          <h3>Instant Expertise</h3>
-          <p>Advanced neural retrieval delivers precise clinical insights from your practice's medical content in milliseconds.</p>
+          <Users className="feature-icon" />
+          <h3>Patient-Facing AI Client</h3>
+          <p>AI client with the training of an expert refractive surgeon allows patients to converse and be educated by an advanced model that speaks, reasons, and reassures like someone performing these procedures for decades. The training includes flag words (e.g., &quot;flap&quot;), sales resistance, and disc profiling. This patient-facing client establishes trust with patients and allows them to obtain information and eventually schedule in a comfortable and familiar way.</p>
         </div>
         <div className="feature-card">
-          <Shield className="feature-icon" />
-          <h3>Safety First</h3>
-          <p>Zero hallucinations. Our precision-tuned AI only speaks from your verified medical knowledge base.</p>
+          <Mic className="feature-icon" />
+          <h3>Scheduling Coach</h3>
+          <p>Uses &quot;audio to answer&quot; system to monitor consultations and provides critical talking points in real time. Provides feedback de-brief checklist delivering concise and relevant feedback about missed talking points, sales resistance feedback, and strategies for closing.</p>
         </div>
         <div className="feature-card">
-          <BarChart3 className="feature-icon" />
-          <h3>Conversion Driven</h3>
-          <p>Intelligent intent detection and optimized conversational flows turn inquiries into consultations.</p>
+          <Phone className="feature-icon" />
+          <h3>Call Center Assistant</h3>
+          <p>Every hire from answering the phones to greeting patients have real-time access to 13 years&apos; worth of higher education to confidently answer questions. Specific questions regarding anesthesia, insurance, or doctors are tailored to your office. This HIPAA-compliant system doesn&apos;t collect information or store PHI. This also provides practical feedback to your call center team.</p>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="landing-footer">
-        <p>© 2024 refractiveGPT. Built for better patient care.</p>
+        <p>© 2024 MedlyOne. Built for better patient care.</p>
       </footer>
     </div>
   );
