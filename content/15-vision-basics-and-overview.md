@@ -50,11 +50,9 @@ Our Vision Correction packages include our "On-Target" promise. This means if fo
 
 ## Implantable Contact Lenses (ICLs)
 
-ICLs (intraocular contact lenses) are an incredible way to correct vision and provide some of the best results possible. They are branded as the EVO Implantable Collamer® Lens (ICL). Unlike other vision correcting procedures, these are essentially contact lenses that rest behind the color portion of your eye (the iris). They are invisible to others and are great for those with prescription more than around -3.00D of nearsightedness and also treat astigmatism. They also may be the perfect option for those who aren't good candidates for LASIK. Visual recovery is almost immediate after surgery. ICLs can give you better vision than LASIK and are often the best choice for those that are very nearsighted.
+The EVO ICL (Implantable Collamer® Lens) is a lens that is placed just under the surface of the eye and it never needs to be taken out or cleaned. It is customized to the prescription and size of the eye, and can treat nearsightedness and astigmatism. You can't feel it, nobody can see it, and you'd never know it's there except for waking up and seeing clearly. It's an awesome procedure that many of our staff have had themselves. It's for people who are nearsighted and can treat astigmatism. Many patients say they see better after the EVO ICL surgery than they ever did with contacts or glasses. It eliminates the risks associated with daily contact lens wear, and eliminates the annual costs associated with glasses and contacts. The procedure pays for itself quickly and then offers life-long savings since the costs of glasses and contacts are gone. Recovery is extremely fast—after EVO ICL, you can return to work and normal activities the next day! There are minimal restrictions and eye drop use for just one week after the procedure.
 
-ICLs are unique because they're completely reversible as an additive technology. Instead of changing the anatomy of your eye, the lens is added and can easily be removed for any reason.
-
-ICLs also have some of the fastest visual recovery of any vision correction procedure. Many people see better immediately or within the first hour after surgery!
+ICLs are unique because they're completely reversible as an additive technology. Instead of changing the anatomy of your eye, the lens is added and can easily be removed for any reason. They have some of the fastest visual recovery of any vision correction procedure—many people see better immediately or within the first hour after surgery!
 
 ### ICL Preparation
 

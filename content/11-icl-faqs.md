@@ -1,10 +1,10 @@
 # ICL FAQs
 
-## What are ICLs?
+## What is EVO ICL? / What are ICLs?
 
-EVO ICL (Implantable Collamer® Lens) are an incredible way to correct vision and provide some of the best results possible. They are lenses, much smaller than contact lenses, that are placed under the color part of the eye (the iris) that you never need to take out or clean. You won't be able to feel them, nobody else will be able to see them, and you won't even know they're there except by being able to wake up and see clearly. They don't actually change anything about the anatomy of your eye and are completely upgradable, exchangeable, reversible, or removable.
+The EVO ICL is a lens that is placed just under the surface of the eye and it never needs to be taken out or cleaned. It is customized to the prescription and size of the eye, and can treat nearsightedness and astigmatism. You can't feel it, nobody can see it, and you'd never know it's there except for waking up and seeing clearly. It's an awesome procedure that many of our staff have had themselves. It's for people who are nearsighted and can treat astigmatism. Many patients say they see better after the EVO ICL surgery than they ever did with contacts or glasses. It eliminates the risks associated with daily contact lens wear, and eliminates the annual costs associated with glasses and contacts. The procedure pays for itself quickly and then offers life-long savings since the costs of glasses and contacts are gone. Recovery is extremely fast—after EVO ICL, you can return to work and normal activities the next day! There are minimal restrictions and eye drop use for just one week after the procedure.
 
-They also may be the perfect option for those who aren't good candidates for LASIK. Visual recovery is almost immediate after surgery. ICLs can give you better vision than LASIK and are often the best choice for those that are very nearsighted. They are perfect for those with active lifestyles and those who may have some allergies or dry eyes. They will not worsen dry eye, in fact they will probably improve it since you won't be putting plastic contact lenses in every morning! They also may be perfect for those who told they may not be a good candidate for LASIK.
+ICLs are also completely reversible and don't change the anatomy of your eye—the lens can be upgraded, exchanged, or removed if needed. They may be the perfect option for those who aren't good candidates for LASIK (for example, thin corneas or high prescriptions), and for those with active lifestyles, allergies, or dry eyes. ICLs will not worsen dry eye; many find it improves since you're no longer wearing contact lenses daily.
 
 Here is an overview of the process and answers to general questions but it's important to know the specifics of your surgical plan may vary. Thankfully, NuVision has some of the most extensive experience in the world, having performed thousands of these procedures and publishing dozens of scientific articles about our excellent outcomes with ICLs.
 
@@ -18,7 +18,7 @@ You may be a good candidate if you are between 18 and 59 years old, have stable 
 
 ## How long does ICL surgery take and what is recovery like?
 
-The procedure itself takes about 5-10 minutes per eye! We will give you a few medications (no IVs!) that will make you extremely comfortable the entire time. You won't feel much at all during the procedure and it will be over before you know it! Vision often improves immediately, with most patients returning to normal activities the next day. For the first week, just take it easy with minimal lifting, straining, and avoid getting too much water (including sweat) in your eyes. Some mild glare or halos at night are normal early on, but these improve within a few months.
+The procedure itself takes about 5-10 minutes per eye! We will give you a few medications (no IVs!) that will make you extremely comfortable the entire time. You won't feel much at all during the procedure and it will be over before you know it! Recovery is extremely fast—you can return to work and normal activities the next day. There are minimal restrictions and eye drop use for just one week after the procedure. Vision often improves immediately. Some mild glare or halos at night are normal early on, but these improve within a few months.
 
 This is a digital rendering by Dr. Hirabayashi after his own ICL surgery of what the temporary halos look like. They are centered on the vision which means they will never interfere with central vision.
 
