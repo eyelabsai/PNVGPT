@@ -100,6 +100,20 @@ client/
 └── vite.config.js              # Vite configuration
 ```
 
+## Clinician Coach & Test Login
+
+- **Coach (home):** From the landing page, click **Coach** in the nav or **Go to Coach** on the Scheduling Coach card. Or go directly to `/coach` (or `/clinician/coach`).
+- **Coach (Vercel):** [https://refractivegpt.vercel.app/coach](https://refractivegpt.vercel.app/coach)
+- **Login:** Use **App Login** or go to `/login`. After signing in, clinician/admin accounts are redirected to the coach; others go to the patient chat.
+
+**Test clinician login:** There is no built-in test user. Create one with the script from the repo root:
+
+```bash
+node scripts/create-test-user.js doctor@test.com YourPassword clinician "Dr Test"
+```
+
+Then sign in at `/login` with `doctor@test.com` and your password. (You can use any email/password; the script creates the user in Supabase and sets role to `clinician`.)
+
 ## API Integration
 
 The frontend integrates with your existing backend endpoints:

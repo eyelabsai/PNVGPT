@@ -88,6 +88,28 @@
   color: var(--accent-teal);
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.coach-nav-link {
+  color: var(--text-main);
+  padding: 0.6rem 1.2rem;
+  border-radius: 99px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--card-border);
+  transition: all 0.2s ease;
+}
+
+.coach-nav-link:hover {
+  background: rgba(0, 152, 155, 0.15);
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+
 .login-btn {
   background: var(--accent-teal);
   color: #ffffff;
@@ -234,6 +256,27 @@
 .feature-card p {
   color: var(--text-muted);
   line-height: 1.6;
+}
+
+.feature-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.feature-cta:hover {
+  color: #00b4b8;
+}
+
+.feature-cta .cta-icon {
+  width: 18px;
+  height: 18px;
 }
 
 .landing-footer {
