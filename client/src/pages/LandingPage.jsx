@@ -18,7 +18,6 @@ const LandingPage = () => {
           <span>Medly<span className="accent">One</span></span>
         </div>
         <div className="nav-links">
-          <Link to="/coach" className="coach-nav-link">Coach</Link>
           <Link to="/login" className="login-btn">App Login</Link>
         </div>
       </nav>
@@ -52,9 +51,6 @@ const LandingPage = () => {
           <Mic className="feature-icon" />
           <h3>Scheduling Coach</h3>
           <p>Uses &quot;audio to answer&quot; system to monitor consultations and provides critical talking points in real time. Provides feedback de-brief checklist delivering concise and relevant feedback about missed talking points, sales resistance feedback, and strategies for closing.</p>
-          <Link to="/coach" className="feature-cta">
-            Go to Coach <ChevronRight className="cta-icon" />
-          </Link>
         </div>
         <div className="feature-card">
           <Phone className="feature-icon" />
