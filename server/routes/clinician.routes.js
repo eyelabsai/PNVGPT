@@ -56,23 +56,27 @@ const upload = multer({
     files: 1
   },
   fileFilter: (req, file, cb) => {
-    // Accept common audio formats
-    const allowedMimes = [
-      'audio/webm',
-      'audio/mp3',
-      'audio/mpeg',
-      'audio/wav',
-      'audio/x-wav',
-      'audio/m4a',
-      'audio/mp4',
-      'audio/ogg',
-      'audio/flac'
-    ];
+    // Accept any audio format - let OpenAI Whisper handle validation
+    // Different browsers record in different formats
+    console.log(`📁 Received file: ${file.originalname}, mimetype: ${file.mimetype}`);
     
-    if (allowedMimes.includes(file.mimetype)) {
+    if (file.mimetype && file.mimetype.startsWith('audio/')) {
+      cb(null, true);
+    } else if (file.mimetype === 'application/octet-stream') {
+      // Some browsers send audio as octet-stream
+      cb(null, true);
+    } else if (file.originalname && (
+      file.originalname.endsWith('.webm') ||
+      file.originalname.endsWith('.mp3') ||
+      file.originalname.endsWith('.wav') ||
+      file.originalname.endsWith('.m4a') ||
+      file.originalname.endsWith('.ogg')
+    )) {
+      // Accept based on file extension if mimetype is weird
       cb(null, true);
     } else {
-      cb(new Error(`Unsupported audio format: ${file.mimetype}. Use mp3, wav, webm, m4a, ogg, or flac.`), false);
+      console.log(`❌ Rejected file: ${file.originalname}, mimetype: ${file.mimetype}`);
+      cb(new Error(`Unsupported file format: ${file.mimetype}. Please use an audio file.`), false);
     }
   }
 });
