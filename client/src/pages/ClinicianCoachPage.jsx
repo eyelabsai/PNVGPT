@@ -111,8 +111,8 @@ const ClinicianCoachPage = () => {
 
   // Analyze only (requires transcript)
   const handleAnalyze = async () => {
-    if (!transcript || transcript.trim().length < 50) {
-      setError('Please transcribe audio first (transcript must be at least 50 characters)')
+    if (!transcript || transcript.trim().length < 10) {
+      setError('Please transcribe audio first (transcript must be at least 10 characters)')
       return
     }
 
@@ -294,7 +294,7 @@ const ClinicianCoachPage = () => {
               <button
                 className="action-btn secondary"
                 onClick={handleAnalyze}
-                disabled={!transcript || transcript.length < 50 || isProcessing}
+                disabled={!transcript || transcript.length < 10 || isProcessing}
               >
                 {analyzing ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

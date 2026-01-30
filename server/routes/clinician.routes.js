@@ -533,11 +533,11 @@ router.post('/analyze', async (req, res) => {
       });
     }
 
-    if (transcript.trim().length < 50) {
+    if (transcript.trim().length < 10) {
       return res.status(400).json({
         success: false,
         error: 'Transcript too short',
-        message: 'Transcript must be at least 50 characters'
+        message: 'Transcript must be at least 10 characters'
       });
     }
 
