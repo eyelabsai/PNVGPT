@@ -66,6 +66,10 @@ WMost patients notice clearer, brighter vision within hours to a day after surge
 
 Yes! With the right lens choice and use of the laser we can significantly help you stay out of glasses. Toric lenses correct astigmatism, while multifocal or extended range lenses correct both distance and near vision, addressing presbyopia. We will tailor the IOL so you see clearly at multiple distances with minimal or no glasses afterward based on your personal goals, wants, and needs.
 
+## Can I get a toric lens with basic cataract surgery?
+
+Toric lenses are excellent for correcting astigmatism, which can eliminate shadows, blurry vision, and starbursting. Although basic cataract surgery is billable to insurance, insurance does not cover advanced or customized lenses like toric lenses that correct astigmatism. Laser cataract surgery allows for the precision necessary to deliver excellent outcomes with a toric lens. Patients with even small amounts of astigmatism benefit greatly from the combination of laser treatment of the cataract and a toric lens.
+
 ## Can cataracts come back after surgery?
 
 No! A cataract happens when the lens behind the iris (color part of the eye) becomes cloudy. This most commonly happens normally with age. Cataract surgery involves replacing this cloudy lens with a brand new clear lens in the same capsule (or bag) that the old lens was in. Because the old, cloudy lens is gone, the cataract can NEVER come back! About 50% of the time, the capsule (or bag) that the lens is placed in can become cloudy. While the symptoms may be similar to those of a cataract, that is not what's happening, and this condition called PCO, posterior capsular opacification can be corrected in 20 seconds using a painless laser in the office.

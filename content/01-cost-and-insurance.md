@@ -2,7 +2,7 @@
 
 ## Why is this so much?
 
-Insurance covers the cost to remove the cataract and place a new lens (called an intraocular lens, or IOL) that doesn't have any special technology. Special technology includes things that would help you have some freedom from glasses such as astigmatism correction (called toric IOLs) or multifocal or EDOF IOLs that provide clear vision at multiple distances. Insurance doesn't cover the cost of the laser since the laser is used to help correct astigmatism.
+Insurance covers the cost to remove the cataract and place a new lens (called an intraocular lens, or IOL) that doesn't have any special technology. Special technology includes things that would help you have some freedom from glasses such as astigmatism correction (called toric IOLs) or multifocal or EDOF IOLs that provide clear vision at multiple distances. Insurance doesn't cover the cost of the laser since the laser is used to help correct astigmatism. For more on toric lenses and basic vs. laser cataract surgery, see our Cataract Surgery FAQs.
 
 For age-related cataract surgery with advanced technology, the total cost varies by prescription and procedure needed, but generally costs about $2,500-3,000 per eye or $150 per month when financed. For Lens Replacement (sometimes called Refractive Lens Exchange or RLE), which is performed electively before a true cataract diagnosis or for presbyopia treatment, costs are generally about $3,500-4,500 per eye or $250 per month when financed. Most people divert what they spend on glasses and contacts toward this, and depending on the type of glasses they need, the procedures often pay for themselves within a few years.
 
