@@ -6,6 +6,8 @@ Here is an overview of the process but it's important to know the specifics of y
 
 ## What is LASIK and how does it differ from PRK?
 
+LASIK is a painless, quick laser vision correction procedure where we use an extremely precise laser to reshape the front surface of the eye (the cornea) to better focus the light. Treatment is customized to each individual eye and frequently patients say they see better after LASIK than they ever did with glasses or contacts. Relaxing medication is given before surgery to help you feel comfortable. The surgery only takes 10 short minutes! Recovery is fast; you'll be back to your normal routine the next day and will be using eye drops for only 1 week after surgery. Visual outcomes are excellent, and our patients often comment that they wish they had done it sooner! Did you know LASIK can also correct your astigmatism?
+
 Both LASIK and PRK very precisely reshape the cornea using a laser to correct vision, but the main difference is how the surface of the eye is treated.
 
 In LASIK, a window is created on the cornea and then replaced after laser treatment leading to a recovery that only takes hours. In PRK, the laser treats through the surface layer (epithelium) which regrows naturally over a few days. LASIK offers quicker comfort and clarity but PRK can can sometimes be used for people with certain eye diseases or anatomy.

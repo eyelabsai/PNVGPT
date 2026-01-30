@@ -74,7 +74,7 @@ This is a digital rendering by Dr. Hirabayashi of the temporary rings that he sa
 
 ## LASIK
 
-LASIK (Laser in-situ Keratomileusis) uses a laser to reshape the cornea (the clear, front part of the eye) so it can better focus light onto the retina. LASIK first creates a window that is lifted out of the way of the laser and then put back into place after the cornea is reshaped.
+LASIK is a painless, quick laser vision correction procedure where we use an extremely precise laser to reshape the front surface of the eye (the cornea) to better focus the light. Treatment is customized to each individual eye and frequently patients say they see better after LASIK than they ever did with glasses or contacts. Relaxing medication is given before surgery to help you feel comfortable. The surgery only takes 10 short minutes! Recovery is fast; you'll be back to your normal routine the next day and will be using eye drops for only 1 week after surgery. Visual outcomes are excellent, and our patients often comment that they wish they had done it sooner! Did you know LASIK can also correct your astigmatism?
 
 ### LASIK Preparation
 

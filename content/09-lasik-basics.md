@@ -2,7 +2,7 @@
 
 ## What is LASIK?
 
-LASIK (Laser-Assisted In Situ Keratomileusis) is a popular refractive surgery procedure that uses a laser to reshape the cornea and correct vision problems. It can treat nearsightedness (myopia), farsightedness (hyperopia), and astigmatism. The procedure is quick, typically taking about 10-15 minutes per eye, and most patients experience significant vision improvement within 24 hours.
+LASIK is a painless, quick laser vision correction procedure where we use an extremely precise laser to reshape the front surface of the eye (the cornea) to better focus the light. Treatment is customized to each individual eye and frequently patients say they see better after LASIK than they ever did with glasses or contacts. Relaxing medication is given before surgery to help you feel comfortable. The surgery only takes 10 short minutes! Recovery is fast; you'll be back to your normal routine the next day and will be using eye drops for only 1 week after surgery. Visual outcomes are excellent, and our patients often comment that they wish they had done it sooner! Did you know LASIK can also correct your astigmatism?
 
 ## How does LASIK work?
 
@@ -14,7 +14,7 @@ Good LASIK candidates have stable vision for at least a year (this usually happe
 
 ## What is the recovery time for LASIK?
 
-Most patients notice improved vision within 24 hours after LASIK. You can typically return to work and normal activities within 1-2 days. Complete healing takes several weeks, but most patients experience minimal downtime. We'll provide detailed post-operative instructions and schedule follow-up visits to monitor your progress.
+Recovery is fast; you'll be back to your normal routine the next day and will be using eye drops for only 1 week after surgery. Most patients notice improved vision within 24 hours. Complete healing takes several weeks, but most patients experience minimal downtime. We'll provide detailed post-operative instructions and schedule follow-up visits to monitor your progress.
 
 ## Is LASIK painful?
 

@@ -33,6 +33,7 @@ const express = require('express');
 const multer = require('multer');
 const router = express.Router();
 
+const { getSupabase } = require('../supabase');
 const { requireAuth } = require('../auth');
 const { transcribeAudioBuffer, checkConfiguration: checkWhisperConfig } = require('../services/whisperService');
 const { listRubrics, loadRubric, listChecklists, loadChecklist, checkDirectories } = require('../coach/rubricLoader');
@@ -353,6 +354,41 @@ router.post('/coach', upload.single('audio'), handleMulterError, async (req, res
     
     console.log(`✅ Analysis complete (${analysisTime}ms) - Total: ${totalTime}ms, Score: ${analysisResult.score.overall}/100`);
 
+    // Save to database if user is authenticated
+    if (req.user && req.user.id) {
+      try {
+        const supabase = getSupabase();
+        if (supabase) {
+          const { error: saveError } = await supabase
+            .from('coaching_sessions')
+            .insert({
+              user_id: req.user.id,
+              transcript: transcriptionResult.transcript,
+              analysis_result: analysisResult,
+              rubric_id: analysisResult.rubricId,
+              score_overall: analysisResult.score.overall,
+              score_coverage: analysisResult.score.coverageScore,
+              score_safety: analysisResult.score.safetyScore,
+              metadata: {
+                source: 'coach_endpoint',
+                filename: req.file.originalname,
+                transcriptionTime,
+                analysisTime,
+                totalTime
+              }
+            });
+          
+          if (saveError) {
+            console.error('⚠️ Failed to save coaching session:', saveError);
+          } else {
+            console.log('💾 Coaching session saved to database');
+          }
+        }
+      } catch (dbError) {
+        console.error('⚠️ Database error saving coaching session:', dbError);
+      }
+    }
+
     // Return combined result
     res.json({
       success: true,
@@ -519,6 +555,38 @@ router.post('/analyze', async (req, res) => {
 
     // Return successful analysis
     console.log(`✅ Analysis complete - Score: ${result.score.overall}/100`);
+    
+    // Save to database if user is authenticated
+    if (req.user && req.user.id) {
+      try {
+        const supabase = getSupabase();
+        if (supabase) {
+          const { error: saveError } = await supabase
+            .from('coaching_sessions')
+            .insert({
+              user_id: req.user.id,
+              transcript: transcript,
+              analysis_result: result,
+              rubric_id: result.rubricId,
+              score_overall: result.score.overall,
+              score_coverage: result.score.coverageScore,
+              score_safety: result.score.safetyScore,
+              metadata: {
+                source: 'analyze_endpoint',
+                charCount: transcript.length
+              }
+            });
+          
+          if (saveError) {
+            console.error('⚠️ Failed to save coaching session:', saveError);
+          } else {
+            console.log('💾 Coaching session saved to database');
+          }
+        }
+      } catch (dbError) {
+        console.error('⚠️ Database error saving coaching session:', dbError);
+      }
+    }
     
     res.json({
       success: true,
