@@ -268,7 +268,7 @@ router.post('/transcribe', upload.single('audio'), handleMulterError, async (req
  * curl -X POST http://localhost:3000/api/clinician/coach \
  *   -H "Authorization: Bearer YOUR_CLINICIAN_TOKEN" \
  *   -F "audio=@/path/to/consultation.webm" \
- *   -F "rubricId=surgeon_consult_v1"
+ *   -F "rubricId=refractive_counselor_v2"
  * 
  * # Response includes both transcript and full coaching analysis
  * -------------------------------------------------------------------------
@@ -494,7 +494,7 @@ router.post('/coach', upload.single('audio'), handleMulterError, async (req, res
  *   -H "Content-Type: application/json" \
  *   -d '{
  *     "transcript": "...",
- *     "rubricId": "surgeon_consult_v1"
+ *     "rubricId": "refractive_counselor_v2"
  *   }'
  * 
  * # Expected response keys:

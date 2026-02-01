@@ -31,28 +31,8 @@ const GPT_MODEL = process.env.CLINICIAN_COACH_MODEL || process.env.OPENAI_MODEL 
  * @returns {string} - Rubric ID to use
  */
 function detectRubric(transcript) {
-  const lowerTranscript = transcript.toLowerCase();
-  
-  // Check for surgeon indicators
-  const surgeonIndicators = [
-    'lasik', 'prk', 'icl', 'cataract', 
-    'cornea', 'flap', 'ablation',
-    'dr.', 'doctor', 'surgeon',
-    'exam shows', 'your measurements',
-    'risk of', 'complication'
-  ];
-  
-  const surgeonScore = surgeonIndicators.filter(term => 
-    lowerTranscript.includes(term)
-  ).length;
-  
-  // If multiple surgeon indicators, use surgeon rubric
-  if (surgeonScore >= 2) {
-    return 'surgeon_consult_v1';
-  }
-  
-  // Default to counselor rubric
-  return 'refractive_counselor_v1';
+  // Single rubric applies to all refractive/cataract counselor consultations
+  return 'refractive_counselor_v2';
 }
 
 /**
