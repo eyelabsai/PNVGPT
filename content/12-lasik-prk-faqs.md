@@ -31,6 +31,10 @@ Depending on your age, we have several ways to help:
 - **Ages 40-59:** We can adjust your LASIK with either repeat LASIK or PRK to help you see without glasses or readers using a blended vision strategy.
 - **Ages 60+:** We can correct your vision and help you be free from reading glasses or bifocals with either a Lens Replacement or Cataract Surgery if needed.
 
+## Can I get LASIK the same day as my consult?
+
+Yes! With proper planning and if everything looks good during your visit, we can proceed with LASIK right after your evaluation. Something to keep in mind is you'll need to stay out of soft contact lenses for 3 days before your appointment so we can get the best scans possible. You'll need someone to drive you on the day of the procedure, so don't worry about getting here safely.
+
 ## Preparation
 
 We take all the measurements we need for any vision correction procedure at your consultation. It's important to stay out of soft contact lenses for at least five (5) days and three (3) weeks for rigid contact lenses. If you have special contact lenses, let us know when you schedule your consultation. We can operate on the same day as your consultation with proper planning.
