@@ -8,6 +8,10 @@ Here is an overview of the process but it's important to know the specifics of y
 
 Cataract surgery is a procedure to remove the eye's cloudy natural lens and replace it with a clear artificial lens (IOL) oftentimes with special technology that can help you stay out of glasses. Cataracts form when the natural lens becomes cloudy with age, causing blurry, dim, or yellowed vision. Modern cataract surgery is quick and painless and takes only 6 minutes per eye with vision improving almost immediately!
 
+## Am I a candidate for cataract surgery?
+
+You can have cataract surgery as soon as cataracts start bothering you. This can be through blurry vision that doesn't get better with glasses, halos or glare around lights, or dull yellow colors. Have you been told you have cataracts before?
+
 ## When should I have cataract surgery?
 
 You should consider surgery when cataracts begin to interfere with your daily life, such as reading, driving, recognizing faces, or doing the things you enjoy. There's no need to wait until vision is "bad enough"; cataract surgery can be performed as soon as you notice vision loss affecting quality of life. Early intervention can improve safety, comfort, and overall function.
@@ -20,13 +24,9 @@ At NuVision, each eye takes about 6 minutes, with patients going home the same d
 
 No! Cataract surgery is performed with plenty of numbing drops and mild sedation, so you'll be awake but extremely comfortable. You shouldn't feel more than a gentle pressure or cool water during the procedure but no pain. Discomfort afterward is minimal and easily resolved with artificial tears if needed.
 
-## What are the different types of cataract surgery?
+## What are my choices with cataract surgery?
 
-There are two main types of cataract surgery:
-
-Laser Cataract Surgery – uses laser precision for lens softening, improving accuracy and consistency. This type of surgery also allows us to fully correct astigmatism and use lenses with special technology to help you stay out of glasses!
-
-Basic Manual Surgery – this is when all steps of the surgery are done by hand.
+There are essentially two ways to do cataract surgery. With laser cataract surgery, we use an extremely precise laser to help correct your astigmatism (even small amounts) and then use customized lenses with special technology to make it so that you don't need glasses after the surgery. Because cataract surgery is a great time to customize your vision to your unique lifestyle, this is what we often recommend. The other option is called basic manual cataract surgery. This is where all the steps are performed by hand, your astigmatism remains uncorrected, and insurance limits the types of lenses we can use so it's best to plan for full time glasses use after basic manual cataract surgery.
 
 ## What kinds of lens implants (IOLs) are available?
 

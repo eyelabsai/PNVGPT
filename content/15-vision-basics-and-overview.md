@@ -16,6 +16,10 @@ Instead of focusing light on the retina like a clear lens, a cataract scatters l
 
 Notice in the Astigmatism animation, the red and green light rays are no longer focusing in the same place because they are experiencing different amounts of curvature when passing through the cornea with astigmatism. It's the fact that these light rays don't meet in the same place that causes the blurry vision the comes with astigmatism. One important caveat is that we have described regular astigmatism. Even though the two sets of light rays aren't focusing in the same place, the astigmatism still treatable. Irregular astigmatism, while rare, is little more complicated and not easily treatable. Examples of conditions that may cause irregular astigmatism include but are not limited to keratoconus, corneal scars, or corneal dystrophies. Your surgeon will carefully study your measurements to make sure you have the treatable, regular astigmatism we have discussed here.
 
+## Can you fix my astigmatism?
+
+Yes! There are ways to treat astigmatism regardless of how much you have. Procedures like EVO ICL, LASIK, SMILE, PRK, lens replacement, and laser cataract surgery all treat astigmatism in large and small amounts.
+
 ## What are the Ocular Milestones?
 
 A very important consideration for vision correction is your Ocular Milestone. Our eyes changes with us throughout our lives. The Ocular Milestones describe the different stages of our eyes. The Ocular Milestones each have a set of Vision Correction procedures that best treat the eye at their different stages. There are Vision Correction solutions for every age! The ages are approximate and every eye is unique. Some may progress through the Ocular Milestones earlier or later than others. The important part is discerning which Ocular Milestone your eyes are currently in to determine the best Vision Correction plan.
@@ -132,9 +136,9 @@ After the procedure, you will have drops to take and will need to take it easy f
 
 LALEX is only approved for the treatment of myopia and astigmatism. It does not create a flap and usually has irritation or discomfort.
 
-## Lens Replacement (Refractive Lens Exchange)
+## Lens Replacement (Refractive Lens Exchange / RLE)
 
-Lens Replacement refers to replacing the natural crystalline lens that sits behind the iris (the colored part of the eye). This can be a great option for those wanting to be free from reading glasses, and those with large prescriptions (especially those who are very farsighted). Lens Replacement is essentially cataract surgery before cataracts every develop!
+Lens replacement is a procedure where we replace your dysfunctional lens with a new lens that fully corrects your prescription and eliminates your need for glasses. In our 40s, the lens behind the colored part of our eye becomes rigid and unable to move to focus light anymore. This is when many people start to hold things further away, need more light to read, need readers, or use bifocals. You don't have to though! Lens replacement can be a great way to avoid the need for readers. By the way, lens replacement also means you'll never develop a cataract and will never need cataract surgery later! It's amazing in that it's both restorative (brings back your independence from readers and glasses) as well as preventative (prevents cataracts).
 
 ### Lens Replacement Preparation
 

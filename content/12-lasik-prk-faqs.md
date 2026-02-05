@@ -63,9 +63,13 @@ With LASIK, vision improves within 24 hours! Most people wake up the next mornin
 
 Yes! Both LASIK and PRK are extremely effective at correcting astigmatism. The laser very precisely reshapes the cornea to a more symmetrical curve, eliminating distortion or blur. There are different versions of LASIK and we will choose the best fit for your eyes. For example, modern topography-guided lasers treat even irregular astigmatism, offering sharper and more customized vision than ever before.
 
-## Does LASIK or PRK cause dry eyes or night vision problems?
+## Does LASIK cause dry eye?
 
-Dry eye is actually most commonly caused by contact lenses or allergies! It is a result of the inadequate production of tears that cover the cornea. LASIK doesn't impact tear production. LASIK can cause temporary symptoms of dryness for the first few weeks after surgery, but they typically resolve as the cornea heals. Night glare or halos may appear early on but improve over time. Using preservative-free artificial tears and following drop schedules helps speed recovery and resolution of both symptoms!
+No! LASIK does NOT cause dry eye. It causes a "temporary feeling of dryness" that goes away. It can take as little as a few days to a few weeks for this feeling to fully go away and artificial tears will be provided to help in the meantime. Many people struggle with dryness before LASIK due to contact lens use or overwear, and are relieved from their dry eye struggles after LASIK.
+
+## Does LASIK or PRK cause night vision problems?
+
+Night glare or halos may appear early on but improve over time. Using preservative-free artificial tears and following drop schedules helps speed recovery and resolution of symptoms.
 
 ## How long do LASIK and PRK results last?
 

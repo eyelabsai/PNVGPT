@@ -37,11 +37,9 @@ Key advantages of EVO include:
 
 Total cost varies by prescription and procedure needed, but generally costs about $2,500-3,000 per eye for laser treatments or $150 per month when financed.
 
-## What is Lens Replacement?
+## What is lens replacement / RLE / refractive lens exchange?
 
-Lens Replacement (sometimes called Refractive Lens Exchange or RLE) is a procedure where the natural lens under the surface of the eye is replaced with a high-tech lens implant. This is particularly beneficial for people in their 40s and 50s experiencing presbyopia (difficulty seeing up close).
-
-The natural lens we are born with starts to age and dysfunction in our 40s and 50s. This is what causes our prescription to change in that age range, especially for seeing up close. Once this dysfunctional lens is replaced with a hi-tech lens implant by our surgeon, the prescription doesn't change anymore - it's permanent! Lens Replacement prevents cataracts from ever forming and eliminates the need for future cataract surgery.
+Lens replacement is a procedure where we replace your dysfunctional lens with a new lens that fully corrects your prescription and eliminates your need for glasses. In our 40s, the lens behind the colored part of our eye becomes rigid and unable to move to focus light anymore. This is when many people start to hold things further away, need more light to read, need readers, or use bifocals. You don't have to though! Lens replacement can be a great way to avoid the need for readers. By the way, lens replacement also means you'll never develop a cataract and will never need cataract surgery later! It's amazing in that it's both restorative (brings back your independence from readers and glasses) as well as preventative (prevents cataracts).
 
 For Lens Replacement, the total cost varies by prescription and generally costs about $6,500 per eye or $350 per month when financed. We will go over this in a lot more detail during an in-person consultation with our surgeon specialists to answer all the questions you may have.
 
